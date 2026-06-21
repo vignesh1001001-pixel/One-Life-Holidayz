@@ -113,7 +113,7 @@ export default function Dashboard() {
     return () => clearInterval(t);
   }, []);
 
-  const WHATSAPP = "https://wa.me/919876543210?text=Hi!%20I%20want%20to%20book%20a%20trip.";
+  const WHATSAPP = "https://wa.me/qr/HMQEJ3SMUGMZH1";
 
   return (
     <>

@@ -15,15 +15,15 @@ const SITE = {
   phone: "+91 9876543210",
   phoneHref: "tel:+919876543210",
 
-  email: "onelifeholidayz@gmail.com",
+  email: "hello@onelifeholidayz.in",
 
   address: "Chennai, Tamil Nadu, India",
 
-  instagram: "https://instagram.com/onelifeholidayz",
+  instagram: "https://www.instagram.com/onelifeholidayz?igsh=eXh4dTVqeWt1M3h1&utm_source=qr",
 
   facebook: "https://facebook.com/onelifeholidayz",
 
-  whatsapp: "https://wa.me/919876543210",
+  whatsapp: "https://wa.me/qr/HMQEJ3SMUGMZH1",
 };
 
 // =================== LINKS ===================
