@@ -180,7 +180,7 @@ export default function Dashboard() {
         </div>
 
         {/* Slide indicators */}
-        <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+        {/* <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3">
           {SLIDES.map((_, i) => (
             <button
               key={i}
@@ -192,7 +192,7 @@ export default function Dashboard() {
               }`}
             />
           ))}
-        </div>
+        </div> */}
       </section>
 
       {/* ══════════════════════ STATS BAR ══════════════════════ */}

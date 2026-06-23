@@ -19,6 +19,12 @@ const WHATSAPP_BASE =
 
 export default function TripsPage() {
   const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [search, setSearch] = useState("");
+  const [destination, setDestination] = useState("all");
+  const [maxPrice, setMaxPrice] = useState(50000);
+  const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
+  const [selectedActivity, setSelectedActivity] = useState<string[]>([]);
+  const [selectedTripType, setSelectedTripType] = useState<string[]>([]);
 
   const filters = [
     { label: "All Trips", value: "all" },
@@ -28,13 +34,35 @@ export default function TripsPage() {
   ];
 
   const filtered = TRIP_PACKAGES.filter((pkg) => {
-    if (activeFilter === "all") return true;
-    if (activeFilter === "india") return pkg.destination.includes("India");
-    if (activeFilter === "international")
-      return !pkg.destination.includes("India");
-    if (activeFilter === "luxury") return pkg.badge === "Luxury" || pkg.price > 30000;
-    return true;
+    const searchMatch = pkg.name.toLowerCase().includes(search.toLowerCase());
+    const destinationMatch = destination === "all" || pkg.destination.includes(destination);
+    const priceMatch = pkg.price <= maxPrice;
+    const durationMatch = selectedDuration.length === 0 || selectedDuration.some(d => pkg.duration.includes(d));
+    const activityMatch = selectedActivity.length === 0 || selectedActivity.some(a => pkg.highlights.some(h => h.toLowerCase().includes(a.toLowerCase())));
+    const tripTypeMatch = selectedTripType.length === 0 || (selectedTripType.includes("Domestic") && pkg.destination.includes("India")) || (selectedTripType.includes("International") && !pkg.destination.includes("India"));
+    return searchMatch && destinationMatch && priceMatch && durationMatch && activityMatch && tripTypeMatch;
   });
+
+  const toggleDuration = (duration: string) => {
+    setSelectedDuration(prev => prev.includes(duration) ? prev.filter(d => d !== duration) : [...prev, duration]);
+  };
+
+  const toggleActivity = (activity: string) => {
+    setSelectedActivity(prev => prev.includes(activity) ? prev.filter(a => a !== activity) : [...prev, activity]);
+  };
+
+  const toggleTripType = (tripType: string) => {
+    setSelectedTripType(prev => prev.includes(tripType) ? prev.filter(t => t !== tripType) : [...prev, tripType]);
+  };
+
+  const clearAllFilters = () => {
+    setSearch("");
+    setDestination("all");
+    setMaxPrice(50000);
+    setSelectedDuration([]);
+    setSelectedActivity([]);
+    setSelectedTripType([]);
+  };
 
   return (
     <main>
@@ -77,120 +105,176 @@ export default function TripsPage() {
         </div>
       </section>
 
-      {/* ── All Packages ── */}
-      <section className="bg-slate-50 px-6 py-16 md:px-12 lg:px-20">
+      <section className="px-6 py-16 md:px-12 lg:px-20 bg-slate-50">
         <div className="mx-auto max-w-7xl">
-          <SectionHeader
-            eyebrow="All Packages"
-            title="Ready-Made Itineraries"
-            highlight="Itineraries"
-          />
+          <SectionHeader eyebrow="All Packages" title="Ready-Made Itineraries" highlight="Itineraries" />
 
-          {/* Filter Tabs */}
-          <div className="mb-10 flex flex-wrap justify-center gap-3">
-            {filters.map((f) => (
-              <button
-                key={f.value}
-                onClick={() => setActiveFilter(f.value)}
-                className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all ${
-                  activeFilter === f.value
-                    ? "bg-yellow-500 text-black shadow-md"
-                    : "bg-white text-slate-600 shadow-sm hover:bg-yellow-50 hover:text-yellow-600"
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((pkg) => (
-              <div
-                key={pkg.id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="relative h-52 w-full overflow-hidden">
-                  <Image
-                    src={pkg.img}
-                    alt={pkg.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  {pkg.badge && (
-                    <span className="absolute left-3 top-3 rounded-full bg-yellow-500 px-3 py-1 text-[0.7rem] font-bold text-black shadow">
-                      {pkg.badge}
-                    </span>
-                  )}
-                </div>
+            {/* FILTER SIDEBAR */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 h-fit">
 
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-serif text-lg font-bold text-slate-900">{pkg.name}</h3>
-                      <div className="mt-1 flex items-center gap-1 text-sm text-slate-500">
-                        <FaMapMarkerAlt className="text-yellow-500 text-xs" />
-                        {pkg.destination}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm">
-                      <FaStar className="text-yellow-400 text-xs" />
-                      <span className="font-semibold text-slate-800">{pkg.rating}</span>
-                      <span className="text-slate-400">({pkg.reviews})</span>
-                    </div>
-                  </div>
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-3xl font-bold text-slate-900">Filter By</h3>
 
-                  <div className="mt-2 flex items-center gap-1 text-xs text-slate-400">
-                    <FaClock className="text-yellow-500" />
-                    {pkg.duration}
-                  </div>
+                <button
+                  onClick={clearAllFilters}
+                  className="text-sm text-sky-500 hover:underline"
+                >
+                  Clear All
+                </button>
+              </div>
 
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {pkg.highlights.map((h) => (
-                      <span
-                        key={h}
-                        className="rounded-full bg-slate-100 px-3 py-1 text-[0.68rem] font-medium text-slate-600"
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </div>
+              {/* SEARCH */}
+              <div className="mb-8">
+                <label className="font-medium block mb-2">Search</label>
 
-                  <div className="mt-auto flex items-center justify-between pt-4">
-                    <div>
-                      <span className="text-[0.7rem] text-slate-400">Starting from</span>
-                      <div className="font-serif text-xl font-bold text-slate-900">
-                        ₹{pkg.price.toLocaleString("en-IN")}
-                      </div>
-                      <span className="text-[0.68rem] text-slate-400">per person</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <Link
-                        href="/contact"
-                        className="rounded-full bg-yellow-500 px-5 py-2 text-sm font-semibold text-black transition hover:bg-yellow-400"
-                      >
-                        Book Now
-                      </Link>
-                      <a
-                        href={`${WHATSAPP_BASE}${encodeURIComponent(pkg.name)}%20package.`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-center gap-1 rounded-full border border-green-500 px-5 py-2 text-sm font-medium text-green-600 transition hover:bg-green-50"
-                      >
-                        <FaWhatsapp /> Enquire
-                      </a>
-                    </div>
-                  </div>
+                <input
+                  type="text"
+                  placeholder="Search Packages..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full border rounded-lg px-4 py-3"
+                />
+              </div>
+
+              {/* DESTINATION */}
+              <div className="mb-8">
+                <label className="font-medium block mb-2">Destination</label>
+
+                <select
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  className="w-full border rounded-lg px-4 py-3"
+                >
+                  <option value="all">All Destinations</option>
+
+                  <option value="Kerala">Kerala</option>
+
+                  <option value="Kashmir">Kashmir</option>
+
+                  <option value="Maldives">Maldives</option>
+
+                  <option value="Thailand">Thailand</option>
+                </select>
+              </div>
+
+              {/* PRICE */}
+              <div className="mb-8">
+                <label className="font-medium block mb-4">Max Price</label>
+
+                <input
+                  type="range"
+                  min="1000"
+                  max="50000"
+                  step="1000"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(Number(e.target.value))}
+                  className="w-full"
+                />
+
+                <p className="mt-2 font-bold text-yellow-600">₹{maxPrice.toLocaleString()}</p>
+              </div>
+
+              {/* DURATION */}
+              <div className="mb-8">
+                <h4 className="font-medium mb-3">Duration</h4>
+
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedDuration.includes("2 Days")} onChange={() => toggleDuration("2 Days")} />
+                    2 Days
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedDuration.includes("4 Days")} onChange={() => toggleDuration("4 Days")} />
+                    4 Days
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedDuration.includes("6 Days")} onChange={() => toggleDuration("6 Days")} />
+                    6 Days
+                  </label>
                 </div>
               </div>
-            ))}
-          </div>
 
-          {filtered.length === 0 && (
-            <div className="py-20 text-center text-slate-500">
-              No packages found for this filter. Try "All Trips".
+              {/* ACTIVITY */}
+              <div className="mb-8">
+                <h4 className="font-medium mb-3">Activity</h4>
+
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedActivity.includes("Beach")} onChange={() => toggleActivity("Beach")} />
+                    Beach
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedActivity.includes("Camping")} onChange={() => toggleActivity("Camping")} />
+                    Camping
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedActivity.includes("Trek")} onChange={() => toggleActivity("Trek")} />
+                    Trek
+                  </label>
+                </div>
+              </div>
+
+              {/* TRIP TYPE */}
+              <div className="mb-8">
+                <h4 className="font-medium mb-3">Trip Type</h4>
+
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedTripType.includes("Domestic")} onChange={() => toggleTripType("Domestic")} />
+                    Domestic
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={selectedTripType.includes("International")} onChange={() => toggleTripType("International")} />
+                    International
+                  </label>
+                </div>
+              </div>
+
             </div>
-          )}
+
+            {/* PACKAGE GRID */}
+            <div className="lg:col-span-3">
+              {/* Your cards here */}
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {filtered.map((pkg) => (
+                  <div key={pkg.id} className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
+                    <div className="relative h-52 w-full overflow-hidden">
+                      <Image src={pkg.img} alt={pkg.name} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                      {pkg.badge && <span className="absolute left-3 top-3 rounded-full bg-yellow-500 px-3 py-1 text-[0.7rem] font-bold text-black shadow">{pkg.badge}</span>}
+                    </div>
+
+                    <div className="flex flex-1 flex-col p-5">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-serif text-lg font-bold text-slate-900">{pkg.name}</h3>
+                          <div className="mt-1 flex items-center gap-1 text-sm text-slate-500"><FaMapMarkerAlt className="text-yellow-500 text-xs" />{pkg.destination}</div>
+                        </div>
+                        <div className="flex items-center gap-1 text-sm"><FaStar className="text-yellow-400 text-xs" /><span className="font-semibold text-slate-800">{pkg.rating}</span><span className="text-slate-400">({pkg.reviews})</span></div>
+                      </div>
+
+                      <div className="mt-2 flex items-center gap-1 text-xs text-slate-400"><FaClock className="text-yellow-500" />{pkg.duration}</div>
+
+                      <div className="mt-3 flex flex-wrap gap-2">{pkg.highlights.map((h) => (<span key={h} className="rounded-full bg-slate-100 px-3 py-1 text-[0.68rem] font-medium text-slate-600">{h}</span>))}</div>
+
+                      <div className="mt-auto flex items-center justify-between pt-4">
+                        <div>
+                          <span className="text-[0.7rem] text-slate-400">Starting from</span>
+                          <div className="font-serif text-xl font-bold text-slate-900">₹{pkg.price.toLocaleString("en-IN")}</div>
+                          <span className="text-[0.68rem] text-slate-400">per person</span>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <Link href="/contact" className="rounded-full bg-yellow-500 px-5 py-2 text-sm font-semibold text-black transition hover:bg-yellow-400">Book Now</Link>
+                          <a href={`${WHATSAPP_BASE}${encodeURIComponent(pkg.name)}%20package.`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1 rounded-full border border-green-500 px-5 py-2 text-sm font-medium text-green-600 transition hover:bg-green-50"><FaWhatsapp /> Enquire</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
