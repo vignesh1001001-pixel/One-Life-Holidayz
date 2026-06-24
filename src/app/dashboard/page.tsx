@@ -100,6 +100,7 @@ export default function Dashboard() {
   const [current, setCurrent] = useState(0);
   const [currentQuote, setCurrentQuote] = useState(0);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
+  const [catIdx, setCatIdx] = useState(0);
 
   // Hero image slider
   useEffect(() => {

@@ -1,70 +1,133 @@
-export type Destination = {
-  name: string;
-  /** URL-safe identifier, used for /destinations/[slug] and the local image filename */
-  slug: string;
-  sub: string;
-  price: string;
-  /** Local path under /public — e.g. /images/destinations/kashmir.jpg */
-  img: string;
-  country?: string;
-};
-
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-function destination(name: string, sub: string, price: string, country?: string): Destination {
-  const slug = slugify(name);
-  return {
-    name,
-    slug,
-    sub,
-    price,
-    img: `/images/destinations/${slug}.jpg`,
-    country,
-  };
-}
-
-export const HONEYMOON_PICKS: Destination[] = [
-  destination("Munnar", "Tea Gardens & Misty Valleys", "₹1,797"),
-  destination("Kodaikanal", "Princess of Hill Stations", "₹2,499"),
-  destination("Ooty", "Queen of the Nilgiris", "₹2,199"),
+// ─── Honeymoon Picks (South India) ───────────────────────────────────────────
+export const HONEYMOON_PICKS = [
+  { slug: "munnar", name: "Munnar", state: "Kerala", image: "/images/destinations/munnar.jpg", tag: "Hill Station" },
+  { slug: "alleppey", name: "Alleppey", state: "Kerala", image: "/images/destinations/alleppey.jpg", tag: "Backwaters" },
+  { slug: "coorg", name: "Coorg", state: "Karnataka", image: "/images/destinations/coorg.jpg", tag: "Coffee Hills" },
+  { slug: "ooty", name: "Ooty", state: "Tamil Nadu", image: "/images/destinations/ooty.jpg", tag: "Nilgiris" },
+  { slug: "kodaikanal", name: "Kodaikanal", state: "Tamil Nadu", image: "/images/destinations/kodaikanal.jpg", tag: "Princess of Hills" },
+  { slug: "pondicherry", name: "Pondicherry", state: "Puducherry", image: "/images/destinations/pondicherry.jpg", tag: "French Riviera" },
 ];
 
-export const DOMESTIC_PICKS: Destination[] = [
-  destination("Munnar", "Tea Gardens & Mist", "₹1,797"),
-  destination("Kerala", "God's Own Country", "₹1,797"),
-  destination("Skyride", "Sacred Pilgrimage", "₹4,999"),
-  destination("SnowTrekking", "Forts & Camping", "₹8,888"),
-
+// ─── Domestic Picks ───────────────────────────────────────────────────────────
+export const DOMESTIC_PICKS = [
+  { slug: "kashmir", name: "Kashmir", state: "J&K", image: "/images/destinations/kashmir.jpg", tag: "Paradise on Earth" },
+  { slug: "manali", name: "Manali", state: "Himachal Pradesh", image: "/images/destinations/manali.jpg", tag: "Snow Adventure" },
+  { slug: "rajasthan", name: "Rajasthan", state: "Rajasthan", image: "/images/destinations/rajasthan.jpg", tag: "Royal Heritage" },
+  { slug: "goa", name: "Goa", state: "Goa", image: "/images/destinations/goa.jpg", tag: "Beach Bliss" },
+  { slug: "andaman", name: "Andaman", state: "A&N Islands", image: "/images/destinations/andaman.jpg", tag: "Island Paradise" },
+  { slug: "leh-ladakh", name: "Leh Ladakh", state: "J&K", image: "/images/destinations/ladakh.jpg", tag: "High Altitude" },
+  { slug: "himachal", name: "Himachal Pradesh", state: "Himachal Pradesh", image: "/images/destinations/himachal.jpg", tag: "Mountain Life" },
+  { slug: "varanasi", name: "Varanasi", state: "Uttar Pradesh", image: "/images/destinations/varanasi.jpg", tag: "Spiritual Soul" },
 ];
 
-// export const POPULAR_DESTINATIONS: Destination[] = [
-//   destination("Maldives", "Overwater Paradise", "₹45,000", "Indian Ocean"),
-//   destination("Dubai", "Skyscrapers & Desert Dunes", "₹55,000", "UAE"),
-//   destination("Sri Lanka", "Wild Coastlines & Tea Hills", "₹28,000", "South Asia"),
-//   destination("Thailand", "Temples & Tropical Bays", "₹35,000", "Southeast Asia"),
-//   destination("Kashmir", "Heaven on Earth", "₹3,697", "India"),
-// ];
-
-/**
- * Every destination across the site, deduplicated by slug.
- * Used by /destinations/[slug]/page.tsx to look up any destination by its slug,
- * regardless of which list it originally appeared in.
- */
-export const ALL_DESTINATIONS: Destination[] = (() => {
-  const combined = [...DOMESTIC_PICKS, ...HONEYMOON_PICKS];
-  const seen = new Map<string, Destination>();
-  for (const d of combined) {
-    if (!seen.has(d.slug)) seen.set(d.slug, d);
-  }
-  return Array.from(seen.values());
-})();
-
-export function getDestinationBySlug(slug: string): Destination | undefined {
-  return ALL_DESTINATIONS.find((d) => d.slug === slug);
-}
+// ─── International Picks ──────────────────────────────────────────────────────
+export const INTERNATIONAL_PICKS = [
+  {
+    slug: "dubai",
+    name: "Dubai",
+    country: "UAE",
+    image: "/images/destinations/international/dubai.jpg",
+    tag: "City of Gold",
+    startingPrice: "₹35,000",
+    highlights: ["Burj Khalifa", "Desert Safari", "Dubai Mall"],
+  },
+  {
+    slug: "bali",
+    name: "Bali",
+    country: "Indonesia",
+    image: "/images/destinations/international/bali.jpg",
+    tag: "Island of Gods",
+    startingPrice: "₹40,000",
+    highlights: ["Ubud Rice Terraces", "Tanah Lot", "Beach Clubs"],
+  },
+  {
+    slug: "thailand",
+    name: "Thailand",
+    country: "Thailand",
+    image: "/images/destinations/international/thailand.jpg",
+    tag: "Land of Smiles",
+    startingPrice: "₹32,000",
+    highlights: ["Bangkok Temples", "Phi Phi Islands", "Chiang Mai"],
+  },
+  {
+    slug: "singapore",
+    name: "Singapore",
+    country: "Singapore",
+    image: "/images/destinations/international/singapore.jpg",
+    tag: "Lion City",
+    startingPrice: "₹45,000",
+    highlights: ["Marina Bay Sands", "Gardens by the Bay", "Sentosa"],
+  },
+  {
+    slug: "maldives",
+    name: "Maldives",
+    country: "Maldives",
+    image: "/images/destinations/international/maldives.jpg",
+    tag: "Tropical Heaven",
+    startingPrice: "₹70,000",
+    highlights: ["Overwater Bungalows", "Snorkelling", "Sunset Cruises"],
+  },
+  {
+    slug: "malaysia",
+    name: "Malaysia",
+    country: "Malaysia",
+    image: "/images/destinations/international/malaysia.jpg",
+    tag: "Truly Asia",
+    startingPrice: "₹30,000",
+    highlights: ["Petronas Towers", "Langkawi", "Cameron Highlands"],
+  },
+  {
+    slug: "sri-lanka",
+    name: "Sri Lanka",
+    country: "Sri Lanka",
+    image: "/images/destinations/international/sri-lanka.jpg",
+    tag: "Pearl of the Orient",
+    startingPrice: "₹25,000",
+    highlights: ["Sigiriya Rock", "Tea Plantations", "Mirissa Beach"],
+  },
+  {
+    slug: "nepal",
+    name: "Nepal",
+    country: "Nepal",
+    image: "/images/destinations/international/nepal.jpg",
+    tag: "Roof of the World",
+    startingPrice: "₹20,000",
+    highlights: ["Everest Base Camp", "Pokhara", "Pashupatinath"],
+  },
+  {
+    slug: "vietnam",
+    name: "Vietnam",
+    country: "Vietnam",
+    image: "/images/destinations/international/vietnam.jpg",
+    tag: "Hidden Gem",
+    startingPrice: "₹38,000",
+    highlights: ["Ha Long Bay", "Hoi An", "Ho Chi Minh City"],
+  },
+  {
+    slug: "europe",
+    name: "Europe",
+    country: "Multi-country",
+    image: "/images/destinations/international/europe.jpg",
+    tag: "Dream Destination",
+    startingPrice: "₹1,20,000",
+    highlights: ["Paris", "Rome", "Switzerland"],
+  },
+  {
+    slug: "turkey",
+    name: "Turkey",
+    country: "Turkey",
+    image: "/images/destinations/international/turkey.jpg",
+    tag: "Where East Meets West",
+    startingPrice: "₹55,000",
+    highlights: ["Cappadocia", "Istanbul", "Pamukkale"],
+  },
+  {
+    slug: "georgia",
+    name: "Georgia",
+    country: "Georgia",
+    image: "/images/destinations/international/georgia.jpg",
+    tag: "Hidden Treasure",
+    startingPrice: "₹42,000",
+    highlights: ["Tbilisi Old Town", "Kazbegi Mountains", "Wine Country"],
+  },
+];
