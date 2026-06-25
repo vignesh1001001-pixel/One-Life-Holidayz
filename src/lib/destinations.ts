@@ -1,27 +1,47 @@
+// ─── Types ────────────────────────────────────────────────────────────────────
+export type Destination = {
+  slug: string;
+  name: string;
+  sub: string;
+  price: string;
+  img: string;
+  tag?: string;
+};
+
+export type InternationalDestination = {
+  slug: string;
+  name: string;
+  country: string;
+  image: string;
+  tag: string;
+  startingPrice: string;
+  highlights: string[];
+};
+
 // ─── Honeymoon Picks (South India) ───────────────────────────────────────────
-export const HONEYMOON_PICKS = [
-  { slug: "munnar", name: "Munnar", state: "Kerala", image: "/images/destinations/munnar.jpg", tag: "Hill Station" },
-  { slug: "alleppey", name: "Alleppey", state: "Kerala", image: "/images/destinations/alleppey.jpg", tag: "Backwaters" },
-  { slug: "coorg", name: "Coorg", state: "Karnataka", image: "/images/destinations/coorg.jpg", tag: "Coffee Hills" },
-  { slug: "ooty", name: "Ooty", state: "Tamil Nadu", image: "/images/destinations/ooty.jpg", tag: "Nilgiris" },
-  { slug: "kodaikanal", name: "Kodaikanal", state: "Tamil Nadu", image: "/images/destinations/kodaikanal.jpg", tag: "Princess of Hills" },
-  { slug: "pondicherry", name: "Pondicherry", state: "Puducherry", image: "/images/destinations/pondicherry.jpg", tag: "French Riviera" },
+export const HONEYMOON_PICKS: Destination[] = [
+  { slug: "munnar",      name: "Munnar",      sub: "Kerala",      img: "/images/destinations/munnar.jpg",      price: "₹3,500/person", tag: "Hill Station" },
+  { slug: "alleppey",    name: "Alleppey",    sub: "Kerala",      img: "/images/destinations/alleppey.jpg",    price: "₹4,000/person", tag: "Backwaters" },
+  { slug: "coorg",       name: "Coorg",       sub: "Karnataka",   img: "/images/destinations/coorg.jpg",       price: "₹3,800/person", tag: "Coffee Hills" },
+  { slug: "ooty",        name: "Ooty",        sub: "Tamil Nadu",  img: "/images/destinations/ooty.jpg",        price: "₹3,200/person", tag: "Nilgiris" },
+  { slug: "kodaikanal",  name: "Kodaikanal",  sub: "Tamil Nadu",  img: "/images/destinations/kodaikanal.jpg",  price: "₹3,500/person", tag: "Princess of Hills" },
+  { slug: "pondicherry", name: "Pondicherry", sub: "Puducherry",  img: "/images/destinations/pondicherry.jpg", price: "₹2,800/person", tag: "French Riviera" },
 ];
 
 // ─── Domestic Picks ───────────────────────────────────────────────────────────
-export const DOMESTIC_PICKS = [
-  { slug: "kashmir", name: "Kashmir", state: "J&K", image: "/images/destinations/kashmir.jpg", tag: "Paradise on Earth" },
-  { slug: "manali", name: "Manali", state: "Himachal Pradesh", image: "/images/destinations/manali.jpg", tag: "Snow Adventure" },
-  { slug: "rajasthan", name: "Rajasthan", state: "Rajasthan", image: "/images/destinations/rajasthan.jpg", tag: "Royal Heritage" },
-  { slug: "goa", name: "Goa", state: "Goa", image: "/images/destinations/goa.jpg", tag: "Beach Bliss" },
-  { slug: "andaman", name: "Andaman", state: "A&N Islands", image: "/images/destinations/andaman.jpg", tag: "Island Paradise" },
-  { slug: "leh-ladakh", name: "Leh Ladakh", state: "J&K", image: "/images/destinations/ladakh.jpg", tag: "High Altitude" },
-  { slug: "himachal", name: "Himachal Pradesh", state: "Himachal Pradesh", image: "/images/destinations/himachal.jpg", tag: "Mountain Life" },
-  { slug: "varanasi", name: "Varanasi", state: "Uttar Pradesh", image: "/images/destinations/varanasi.jpg", tag: "Spiritual Soul" },
+export const DOMESTIC_PICKS: Destination[] = [
+  { slug: "kashmir",    name: "Kashmir",          sub: "J&K",               img: "/images/destinations/kashmir.jpg",   price: "₹7,999/person", tag: "Paradise on Earth" },
+  { slug: "manali",     name: "Manali",           sub: "Himachal Pradesh",  img: "/images/destinations/manali.jpg",    price: "₹5,499/person", tag: "Snow Adventure" },
+  { slug: "rajasthan",  name: "Rajasthan",        sub: "Rajasthan",         img: "/images/destinations/rajasthan.jpg", price: "₹4,999/person", tag: "Royal Heritage" },
+  { slug: "goa",        name: "Goa",              sub: "Goa",               img: "/images/destinations/goa.jpg",       price: "₹3,999/person", tag: "Beach Bliss" },
+  { slug: "andaman",    name: "Andaman",          sub: "A&N Islands",       img: "/images/destinations/andaman.jpg",   price: "₹8,999/person", tag: "Island Paradise" },
+  { slug: "leh-ladakh", name: "Leh Ladakh",       sub: "J&K",               img: "/images/destinations/ladakh.jpg",    price: "₹9,499/person", tag: "High Altitude" },
+  { slug: "himachal",   name: "Himachal Pradesh", sub: "Himachal Pradesh",  img: "/images/destinations/himachal.jpg",  price: "₹4,799/person", tag: "Mountain Life" },
+  { slug: "varanasi",   name: "Varanasi",         sub: "Uttar Pradesh",     img: "/images/destinations/varanasi.jpg",  price: "₹1,797/person", tag: "Spiritual Soul" },
 ];
 
 // ─── International Picks ──────────────────────────────────────────────────────
-export const INTERNATIONAL_PICKS = [
+export const INTERNATIONAL_PICKS: InternationalDestination[] = [
   {
     slug: "dubai",
     name: "Dubai",
