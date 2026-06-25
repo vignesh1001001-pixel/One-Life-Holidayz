@@ -127,9 +127,8 @@ export default function Dashboard() {
             alt={slide.label}
             fill
             priority={i === 0}
-            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${
-              current === i ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${current === i ? "opacity-100" : "opacity-0"
+              }`}
           />
         ))}
         <div className="absolute inset-0" />
@@ -212,8 +211,8 @@ export default function Dashboard() {
       </section> */}
 
       {/* ══════════════════════ EXPLORE CATEGORIES ══════════════════════ */}
-      <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-white py-20">
+        <div className="md:px-12">
           <div className="mb-10 text-center">
             <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
               What We Offer
@@ -226,27 +225,29 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {TOUR_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.slug}
-                href="/trips"
-                className="group relative aspect-[3/4] overflow-hidden rounded-2xl bg-slate-200 shadow-sm transition-all hover:-translate-y-1.5 hover:shadow-lg"
-              >
-                <Image
-                  src={cat.img}
-                  alt={cat.name}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 20vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="font-serif text-base font-bold text-white">{cat.name}</div>
-                  <div className="mt-1 text-[0.7rem] text-white/70">{cat.blurb}</div>
-                </div>
-              </Link>
-            ))}
+          <div className="overflow-hidden">
+            <div className="flex gap-5 animate-[marquee_18s_linear_infinite] hover:[animation-play-state:paused] w-max">
+              {[...TOUR_CATEGORIES, ...TOUR_CATEGORIES].map((cat, i) => (
+                <Link
+                  key={i}
+                  href="/trips"
+                  className="group relative shrink-0 w-60 h-80 overflow-hidden rounded-2xl bg-slate-200 shadow-sm transition-all hover:-translate-y-1.5 hover:shadow-lg"
+                >
+                  <Image
+                    src={cat.img}
+                    alt={cat.name}
+                    fill
+                    sizes="240px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="font-serif text-base font-bold text-white">{cat.name}</div>
+                    <div className="mt-1 text-[0.7rem] text-white/70">{cat.blurb}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -469,9 +470,8 @@ export default function Dashboard() {
                 <button
                   key={i}
                   onClick={() => setTestimonialIdx(i)}
-                  className={`h-3 rounded-full transition-all ${
-                    i === testimonialIdx ? "w-8 bg-yellow-500" : "w-3 bg-slate-300"
-                  }`}
+                  className={`h-3 rounded-full transition-all ${i === testimonialIdx ? "w-8 bg-yellow-500" : "w-3 bg-slate-300"
+                    }`}
                 />
               ))}
               <button
