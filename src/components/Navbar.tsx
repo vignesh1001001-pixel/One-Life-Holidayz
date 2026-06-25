@@ -46,19 +46,19 @@ export default function Navbar() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           isScrolled
             ? "bg-white shadow-md border-b border-slate-100"
-            : "bg-transparent backdrop-blur-md border-b border-white/10"
+            : "bg-white backdrop-blur-md border-b border-white/10"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 sm:h-20 px-6">
 
           {/* Logo */}
           <Link href="/">
-            <div className="relative h-16 w-48">
+            <div className="relative h-12 w-36 sm:h-16 sm:w-44 lg:h-20 lg:w-56">
               <Image
                 src="/images/logo/logo.png"
                 alt="One Life Holidayz"
                 fill
-                sizes="192px"
+                sizes="(max-width: 640px) 112px, (max-width: 1024px) 176px, 224px"
                 priority
                 className="object-contain"
               />
@@ -76,7 +76,7 @@ export default function Navbar() {
                     ? "text-yellow-500 border-b-2 border-yellow-500 pb-1"
                     : isScrolled
                     ? "text-slate-800 hover:text-yellow-500"
-                    : "text-white hover:text-yellow-400"
+                    : "text-slate-800 hover:text-yellow-400"
                 }`}
               >
                 {link.icon}
@@ -97,7 +97,7 @@ export default function Navbar() {
 
           {/* Mobile Hamburger */}
           <button
-            className={`xl:hidden text-2xl ${isScrolled ? "text-slate-800" : "text-white"}`}
+            className="xl:hidden text-2xl text-slate-800"
             onClick={() => setIsOpen(true)}
           >
             <FaBars />

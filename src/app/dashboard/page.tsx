@@ -132,7 +132,7 @@ export default function Dashboard() {
             }`}
           />
         ))}
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30" />
 
         <div className="relative z-10 flex h-full items-center justify-center px-6">
