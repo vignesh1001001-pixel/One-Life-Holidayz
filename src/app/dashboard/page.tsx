@@ -2,14 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   FaPlaneDeparture,
   FaTags,
   FaStar,
   FaWhatsapp,
   FaMapMarkerAlt,
-  FaUsers,
   FaShieldAlt,
   FaHeadset,
   FaClock,
@@ -18,8 +17,6 @@ import {
   FaQuoteLeft,
 } from "react-icons/fa";
 import { TOUR_CATEGORIES, DOMESTIC_DESTINATIONS, TRIP_PACKAGES } from "@/lib/explore-data";
-
-// ─── Hero ───────────────────────────────────────────────────────────────────
 
 const SLIDES = [
   { src: "/images/dashboard/01.jpg", label: "Kashmir — Heaven on Earth" },
@@ -33,17 +30,6 @@ const QUOTES = [
   "Pack your bags, we'll handle the rest!",
   "Your next story starts here.",
 ];
-
-// // ─── Stats ───────────────────────────────────────────────────────────────────
-
-// const STATS = [
-//   { icon: <FaMapMarkerAlt />, value: "50+", label: "Destinations" },
-//   { icon: <FaPlaneDeparture />, value: "200+", label: "Tours Done" },
-//   { icon: <FaUsers />, value: "1k+", label: "Happy Travellers" },
-//   { icon: <FaStar />, value: "4.9", label: "Avg Rating" },
-// ];
-
-// ─── Testimonials ────────────────────────────────────────────────────────────
 
 const TESTIMONIALS = [
   {
@@ -69,8 +55,6 @@ const TESTIMONIALS = [
   },
 ];
 
-// ─── Why Us ──────────────────────────────────────────────────────────────────
-
 const WHY_US = [
   {
     icon: <FaShieldAlt className="text-2xl text-yellow-500" />,
@@ -94,21 +78,22 @@ const WHY_US = [
   },
 ];
 
-// ─── Component ───────────────────────────────────────────────────────────────
-
 export default function Dashboard() {
   const [current, setCurrent] = useState(0);
   const [currentQuote, setCurrentQuote] = useState(0);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
-  const [catIdx, setCatIdx] = useState(0);
+  const [destIdx, setDestIdx] = useState(0);
 
-  // Hero image slider
+  const destScrollRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const scrollStartLeft = useRef(0);
+
   useEffect(() => {
     const t = setInterval(() => setCurrent((p) => (p + 1) % SLIDES.length), 4500);
     return () => clearInterval(t);
   }, []);
 
-  // Quote rotator
   useEffect(() => {
     const t = setInterval(() => setCurrentQuote((p) => (p + 1) % QUOTES.length), 3200);
     return () => clearInterval(t);
@@ -127,8 +112,9 @@ export default function Dashboard() {
             alt={slide.label}
             fill
             priority={i === 0}
-            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${current === i ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${
+              current === i ? "opacity-100" : "opacity-0"
+            }`}
           />
         ))}
         <div className="absolute inset-0" />
@@ -178,37 +164,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
-        {/* Slide indicators */}
-        {/* <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3">
-          {SLIDES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className={`transition-all duration-300 ${
-                current === i
-                  ? "h-3 w-8 rounded-full bg-yellow-400"
-                  : "h-3 w-3 rounded-full bg-white/60 hover:bg-white"
-              }`}
-            />
-          ))}
-        </div> */}
       </section>
-
-      {/* ══════════════════════ STATS BAR ══════════════════════ */}
-      {/* <section className="bg-[#0a1628] px-6 py-10">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:grid-cols-4">
-          {STATS.map((s) => (
-            <div key={s.label} className="flex flex-col items-center gap-2 text-center">
-              <div className="text-yellow-400 text-xl">{s.icon}</div>
-              <div className="font-serif text-3xl font-bold text-white">{s.value}</div>
-              <div className="text-sm font-medium uppercase tracking-wider text-white/50">
-                {s.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section> */}
 
       {/* ══════════════════════ EXPLORE CATEGORIES ══════════════════════ */}
       <section className="bg-white py-20">
@@ -226,12 +182,12 @@ export default function Dashboard() {
           </div>
 
           <div className="overflow-hidden">
-            <div className="flex gap-5 animate-[marquee_18s_linear_infinite] hover:[animation-play-state:paused] w-max">
+            <div className="flex w-max animate-[marquee_18s_linear_infinite] gap-5 hover:[animation-play-state:paused]">
               {[...TOUR_CATEGORIES, ...TOUR_CATEGORIES].map((cat, i) => (
                 <Link
                   key={i}
                   href="/trips"
-                  className="group relative shrink-0 w-60 h-80 overflow-hidden rounded-2xl bg-slate-200 shadow-sm transition-all hover:-translate-y-1.5 hover:shadow-lg"
+                  className="group relative h-80 w-60 shrink-0 overflow-hidden rounded-2xl bg-slate-200 shadow-sm transition-all hover:-translate-y-1.5 hover:shadow-lg"
                 >
                   <Image
                     src={cat.img}
@@ -253,49 +209,108 @@ export default function Dashboard() {
       </section>
 
       {/* ══════════════════════ DOMESTIC DESTINATIONS ══════════════════════ */}
-      <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
+      <section className="bg-[#e8f4f8] px-6 py-20 md:px-12 lg:px-20">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
-                Domestic
-              </span>
-              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900">
-                Best of <em className="italic text-yellow-500">India</em>
-              </h2>
-            </div>
-            <Link
-              href="/destinations"
-              className="shrink-0 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
-            >
-              View All →
-            </Link>
+          <div className="mb-10 text-center">
+            <p className="mb-2 font-serif italic text-xl text-teal-700">
+              Best Recommended Domestic Tour Places
+            </p>
+            <h2 className="text-4xl font-black text-slate-900">
+              Popular Destination we offer for all
+            </h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div
+            ref={destScrollRef}
+            id="dest-scroll"
+            className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing select-none"
+            onMouseDown={(e) => {
+              if (!destScrollRef.current) return;
+              isDragging.current = true;
+              dragStartX.current = e.pageX;
+              scrollStartLeft.current = destScrollRef.current.scrollLeft;
+            }}
+            onMouseMove={(e) => {
+              if (!isDragging.current || !destScrollRef.current) return;
+              e.preventDefault();
+              const walk = (e.pageX - dragStartX.current) * 1.2;
+              destScrollRef.current.scrollLeft = scrollStartLeft.current - walk;
+            }}
+            onMouseUp={() => { isDragging.current = false; }}
+            onMouseLeave={() => { isDragging.current = false; }}
+            onScroll={(e) => {
+              const el = e.currentTarget;
+              const cardWidth = el.scrollWidth / DOMESTIC_DESTINATIONS.slice(0, 8).length;
+              const idx = Math.round(el.scrollLeft / cardWidth);
+              setDestIdx(idx);
+            }}
+          >
             {DOMESTIC_DESTINATIONS.slice(0, 8).map((dest) => (
               <Link
                 key={dest.slug}
                 href="/destinations"
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-slate-200 shadow-sm transition-all hover:-translate-y-1.5 hover:shadow-lg"
+                className="group flex flex-col shrink-0 w-[80vw] sm:w-[45vw] lg:w-[23%] snap-start overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-100 transition-all hover:-translate-y-1 hover:shadow-lg"
               >
-                <Image
-                  src={dest.img}
-                  alt={dest.name}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="font-serif text-[1rem] font-bold text-white">{dest.name}</div>
-                  <div className="mt-0.5 text-[0.7rem] text-white/70">{dest.tagline}</div>
-                  <div className="mt-1 font-serif text-sm text-yellow-400">
-                    from ₹{dest.price.toLocaleString("en-IN")}
+                <div className="relative h-52 w-full overflow-hidden">
+                  <Image
+                    src={dest.img}
+                    alt={dest.name}
+                    fill
+                    sizes="(max-width: 640px) 80vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-4">
+                  <h3 className="text-base font-bold text-slate-900">{dest.name}</h3>
+                  <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] text-slate-500">
+                    <FaMapMarkerAlt className="text-xs text-teal-500" />
+                    {dest.tagline}, India
+                  </p>
+                  <p className="mt-2 text-lg font-black text-slate-900">
+                    ₹{dest.price.toLocaleString("en-IN")}
+                    <span className="text-sm font-normal text-slate-500"> /Person</span>
+                  </p>
+                  <div className="mt-auto flex items-center justify-between pt-4">
+                    <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
+                      <FaClock className="text-xs" />
+                      {dest.duration ?? "2 Days 1 Night"}
+                    </span>
+                    <span className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition group-hover:border-teal-500 group-hover:text-teal-600">
+                      Book Now <FaChevronRight className="text-[0.6rem]" />
+                    </span>
                   </div>
                 </div>
               </Link>
             ))}
+          </div>
+
+          <div className="mt-6 flex justify-center gap-2">
+            {DOMESTIC_DESTINATIONS.slice(0, 8).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  const el = document.getElementById("dest-scroll");
+                  if (!el) return;
+                  const cardWidth = el.scrollWidth / DOMESTIC_DESTINATIONS.slice(0, 8).length;
+                  el.scrollTo({ left: cardWidth * i, behavior: "smooth" });
+                  setDestIdx(i);
+                }}
+                className={`block rounded-full transition-all duration-300 ${
+                  i === destIdx
+                    ? "h-3 w-6 bg-teal-600"
+                    : "h-3 w-3 border-2 border-slate-400 bg-transparent hover:border-teal-400"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <Link
+              href="/destinations"
+              className="inline-flex items-center rounded-full border-2 border-yellow-500 px-8 py-3 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
+            >
+              View All →
+            </Link>
           </div>
         </div>
       </section>
@@ -428,7 +443,6 @@ export default function Dashboard() {
           </h2>
 
           <div className="relative mt-12">
-            {/* Card */}
             <div className="rounded-3xl border border-slate-100 bg-slate-50 p-8 shadow-sm md:p-12">
               <FaQuoteLeft className="mx-auto mb-6 text-3xl text-yellow-400 opacity-60" />
               <p className="text-lg leading-relaxed text-slate-700 md:text-xl">
@@ -454,13 +468,10 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Prev / Next */}
             <div className="mt-6 flex justify-center gap-3">
               <button
                 onClick={() =>
-                  setTestimonialIdx(
-                    (p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
-                  )
+                  setTestimonialIdx((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
                 }
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition hover:border-yellow-500 hover:text-yellow-500"
               >
@@ -470,14 +481,13 @@ export default function Dashboard() {
                 <button
                   key={i}
                   onClick={() => setTestimonialIdx(i)}
-                  className={`h-3 rounded-full transition-all ${i === testimonialIdx ? "w-8 bg-yellow-500" : "w-3 bg-slate-300"
-                    }`}
+                  className={`h-3 rounded-full transition-all ${
+                    i === testimonialIdx ? "w-8 bg-yellow-500" : "w-3 bg-slate-300"
+                  }`}
                 />
               ))}
               <button
-                onClick={() =>
-                  setTestimonialIdx((p) => (p + 1) % TESTIMONIALS.length)
-                }
+                onClick={() => setTestimonialIdx((p) => (p + 1) % TESTIMONIALS.length)}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition hover:border-yellow-500 hover:text-yellow-500"
               >
                 <FaChevronRight className="text-sm" />
@@ -504,7 +514,7 @@ export default function Dashboard() {
               rel="noreferrer"
               className="flex items-center gap-3 rounded-full bg-black px-8 py-4 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:bg-[#1a1a1a]"
             >
-              <FaWhatsapp className="text-green-400 text-xl" />
+              <FaWhatsapp className="text-xl text-green-400" />
               Chat on WhatsApp
             </a>
             <Link

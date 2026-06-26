@@ -1,3 +1,5 @@
+// ─── Types ────────────────────────────────────────────────────────────────────
+
 export type TourCategory = {
   slug: string;
   name: string;
@@ -38,12 +40,15 @@ export const TOUR_CATEGORIES: TourCategory[] = [
   },
 ];
 
+// ─── Domestic Destinations ────────────────────────────────────────────────────
+
 export type DomesticDestination = {
   slug: string;
   name: string;
   tagline: string;
   img: string;
   price: number;
+  duration?: string;
 };
 
 export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
@@ -53,6 +58,7 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "Heaven on Earth",
     img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&auto=format&fit=crop",
     price: 3697,
+    duration: "5 Days 4 Nights",
   },
   {
     slug: "manali",
@@ -60,6 +66,7 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "Snow & Adventure",
     img: "/images/destinations/Manali.jpg",
     price: 4499,
+    duration: "4 Days 3 Nights",
   },
   {
     slug: "kedarnath",
@@ -67,6 +74,7 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "Sacred Himalayan Trek",
     img: "https://images.unsplash.com/photo-1609340058698-60a2a96f33e0?w=700&auto=format&fit=crop",
     price: 8999,
+    duration: "4 Days 3 Nights",
   },
   {
     slug: "munnar",
@@ -74,6 +82,7 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "Tea Gardens & Mist",
     img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=700&auto=format&fit=crop",
     price: 1797,
+    duration: "2 Days 1 Night",
   },
   {
     slug: "kerala",
@@ -81,6 +90,7 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "God's Own Country",
     img: "https://images.unsplash.com/photo-1593693411515-c20261bcad6e?w=700&auto=format&fit=crop",
     price: 1797,
+    duration: "6 Days 5 Nights",
   },
   {
     slug: "goa",
@@ -88,6 +98,7 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "Sun, Sand & Vibes",
     img: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=700&auto=format&fit=crop",
     price: 2499,
+    duration: "3 Days 2 Nights",
   },
   {
     slug: "rajasthan",
@@ -95,6 +106,7 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "Royal Desert Kingdom",
     img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&auto=format&fit=crop",
     price: 3299,
+    duration: "5 Days 4 Nights",
   },
   {
     slug: "andaman",
@@ -102,8 +114,11 @@ export const DOMESTIC_DESTINATIONS: DomesticDestination[] = [
     tagline: "Island Paradise",
     img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=700&auto=format&fit=crop",
     price: 5999,
+    duration: "5 Days 4 Nights",
   },
 ];
+
+// ─── Popular Destinations ─────────────────────────────────────────────────────
 
 export type PopularDestination = {
   slug: string;
@@ -121,7 +136,6 @@ export const POPULAR_DESTINATIONS: PopularDestination[] = [
     img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=900&auto=format&fit=crop",
     blurb: "1,200 coral islands and the clearest water on earth.",
   },
-
   {
     slug: "kashmir",
     name: "Kashmir",
@@ -130,6 +144,8 @@ export const POPULAR_DESTINATIONS: PopularDestination[] = [
     blurb: "Heaven on earth — Dal Lake and snow-laced valleys.",
   },
 ];
+
+// ─── Trip Packages ────────────────────────────────────────────────────────────
 
 export type TripPackage = {
   id: string;
@@ -145,7 +161,6 @@ export type TripPackage = {
 };
 
 export const TRIP_PACKAGES: TripPackage[] = [
-
   {
     id: "maldives-5d",
     name: "Maldives Luxury Escape",
@@ -169,7 +184,6 @@ export const TRIP_PACKAGES: TripPackage[] = [
     reviews: 445,
     highlights: ["Houseboat Stay", "Munnar Tea Gardens", "Kathakali Show", "Ayurvedic Spa"],
   },
-
   {
     id: "manali-5d",
     name: "Manali Snow Adventure",
@@ -181,5 +195,4 @@ export const TRIP_PACKAGES: TripPackage[] = [
     reviews: 389,
     highlights: ["Rohtang Pass", "Solang Valley", "Paragliding", "River Rafting"],
   },
-
 ];
