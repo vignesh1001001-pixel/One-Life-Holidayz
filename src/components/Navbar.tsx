@@ -19,7 +19,7 @@ import {
 const navLinks = [
   { name: "Home", href: "/", icon: <FaHome /> },
   { name: "Destinations", href: "/destinations", icon: <FaMapMarkedAlt /> },
-  { name: "Packages", href: "/trips", icon: <FaSuitcase /> },
+  { name: "Packages", href: "/packages", icon: <FaSuitcase /> },
   { name: "Gallery", href: "/gallery", icon: <FaImages /> },
   { name: "About", href: "/about", icon: <FaInfoCircle /> },
   { name: "Contact", href: "/contact", icon: <FaPhoneAlt /> },
