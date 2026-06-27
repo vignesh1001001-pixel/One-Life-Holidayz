@@ -22,7 +22,7 @@ const navLinks = [
   { name: "Packages", href: "/packages", icon: <FaSuitcase /> },
   { name: "Gallery", href: "/gallery", icon: <FaImages /> },
   { name: "About", href: "/about", icon: <FaInfoCircle /> },
-  { name: "Contact", href: "/contact", icon: <FaPhoneAlt /> },
+  // { name: "Contact", href: "/contact", icon: <FaPhoneAlt /> },
 ];
 
 export default function Navbar() {
@@ -91,7 +91,8 @@ export default function Navbar() {
               href="/trips"
               className="rounded-full bg-yellow-500 px-6 py-3 text-black font-semibold hover:bg-yellow-400 transition"
             >
-              Explore Trips
+             Request a Quotation
+            
             </Link>
           </div>
 
@@ -158,7 +159,7 @@ export default function Navbar() {
               className="flex items-center justify-center gap-2 rounded-full bg-yellow-500 py-4 font-semibold"
             >
               <FaPlaneDeparture />
-              Explore Trips
+              Request a Quotation
             </Link>
           </div>
         </nav>
