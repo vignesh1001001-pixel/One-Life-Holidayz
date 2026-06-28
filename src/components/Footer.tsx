@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
 
           <p className="mt-5 text-sm leading-7 text-slate-600">
-            Live it. Travel it. Own it. We create unforgettable travel experiences across India and around the
+            Live it. Travel it. Own it. <br/> We create unforgettable travel experiences across India and around the
             world.
           </p>
 
