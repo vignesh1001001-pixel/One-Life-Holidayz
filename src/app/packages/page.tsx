@@ -2,290 +2,495 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
-  FaStar,
-  FaClock,
-  FaMapMarkerAlt,
-  FaTags,
-  FaWhatsapp,
-} from "react-icons/fa";
-import { TRIP_PACKAGES, TOUR_CATEGORIES } from "@/lib/explore-data";
+  Star,
+  Clock,
+  MapPin,
+  Tag,
+  Search,
+  SlidersHorizontal,
+  X,
+  ChevronDown,
+  Phone,
+} from "lucide-react";
+import { TRIP_PACKAGES } from "@/lib/explore-data";
 import PageHero from "@/components/PageHero";
-import SectionHeader from "@/components/SectionHeader";
 
-const WHATSAPP_BASE =
-  "https://wa.me/919876543210?text=Hi!%20I%20want%20to%20know%20more%20about%20the%20";
+const ACTIVITIES   = ["Beach", "Trekking", "Camping", "Cultural", "Adventure"];
+const TRIP_TYPES   = ["Domestic", "International"];
+const DESTINATIONS = ["All", "Kerala", "Kashmir", "Goa", "Maldives", "Thailand", "Bali"];
+const MAX_DAYS     = 30;
 
 export default function PackagesPage() {
-  const [activeFilter, setActiveFilter] = useState<string>("all");
-  const [search, setSearch] = useState("");
-  const [destination, setDestination] = useState("all");
-  const [maxPrice, setMaxPrice] = useState(50000);
-  const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
+  const [search, setSearch]                     = useState("");
+  const [destination, setDestination]           = useState("All");
+  const [maxPrice, setMaxPrice]                 = useState(150000);
+  const [maxDays, setMaxDays]                   = useState(MAX_DAYS);
   const [selectedActivity, setSelectedActivity] = useState<string[]>([]);
   const [selectedTripType, setSelectedTripType] = useState<string[]>([]);
+  const [sidebarOpen, setSidebarOpen]           = useState(false);
+  const [priceOpen, setPriceOpen]               = useState(true);
+  const [durationOpen, setDurationOpen]         = useState(true);
+  const [activityOpen, setActivityOpen]         = useState(true);
+  const [tripTypeOpen, setTripTypeOpen]         = useState(true);
 
-  const filters = [
-    { label: "All Trips", value: "all" },
-    { label: "India", value: "india" },
-    { label: "International", value: "international" },
-    { label: "Luxury", value: "luxury" },
-  ];
+  const toggle = <T,>(arr: T[], val: T): T[] =>
+    arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
 
-  const filtered = TRIP_PACKAGES.filter((pkg) => {
-    const searchMatch = pkg.name.toLowerCase().includes(search.toLowerCase());
-    const destinationMatch = destination === "all" || pkg.destination.includes(destination);
-    const priceMatch = pkg.price <= maxPrice;
-    const durationMatch = selectedDuration.length === 0 || selectedDuration.some(d => pkg.duration.includes(d));
-    const activityMatch = selectedActivity.length === 0 || selectedActivity.some(a => pkg.highlights.some(h => h.toLowerCase().includes(a.toLowerCase())));
-    const tripTypeMatch = selectedTripType.length === 0 || (selectedTripType.includes("Domestic") && pkg.destination.includes("India")) || (selectedTripType.includes("International") && !pkg.destination.includes("India"));
-    return searchMatch && destinationMatch && priceMatch && durationMatch && activityMatch && tripTypeMatch;
-  });
+  const activeFilterCount = useMemo(() => {
+    let n = 0;
+    if (destination !== "All") n++;
+    if (maxPrice < 150000) n++;
+    if (maxDays < MAX_DAYS) n++;
+    n += selectedActivity.length + selectedTripType.length;
+    return n;
+  }, [destination, maxPrice, maxDays, selectedActivity, selectedTripType]);
 
-  const toggleDuration = (duration: string) => {
-    setSelectedDuration(prev => prev.includes(duration) ? prev.filter(d => d !== duration) : [...prev, duration]);
-  };
+  const filtered = useMemo(() =>
+    TRIP_PACKAGES.filter((pkg) => {
+      if (search && !pkg.name.toLowerCase().includes(search.toLowerCase())) return false;
+      if (destination !== "All" && !pkg.destination.includes(destination)) return false;
+      if (pkg.price > maxPrice) return false;
 
-  const toggleActivity = (activity: string) => {
-    setSelectedActivity(prev => prev.includes(activity) ? prev.filter(a => a !== activity) : [...prev, activity]);
-  };
+      if (maxDays < MAX_DAYS) {
+        const days = parseInt(pkg.duration.match(/\d+/)?.[0] ?? "0", 10);
+        if (days > maxDays) return false;
+      }
 
-  const toggleTripType = (tripType: string) => {
-    setSelectedTripType(prev => prev.includes(tripType) ? prev.filter(t => t !== tripType) : [...prev, tripType]);
-  };
+      if (selectedActivity.length) {
+        if (!selectedActivity.some((a) =>
+          pkg.highlights.some((h) => h.toLowerCase().includes(a.toLowerCase()))
+        )) return false;
+      }
 
-  const clearAllFilters = () => {
+      if (selectedTripType.length) {
+        const isDomestic = ["india", "kerala", "kashmir", "goa", "rajasthan", "manali"].some(
+          (d) => pkg.destination.toLowerCase().includes(d)
+        );
+        if (
+          !(selectedTripType.includes("Domestic") && isDomestic) &&
+          !(selectedTripType.includes("International") && !isDomestic)
+        ) return false;
+      }
+
+      return true;
+    }),
+    [search, destination, maxPrice, maxDays, selectedActivity, selectedTripType]
+  );
+
+  const clearAll = () => {
     setSearch("");
-    setDestination("all");
-    setMaxPrice(50000);
-    setSelectedDuration([]);
+    setDestination("All");
+    setMaxPrice(150000);
+    setMaxDays(MAX_DAYS);
     setSelectedActivity([]);
     setSelectedTripType([]);
   };
+
+  const Chip = ({
+    label,
+    active,
+    onClick,
+  }: {
+    label: string;
+    active: boolean;
+    onClick: () => void;
+  }) => (
+    <button
+      onClick={onClick}
+      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+        active
+          ? "border-yellow-500 bg-yellow-500 text-black"
+          : "border-slate-200 bg-white text-slate-600 hover:border-yellow-400 hover:text-slate-900"
+      }`}
+    >
+      {label}
+    </button>
+  );
+
+  const Accordion = ({
+    title,
+    open,
+    onToggle,
+    children,
+  }: {
+    title: string;
+    open: boolean;
+    onToggle: () => void;
+    children: React.ReactNode;
+  }) => (
+    <div className="border-b border-slate-100 py-4 last:border-0">
+      <button
+        onClick={onToggle}
+        className="flex w-full items-center justify-between text-left"
+      >
+        <span className="text-sm font-semibold text-slate-800">{title}</span>
+        <ChevronDown
+          className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+      {open && <div className="mt-3">{children}</div>}
+    </div>
+  );
+
+  const SidebarContent = () => (
+    <div className="flex h-full flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+        <div className="flex items-center gap-2">
+          <h3 className="font-bold text-slate-900">Filters</h3>
+          {activeFilterCount > 0 && (
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-yellow-500 text-[10px] font-bold text-black">
+              {activeFilterCount}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
+          {activeFilterCount > 0 && (
+            <button
+              onClick={clearAll}
+              className="text-xs font-medium text-yellow-600 hover:underline"
+            >
+              Clear all
+            </button>
+          )}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 lg:hidden"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 overflow-y-auto px-5 pb-6">
+
+        {/* Search */}
+        <div className="border-b border-slate-100 py-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search packages..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-8 text-sm placeholder:text-slate-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-100"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Destination */}
+        <div className="border-b border-slate-100 py-4">
+          <p className="mb-3 text-sm font-semibold text-slate-800">Destination</p>
+          <div className="flex flex-wrap gap-2">
+            {DESTINATIONS.map((d) => (
+              <Chip
+                key={d}
+                label={d}
+                active={destination === d}
+                onClick={() => setDestination(d)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Max Budget slider */}
+        <Accordion
+          title="Max Budget"
+          open={priceOpen}
+          onToggle={() => setPriceOpen(!priceOpen)}
+        >
+          <input
+            type="range"
+            min="0"
+            max="150000"
+            step="1000"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(Number(e.target.value))}
+            className="w-full cursor-pointer accent-yellow-500"
+          />
+          <div className="mt-2 flex items-center justify-between text-xs">
+            <span className="text-slate-400">₹0</span>
+            <span className="rounded-full bg-yellow-50 px-3 py-1 font-bold text-yellow-600">
+              Up to ₹{maxPrice.toLocaleString("en-IN")}
+            </span>
+            <span className="text-slate-400">₹1,50,000</span>
+          </div>
+        </Accordion>
+
+        {/* Max Duration slider */}
+        <Accordion
+          title="Duration"
+          open={durationOpen}
+          onToggle={() => setDurationOpen(!durationOpen)}
+        >
+          <input
+            type="range"
+            min="1"
+            max={MAX_DAYS}
+            step="1"
+            value={maxDays}
+            onChange={(e) => setMaxDays(Number(e.target.value))}
+            className="w-full cursor-pointer accent-yellow-500"
+          />
+          <div className="mt-2 flex items-center justify-between text-xs">
+            <span className="text-slate-400">1 Day</span>
+            <span className="rounded-full bg-yellow-50 px-3 py-1 font-bold text-yellow-600">
+              Up to {maxDays} {maxDays === 1 ? "Day" : "Days"}
+            </span>
+            <span className="text-slate-400">30 Days</span>
+          </div>
+        </Accordion>
+
+        {/* Activity */}
+        <Accordion
+          title="Activity Type"
+          open={activityOpen}
+          onToggle={() => setActivityOpen(!activityOpen)}
+        >
+          <div className="flex flex-wrap gap-2">
+            {ACTIVITIES.map((a) => (
+              <Chip
+                key={a}
+                label={a}
+                active={selectedActivity.includes(a)}
+                onClick={() => setSelectedActivity(toggle(selectedActivity, a))}
+              />
+            ))}
+          </div>
+        </Accordion>
+
+        {/* Trip Type */}
+        <Accordion
+          title="Trip Type"
+          open={tripTypeOpen}
+          onToggle={() => setTripTypeOpen(!tripTypeOpen)}
+        >
+          <div className="flex flex-wrap gap-2">
+            {TRIP_TYPES.map((t) => (
+              <Chip
+                key={t}
+                label={t}
+                active={selectedTripType.includes(t)}
+                onClick={() => setSelectedTripType(toggle(selectedTripType, t))}
+              />
+            ))}
+          </div>
+        </Accordion>
+
+      </div>
+    </div>
+  );
 
   return (
     <main>
       <PageHero
         eyebrow="Our Packages"
-        title="Find Your "
-        highlight="Perfect Packages"
+        title="Find Your Perfect"
+        highlight="Package"
         subtitle="Handcrafted itineraries for every kind of traveller — budget to luxury, hills to beaches."
         gradient="linear-gradient(135deg, #0a1628 0%, #1e3a6e 100%)"
       />
 
-
-      <section className="px-6 py-16 md:px-12 lg:px-20 bg-slate-50">
+      <section className="min-h-screen bg-slate-50 px-4 py-10 md:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
-          <SectionHeader eyebrow="All Packages" title="Ready-Made Itineraries" highlight="Itineraries" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Top bar */}
+          <div className="mb-6 flex items-center justify-between">
+            <p className="text-sm text-slate-500">
+              Showing{" "}
+              <span className="font-bold text-slate-900">{filtered.length}</span>{" "}
+              {filtered.length === 1 ? "package" : "packages"}
+            </p>
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-yellow-400 lg:hidden"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-yellow-500 text-[10px] font-bold text-black">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+          </div>
 
-            {/* FILTER SIDEBAR */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 h-fit">
-
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-3xl font-bold text-slate-900">Filter By</h3>
-
-                <button
-                  onClick={clearAllFilters}
-                  className="text-sm text-sky-500 hover:underline"
-                >
-                  Clear All
-                </button>
+          <div className="flex gap-6">
+            {/* Desktop Sidebar */}
+            <aside className="hidden w-64 shrink-0 lg:block">
+              <div className="sticky top-24 rounded-2xl border border-slate-100 bg-white shadow-sm">
+                <SidebarContent />
               </div>
+            </aside>
 
-              {/* SEARCH */}
-              <div className="mb-8">
-                <label className="font-medium block mb-2">Search</label>
-
-                <input
-                  type="text"
-                  placeholder="Search Packages..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full border rounded-lg px-4 py-3"
+            {/* Mobile Drawer */}
+            {sidebarOpen && (
+              <div className="fixed inset-0 z-50 lg:hidden">
+                <div
+                  className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                  onClick={() => setSidebarOpen(false)}
                 />
-              </div>
-
-              {/* DESTINATION */}
-              <div className="mb-8">
-                <label className="font-medium block mb-2">Destination</label>
-
-                <select
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className="w-full border rounded-lg px-4 py-3"
-                >
-                  <option value="all">All Destinations</option>
-
-                  <option value="Kerala">Kerala</option>
-
-                  <option value="Kashmir">Kashmir</option>
-
-                  <option value="Maldives">Maldives</option>
-
-                  <option value="Thailand">Thailand</option>
-                </select>
-              </div>
-
-              {/* PRICE */}
-              <div className="mb-8">
-                <label className="font-medium block mb-4">Max Price</label>
-
-                <input
-                  type="range"
-                  min="1000"
-                  max="50000"
-                  step="1000"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-full"
-                />
-
-                <p className="mt-2 font-bold text-yellow-600">₹{maxPrice.toLocaleString()}</p>
-              </div>
-
-              {/* DURATION */}
-              <div className="mb-8">
-                <h4 className="font-medium mb-3">Duration</h4>
-
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedDuration.includes("2 Days")} onChange={() => toggleDuration("2 Days")} />
-                    2 Days
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedDuration.includes("4 Days")} onChange={() => toggleDuration("4 Days")} />
-                    4 Days
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedDuration.includes("6 Days")} onChange={() => toggleDuration("6 Days")} />
-                    6 Days
-                  </label>
+                <div className="absolute bottom-0 left-0 right-0 max-h-[88vh] overflow-hidden rounded-t-3xl bg-white shadow-2xl">
+                  <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-slate-200" />
+                  <SidebarContent />
                 </div>
               </div>
+            )}
 
-              {/* ACTIVITY */}
-              <div className="mb-8">
-                <h4 className="font-medium mb-3">Activity</h4>
-
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedActivity.includes("Beach")} onChange={() => toggleActivity("Beach")} />
-                    Beach
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedActivity.includes("Camping")} onChange={() => toggleActivity("Camping")} />
-                    Camping
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedActivity.includes("Trek")} onChange={() => toggleActivity("Trek")} />
-                    Trek
-                  </label>
-                </div>
-              </div>
-
-              {/* TRIP TYPE */}
-              <div className="mb-8">
-                <h4 className="font-medium mb-3">Trip Type</h4>
-
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedTripType.includes("Domestic")} onChange={() => toggleTripType("Domestic")} />
-                    Domestic
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={selectedTripType.includes("International")} onChange={() => toggleTripType("International")} />
-                    International
-                  </label>
-                </div>
-              </div>
-
-            </div>
-
-            {/* PACKAGE GRID */}
-            <div className="lg:col-span-3">
-              {/* Your cards here */}
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {filtered.map((pkg) => (
-                  <div key={pkg.id} className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
-                    <div className="relative h-52 w-full overflow-hidden">
-                      <Image src={pkg.img} alt={pkg.name} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                      {pkg.badge && <span className="absolute left-3 top-3 rounded-full bg-yellow-500 px-3 py-1 text-[0.7rem] font-bold text-black shadow">{pkg.badge}</span>}
-                    </div>
-
-                    <div className="flex flex-1 flex-col p-5">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-serif text-lg font-bold text-slate-900">{pkg.name}</h3>
-                          <div className="mt-1 flex items-center gap-1 text-sm text-slate-500"><FaMapMarkerAlt className="text-yellow-500 text-xs" />{pkg.destination}</div>
-                        </div>
-                        <div className="flex items-center gap-1 text-sm"><FaStar className="text-yellow-400 text-xs" /><span className="font-semibold text-slate-800">{pkg.rating}</span><span className="text-slate-400">({pkg.reviews})</span></div>
-                      </div>
-
-                      <div className="mt-2 flex items-center gap-1 text-xs text-slate-400"><FaClock className="text-yellow-500" />{pkg.duration}</div>
-
-                      <div className="mt-3 flex flex-wrap gap-2">{pkg.highlights.map((h) => (<span key={h} className="rounded-full bg-slate-100 px-3 py-1 text-[0.68rem] font-medium text-slate-600">{h}</span>))}</div>
-
-                      <div className="mt-auto flex items-center justify-between pt-4">
-                        <div>
-                          <span className="text-[0.7rem] text-slate-400">Starting from</span>
-                          <div className="font-serif text-xl font-bold text-slate-900">₹{pkg.price.toLocaleString("en-IN")}</div>
-                          <span className="text-[0.68rem] text-slate-400">per person</span>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Link href="/contact" className="rounded-full bg-yellow-500 px-5 py-2 text-sm font-semibold text-black transition hover:bg-yellow-400">Book Now</Link>
-                          <a href={`${WHATSAPP_BASE}${encodeURIComponent(pkg.name)}%20package.`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1 rounded-full border border-green-500 px-5 py-2 text-sm font-medium text-green-600 transition hover:bg-green-50"><FaWhatsapp /> Enquire</a>
-                        </div>
-                      </div>
-                    </div>
+            {/* Package Grid */}
+            <div className="min-w-0 flex-1">
+              {filtered.length === 0 ? (
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white py-24 text-center">
+                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
+                    <Search className="h-7 w-7 text-slate-300" />
                   </div>
-                ))}
-              </div>
+                  <p className="text-base font-semibold text-slate-700">No packages found</p>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Try adjusting or clearing your filters
+                  </p>
+                  <button
+                    onClick={clearAll}
+                    className="mt-6 rounded-full bg-yellow-500 px-6 py-2.5 text-sm font-bold text-black hover:bg-yellow-400"
+                  >
+                    Clear All Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                  {filtered.map((pkg) => (
+                    <div
+                      key={pkg.id}
+                      className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                    >
+                      {/* Image */}
+                      <div className="relative h-48 w-full overflow-hidden">
+                        <Image
+                          src={pkg.img}
+                          alt={pkg.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        {pkg.badge && (
+                          <span className="absolute left-3 top-3 rounded-full bg-yellow-500 px-3 py-1 text-[0.65rem] font-bold text-black shadow-md">
+                            {pkg.badge}
+                          </span>
+                        )}
+                        <div className="absolute bottom-3 left-3 flex items-center gap-1 text-xs font-semibold text-white drop-shadow">
+                          <MapPin className="h-3 w-3 text-yellow-400" />
+                          {pkg.destination}
+                        </div>
+                      </div>
+
+                      {/* Body */}
+                      <div className="flex flex-1 flex-col p-4">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-serif text-[1rem] font-bold leading-snug text-slate-900">
+                            {pkg.name}
+                          </h3>
+                          <div className="flex shrink-0 items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[0.7rem]">
+                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                            <span className="font-bold text-slate-800">{pkg.rating}</span>
+                            <span className="text-slate-400">({pkg.reviews})</span>
+                          </div>
+                        </div>
+
+                        <div className="mt-1.5 flex items-center gap-1.5 text-xs text-slate-400">
+                          <Clock className="h-3 w-3 text-yellow-500" />
+                          {pkg.duration}
+                        </div>
+
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {pkg.highlights.slice(0, 3).map((h) => (
+                            <span
+                              key={h}
+                              className="rounded-full bg-slate-100 px-2.5 py-1 text-[0.65rem] font-medium text-slate-500"
+                            >
+                              {h}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Price + Actions */}
+                        <div className="mt-auto flex items-end justify-between gap-3 pt-4">
+                          <div>
+                            <p className="text-[0.65rem] text-slate-400">Starting from</p>
+                            <p className="font-serif text-xl font-bold text-slate-900">
+                              ₹{pkg.price.toLocaleString("en-IN")}
+                            </p>
+                            <p className="text-[0.65rem] text-slate-400">per person</p>
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            <Link
+                              href="/contact"
+                              className="rounded-full bg-yellow-500 px-5 py-2 text-center text-xs font-bold text-black transition hover:bg-yellow-400"
+                            >
+                              Book Now
+                            </Link>
+                            <Link
+                              href="/contact"
+                              className="flex items-center justify-center gap-1.5 rounded-full border border-slate-300 px-5 py-2 text-xs font-medium text-slate-600 transition hover:border-slate-400 hover:bg-slate-50"
+                            >
+                              <Phone className="h-3 w-3" />
+                              Enquire
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Custom Trip CTA ── */}
-      <section className="bg-[#0a1628] px-6 py-16 text-center md:px-12">
+      {/* CTA */}
+      <section className="bg-[#0a1628] px-6 py-20 text-center md:px-12">
         <div className="mx-auto max-w-xl">
-          <h2 className="font-serif text-3xl font-bold text-white">
-            Need a <em className="italic text-yellow-400">Custom Trip?</em>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-yellow-500">
+            Can't find what you're looking for?
+          </p>
+          <h2 className="font-serif text-3xl font-bold text-white md:text-4xl">
+            Build a <em className="italic text-yellow-400">Custom Trip</em>
           </h2>
-          <p className="mx-auto mt-3 text-white/60">
-            Tell us your dates, budget, and dream — we&apos;ll craft the perfect itinerary just for you.
+          <p className="mx-auto mt-4 text-sm leading-relaxed text-white/60">
+            Tell us your dates, budget, and dream destination — we'll craft a
+            perfect itinerary just for you.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/contact"
-              className="flex items-center gap-2 rounded-full bg-yellow-500 px-8 py-4 font-semibold text-black shadow-lg transition hover:bg-yellow-400"
+              className="flex items-center gap-2 rounded-full bg-yellow-500 px-8 py-3.5 text-sm font-bold text-black shadow-lg transition hover:bg-yellow-400"
             >
-              <FaTags /> Get Free Quote
+              <Tag className="h-4 w-4" />
+              Get Free Quote
             </Link>
-            <a
-              href="https://wa.me/919876543210?text=Hi!%20I%20want%20a%20custom%20trip%20plan."
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2 rounded-full border-2 border-green-500 px-8 py-4 font-semibold text-green-400 transition hover:bg-green-500 hover:text-black"
+            <Link
+              href="/contact"
+              className="flex items-center gap-2 rounded-full border border-white/20 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
             >
-              <FaWhatsapp /> WhatsApp Us
-            </a>
+              <Phone className="h-4 w-4" />
+              Call Us
+            </Link>
           </div>
         </div>
       </section>
-
-      {/* Floating WhatsApp */}
-      <a
-        href="https://wa.me/919876543210?text=Hi!%20I%20want%20to%20book%20a%20trip."
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Chat on WhatsApp"
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-all hover:scale-110 hover:bg-green-400"
-      >
-        <FaWhatsapp className="text-2xl" />
-      </a>
     </main>
   );
 }
