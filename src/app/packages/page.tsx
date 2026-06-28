@@ -52,18 +52,15 @@ export default function PackagesPage() {
       if (search && !pkg.name.toLowerCase().includes(search.toLowerCase())) return false;
       if (destination !== "All" && !pkg.destination.includes(destination)) return false;
       if (pkg.price > maxPrice) return false;
-
       if (maxDays < MAX_DAYS) {
         const days = parseInt(pkg.duration.match(/\d+/)?.[0] ?? "0", 10);
         if (days > maxDays) return false;
       }
-
       if (selectedActivity.length) {
         if (!selectedActivity.some((a) =>
           pkg.highlights.some((h) => h.toLowerCase().includes(a.toLowerCase()))
         )) return false;
       }
-
       if (selectedTripType.length) {
         const isDomestic = ["india", "kerala", "kashmir", "goa", "rajasthan", "manali"].some(
           (d) => pkg.destination.toLowerCase().includes(d)
@@ -73,7 +70,6 @@ export default function PackagesPage() {
           !(selectedTripType.includes("International") && !isDomestic)
         ) return false;
       }
-
       return true;
     }),
     [search, destination, maxPrice, maxDays, selectedActivity, selectedTripType]
@@ -137,9 +133,14 @@ export default function PackagesPage() {
   );
 
   const SidebarContent = () => (
-    <div className="flex h-full flex-col">
+    <>
+      {/* Drag handle — mobile only */}
+      <div className="flex justify-center pb-2 pt-3 lg:hidden">
+        <div className="h-1 w-10 rounded-full bg-slate-200" />
+      </div>
+
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+      <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
         <div className="flex items-center gap-2">
           <h3 className="font-bold text-slate-900">Filters</h3>
           {activeFilterCount > 0 && (
@@ -166,9 +167,11 @@ export default function PackagesPage() {
         </div>
       </div>
 
-      {/* Body */}
-      <div className="flex-1 overflow-y-auto px-5 pb-6">
-
+      {/* Scrollable body — key fix: overflow-y-auto + explicit height */}
+      <div
+        className="overflow-y-auto overscroll-contain px-5 pb-16"
+        style={{ maxHeight: "calc(88vh - 80px)" }}
+      >
         {/* Search */}
         <div className="border-b border-slate-100 py-4">
           <div className="relative">
@@ -206,7 +209,7 @@ export default function PackagesPage() {
           </div>
         </div>
 
-        {/* Max Budget slider */}
+        {/* Max Budget */}
         <Accordion
           title="Max Budget"
           open={priceOpen}
@@ -221,16 +224,18 @@ export default function PackagesPage() {
             onChange={(e) => setMaxPrice(Number(e.target.value))}
             className="w-full cursor-pointer accent-yellow-500"
           />
-          <div className="mt-2 flex items-center justify-between text-xs">
-            <span className="text-slate-400">₹0</span>
-            <span className="rounded-full bg-yellow-50 px-3 py-1 font-bold text-yellow-600">
+          <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <span>₹0</span>
+            <span>₹1,50,000</span>
+          </div>
+          <div className="mt-2 text-center">
+            <span className="inline-block rounded-full bg-yellow-50 px-4 py-1.5 text-xs font-bold text-yellow-600 ring-1 ring-yellow-200">
               Up to ₹{maxPrice.toLocaleString("en-IN")}
             </span>
-            <span className="text-slate-400">₹1,50,000</span>
           </div>
         </Accordion>
 
-        {/* Max Duration slider */}
+        {/* Duration */}
         <Accordion
           title="Duration"
           open={durationOpen}
@@ -245,12 +250,14 @@ export default function PackagesPage() {
             onChange={(e) => setMaxDays(Number(e.target.value))}
             className="w-full cursor-pointer accent-yellow-500"
           />
-          <div className="mt-2 flex items-center justify-between text-xs">
-            <span className="text-slate-400">1 Day</span>
-            <span className="rounded-full bg-yellow-50 px-3 py-1 font-bold text-yellow-600">
+          <div className="mt-1 flex justify-between text-xs text-slate-400">
+            <span>1 Day</span>
+            <span>30 Days</span>
+          </div>
+          <div className="mt-2 text-center">
+            <span className="inline-block rounded-full bg-yellow-50 px-4 py-1.5 text-xs font-bold text-yellow-600 ring-1 ring-yellow-200">
               Up to {maxDays} {maxDays === 1 ? "Day" : "Days"}
             </span>
-            <span className="text-slate-400">30 Days</span>
           </div>
         </Accordion>
 
@@ -289,9 +296,8 @@ export default function PackagesPage() {
             ))}
           </div>
         </Accordion>
-
       </div>
-    </div>
+    </>
   );
 
   return (
@@ -329,6 +335,7 @@ export default function PackagesPage() {
           </div>
 
           <div className="flex gap-6">
+
             {/* Desktop Sidebar */}
             <aside className="hidden w-64 shrink-0 lg:block">
               <div className="sticky top-24 rounded-2xl border border-slate-100 bg-white shadow-sm">
@@ -336,15 +343,18 @@ export default function PackagesPage() {
               </div>
             </aside>
 
-            {/* Mobile Drawer */}
+            {/* Mobile Drawer — fixed bottom sheet, NO overflow-hidden on wrapper */}
             {sidebarOpen && (
               <div className="fixed inset-0 z-50 lg:hidden">
+                {/* Backdrop */}
                 <div
-                  className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                  className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                   onClick={() => setSidebarOpen(false)}
                 />
-                <div className="absolute bottom-0 left-0 right-0 max-h-[88vh] overflow-hidden rounded-t-3xl bg-white shadow-2xl">
-                  <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-slate-200" />
+                {/* Sheet — rounded top, no overflow-hidden so inner scroll works */}
+                <div className="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white shadow-2xl"
+                  style={{ maxHeight: "88vh" }}
+                >
                   <SidebarContent />
                 </div>
               </div>
@@ -425,7 +435,6 @@ export default function PackagesPage() {
                           ))}
                         </div>
 
-                        {/* Price + Actions */}
                         <div className="mt-auto flex items-end justify-between gap-3 pt-4">
                           <div>
                             <p className="text-[0.65rem] text-slate-400">Starting from</p>
