@@ -1,6 +1,6 @@
-
 import Link from "next/link";
 import Image from "next/image";
+import { Bus, Hotel, Users, Phone, MapPin } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import SectionHeader from "@/components/SectionHeader";
 import { HONEYMOON_PICKS, DOMESTIC_PICKS } from "@/lib/destinations";
@@ -21,16 +21,16 @@ export default function DomesticPage() {
         <div className="mx-auto max-w-6xl">
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
             {[
-              { icon: "🚌", label: "AC Transport", desc: "Comfortable door-to-door travel" },
-              { icon: "🏕️", label: "Curated Stays", desc: "Hotels, resorts & homestays" },
-              { icon: "👨‍👩‍👧‍👦", label: "Family & Group Tours", desc: "Packages for every group size" },
-              { icon: "📞", label: "24/7 Support", desc: "We're always just a call away" },
+              { icon: <Bus className="h-7 w-7 text-blue-600" />, label: "AC Transport", desc: "Comfortable door-to-door travel" },
+              { icon: <Hotel className="h-7 w-7 text-blue-600" />, label: "Curated Stays", desc: "Hotels, resorts & homestays" },
+              { icon: <Users className="h-7 w-7 text-blue-600" />, label: "Family & Group Tours", desc: "Packages for every group size" },
+              { icon: <Phone className="h-7 w-7 text-blue-600" />, label: "24/7 Support", desc: "We're always just a call away" },
             ].map((item) => (
               <div
                 key={item.label}
                 className="flex flex-col items-center rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center shadow-sm"
               >
-                <span className="mb-3 text-3xl">{item.icon}</span>
+                <span className="mb-3">{item.icon}</span>
                 <div className="mb-1 text-[0.9rem] font-bold text-slate-800">{item.label}</div>
                 <div className="text-[0.78rem] text-slate-500">{item.desc}</div>
               </div>
@@ -42,7 +42,7 @@ export default function DomesticPage() {
       {/* Honeymoon Section */}
       <section className="bg-white px-[5%] pb-16 pt-4">
         <SectionHeader
-          eyebrow="💑 Honeymoon Specials"
+          eyebrow="Honeymoon Specials"
           title="South India Romance"
           highlight="Romance"
           align="left"
@@ -69,7 +69,10 @@ export default function DomesticPage() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <div className="font-serif text-[1.1rem] font-bold text-white">{dest.name}</div>
-                  <div className="text-[0.75rem] text-white/75">{dest.state}</div>
+                  <div className="flex items-center gap-1 text-[0.75rem] text-white/75">
+                    <MapPin className="h-3 w-3" />
+                    {dest.sub}
+                  </div>
                 </div>
               </div>
             </Link>
@@ -80,7 +83,7 @@ export default function DomesticPage() {
       {/* All Domestic Destinations */}
       <section className="bg-slate-50 px-[5%] pb-20 pt-4">
         <SectionHeader
-          eyebrow="🇮🇳 Explore India"
+          eyebrow="Explore India"
           title="Best of Domestic India"
           highlight="Domestic India"
           align="left"
@@ -107,7 +110,10 @@ export default function DomesticPage() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-3">
                   <div className="font-serif text-[1rem] font-bold text-white">{dest.name}</div>
-                  <div className="text-[0.72rem] text-white/75">{dest.state}</div>
+                  <div className="flex items-center gap-1 text-[0.72rem] text-white/75">
+                    <MapPin className="h-3 w-3" />
+                    {dest.sub}
+                  </div>
                 </div>
               </div>
             </Link>

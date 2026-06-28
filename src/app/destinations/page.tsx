@@ -40,7 +40,7 @@ export default function DestinationsPage() {
 
           {/* International Card */}
           <Link
-            href="/international"
+            href="/romantic"
             className="group relative block min-h-[460px] overflow-hidden rounded-[20px] shadow-xl transition-transform hover:-translate-y-1.5"
           >
             <Image
@@ -79,7 +79,7 @@ export default function DestinationsPage() {
 
           {/* Domestic Card */}
           <Link
-            href="/domestic"
+            href="/northindia"
             className="group relative block min-h-[460px] overflow-hidden rounded-[20px] shadow-xl transition-transform hover:-translate-y-1.5"
           >
             <Image
