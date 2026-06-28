@@ -15,6 +15,7 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaQuoteLeft,
+  FaImages,
 } from "react-icons/fa";
 import { TOUR_CATEGORIES, DOMESTIC_DESTINATIONS, TRIP_PACKAGES } from "@/lib/explore-data";
 
@@ -76,6 +77,13 @@ const WHY_US = [
     title: "Tailored Itineraries",
     desc: "Every trip is crafted just for you — your pace, your interests, your memories.",
   },
+];
+
+const galleryImages = [
+  { src: "/images/gallery/01.jpeg", alt: "Travel Memory 1", span: "col-span-1 row-span-2" },
+  { src: "/images/gallery/02.jpeg", alt: "Travel Memory 2", span: "col-span-1 row-span-1" },
+  { src: "/images/gallery/03.jpeg", alt: "Travel Memory 3", span: "col-span-1 row-span-1" },
+  { src: "/images/gallery/04.jpeg", alt: "Travel Memory 4", span: "col-span-2 row-span-1" },
 ];
 
 export default function Dashboard() {
@@ -433,7 +441,7 @@ export default function Dashboard() {
       </section>
 
       {/* ══════════════════════ TESTIMONIALS ══════════════════════ */}
-      <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
+      {/* <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
         <div className="mx-auto max-w-4xl text-center">
           <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
             Testimonials
@@ -495,6 +503,67 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+      </section> */}
+
+      {/* ══════════════════════ GALLERY ══════════════════════ */}
+      <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
+        <div className="mx-auto max-w-6xl">
+          {/* Header */}
+          <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
+                Memories
+              </span>
+              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
+                Through the <em className="italic text-yellow-500">Lens</em>
+              </h2>
+              <p className="mt-2 text-sm text-slate-500">
+                Real trips, real smiles — a glimpse of the journeys we craft.
+              </p>
+            </div>
+            <Link
+              href="/gallery"
+              className="shrink-0 inline-flex items-center gap-2 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
+            >
+              <FaImages />
+              View Full Gallery
+            </Link>
+          </div>
+
+          {/* Bento Grid */}
+          <div className="grid auto-rows-[200px] grid-cols-3 gap-4">
+            {galleryImages.map((img, i) => (
+              <Link
+                key={i}
+                href="/gallery"
+                className={`${img.span} group relative overflow-hidden rounded-2xl shadow-md`}
+              >
+                {/* Fallback bg */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)",
+                  }}
+                />
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
+                {/* Hover label */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="rounded-full bg-white/20 px-4 py-2 text-[0.8rem] font-semibold text-white backdrop-blur-sm">
+                    View Gallery →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ══════════════════════ CTA BANNER ══════════════════════ */}
@@ -528,7 +597,7 @@ export default function Dashboard() {
       </section>
 
       {/* ══════════════════════ FLOATING WHATSAPP ══════════════════════ */}
-      <a
+        <a
         href={WHATSAPP}
         target="_blank"
         rel="noreferrer"
