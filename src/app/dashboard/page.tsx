@@ -128,7 +128,7 @@ export default function Dashboard() {
         ))}
 
         {/* Fixed gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+        <div className="absolute inset-0 from-black/60 via-black/50 to-black/70" />
 
         <div className="relative z-10 flex h-full items-center justify-center px-6">
           <div className="mx-auto max-w-5xl text-center text-white">
