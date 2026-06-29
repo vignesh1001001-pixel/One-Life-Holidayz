@@ -505,66 +505,90 @@ export default function Dashboard() {
         </div>
       </section> */}
 
-      {/* ══════════════════════ GALLERY ══════════════════════ */}
-      <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
-        <div className="mx-auto max-w-6xl">
-          {/* Header */}
-          <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
-                Memories
-              </span>
-              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
-                Through the <em className="italic text-yellow-500">Lens</em>
-              </h2>
-              <p className="mt-2 text-sm text-slate-500">
-                Real trips, real smiles — a glimpse of the journeys we craft.
-              </p>
-            </div>
-            <Link
-              href="/gallery"
-              className="shrink-0 inline-flex items-center gap-2 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
-            >
-              <FaImages />
-              View Full Gallery
-            </Link>
-          </div>
+     {/* ══════════════════════ GALLERY ══════════════════════ */}
+<section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
+  <div className="mx-auto max-w-6xl">
+    {/* Header */}
+    <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+      <div>
+        <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
+          Memories
+        </span>
+        <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
+          Through the <em className="italic text-yellow-500">Lens</em>
+        </h2>
+        <p className="mt-2 text-sm text-slate-500">
+          Real trips, real smiles — a glimpse of the journeys we craft.
+        </p>
+      </div>
+      <Link
+        href="/gallery"
+        className="shrink-0 inline-flex items-center gap-2 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
+      >
+        <FaImages />
+        View Full Gallery
+      </Link>
+    </div>
 
-          {/* Bento Grid */}
-          <div className="grid auto-rows-[200px] grid-cols-3 gap-4">
-            {galleryImages.map((img, i) => (
-              <Link
-                key={i}
-                href="/gallery"
-                className={`${img.span} group relative overflow-hidden rounded-2xl shadow-md`}
-              >
-                {/* Fallback bg */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)",
-                  }}
-                />
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
-                {/* Hover label */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="rounded-full bg-white/20 px-4 py-2 text-[0.8rem] font-semibold text-white backdrop-blur-sm">
-                    View Gallery →
-                  </span>
-                </div>
-              </Link>
-            ))}
+    {/* Mobile: simple 2-col grid */}
+    <div className="grid grid-cols-2 gap-3 sm:hidden">
+      {galleryImages.map((img, i) => (
+        <Link
+          key={i}
+          href="/gallery"
+          className="group relative h-[160px] overflow-hidden rounded-xl shadow-md"
+        >
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)" }}
+          />
+          <Image
+            src={img.src}
+            alt={img.alt}
+            fill
+            sizes="50vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="rounded-full bg-white/20 px-3 py-1.5 text-[0.72rem] font-semibold text-white backdrop-blur-sm">
+              View →
+            </span>
           </div>
-        </div>
-      </section>
+        </Link>
+      ))}
+    </div>
+
+    {/* Desktop: bento grid */}
+    <div className="hidden sm:grid sm:auto-rows-[200px] sm:grid-cols-3 sm:gap-4">
+      {galleryImages.map((img, i) => (
+        <Link
+          key={i}
+          href="/gallery"
+          className={`${img.span} group relative overflow-hidden rounded-2xl shadow-md`}
+        >
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)" }}
+          />
+          <Image
+            src={img.src}
+            alt={img.alt}
+            fill
+            sizes="(max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="rounded-full bg-white/20 px-4 py-2 text-[0.8rem] font-semibold text-white backdrop-blur-sm">
+              View Gallery →
+            </span>
+          </div>
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* ══════════════════════ CTA BANNER ══════════════════════ */}
       <section className="relative overflow-hidden bg-yellow-500 px-6 py-16 text-center md:px-12">
