@@ -23,6 +23,8 @@ const SLIDES = [
   { src: "/images/dashboard/01.jpg", label: "Kashmir — Heaven on Earth" },
   { src: "/images/dashboard/02.jpg", label: "Kerala — God's Own Country" },
   { src: "/images/dashboard/03.jpg", label: "Maldives — Overwater Paradise" },
+  { src: "/images/dashboard/04.jpg", label: "Maldives — Overwater Paradise" },
+  { src: "/images/dashboard/05.jpg", label: "Maldives — Overwater Paradise" },
 ];
 
 const QUOTES = [
@@ -120,25 +122,27 @@ export default function Dashboard() {
             alt={slide.label}
             fill
             priority={i === 0}
-            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${
-              current === i ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${current === i ? "opacity-100" : "opacity-0"
+              }`}
           />
         ))}
-        <div className="absolute inset-0" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30" />
+
+        {/* Fixed gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
 
         <div className="relative z-10 flex h-full items-center justify-center px-6">
           <div className="mx-auto max-w-5xl text-center text-white">
+
+            {/* Quote — fully visible, strong shadow */}
             <p
-              className="mb-4 text-lg text-yellow-300 transition-all duration-700 sm:text-xl md:text-2xl"
+              className="mb-4 text-lg font-semibold tracking-wide text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] transition-all duration-700 sm:text-xl md:text-2xl"
               style={{ fontFamily: "var(--font-quote)" }}
             >
               {QUOTES[currentQuote]}
             </p>
 
             <h1
-              className="text-4xl font-semibold leading-tight tracking-wide sm:text-5xl md:text-6xl lg:text-7xl"
+              className="text-4xl font-semibold leading-tight tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               One life to live—
@@ -149,7 +153,7 @@ export default function Dashboard() {
               <span className="italic text-yellow-400">cherish them</span> for a lifetime.
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-gray-200 sm:text-base md:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-gray-200 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] sm:text-base md:text-lg">
               Handcrafted journeys through India and across the world — where every adventure
               becomes a story worth sharing.
             </p>
@@ -303,11 +307,10 @@ export default function Dashboard() {
                   el.scrollTo({ left: cardWidth * i, behavior: "smooth" });
                   setDestIdx(i);
                 }}
-                className={`block rounded-full transition-all duration-300 ${
-                  i === destIdx
+                className={`block rounded-full transition-all duration-300 ${i === destIdx
                     ? "h-3 w-6 bg-teal-600"
                     : "h-3 w-3 border-2 border-slate-400 bg-transparent hover:border-teal-400"
-                }`}
+                  }`}
               />
             ))}
           </div>
@@ -440,155 +443,89 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* ══════════════════════ TESTIMONIALS ══════════════════════ */}
-      {/* <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
-        <div className="mx-auto max-w-4xl text-center">
-          <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
-            Testimonials
-          </span>
-          <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
-            What Our <em className="italic text-yellow-500">Travellers</em> Say
-          </h2>
-
-          <div className="relative mt-12">
-            <div className="rounded-3xl border border-slate-100 bg-slate-50 p-8 shadow-sm md:p-12">
-              <FaQuoteLeft className="mx-auto mb-6 text-3xl text-yellow-400 opacity-60" />
-              <p className="text-lg leading-relaxed text-slate-700 md:text-xl">
-                {TESTIMONIALS[testimonialIdx].text}
+      {/* ══════════════════════ GALLERY ══════════════════════ */}
+      <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
+                Memories
+              </span>
+              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
+                Through the <em className="italic text-yellow-500">Lens</em>
+              </h2>
+              <p className="mt-2 text-sm text-slate-500">
+                Real trips, real smiles — a glimpse of the journeys we craft.
               </p>
-              <div className="mt-8 flex items-center justify-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-500 font-bold text-black">
-                  {TESTIMONIALS[testimonialIdx].avatar}
-                </div>
-                <div className="text-left">
-                  <div className="font-semibold text-slate-900">
-                    {TESTIMONIALS[testimonialIdx].name}
-                  </div>
-                  <div className="text-sm text-slate-500">
-                    {TESTIMONIALS[testimonialIdx].location}
-                  </div>
-                </div>
-                <div className="flex gap-0.5 text-yellow-400">
-                  {Array.from({ length: TESTIMONIALS[testimonialIdx].rating }).map((_, i) => (
-                    <FaStar key={i} className="text-sm" />
-                  ))}
-                </div>
-              </div>
             </div>
+            <Link
+              href="/gallery"
+              className="shrink-0 inline-flex items-center gap-2 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
+            >
+              <FaImages />
+              View Full Gallery
+            </Link>
+          </div>
 
-            <div className="mt-6 flex justify-center gap-3">
-              <button
-                onClick={() =>
-                  setTestimonialIdx((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
-                }
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition hover:border-yellow-500 hover:text-yellow-500"
+          {/* Mobile: simple 2-col grid */}
+          <div className="grid grid-cols-2 gap-3 sm:hidden">
+            {galleryImages.map((img, i) => (
+              <Link
+                key={i}
+                href="/gallery"
+                className="group relative h-[160px] overflow-hidden rounded-xl shadow-md"
               >
-                <FaChevronLeft className="text-sm" />
-              </button>
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setTestimonialIdx(i)}
-                  className={`h-3 rounded-full transition-all ${
-                    i === testimonialIdx ? "w-8 bg-yellow-500" : "w-3 bg-slate-300"
-                  }`}
+                <div
+                  className="absolute inset-0"
+                  style={{ background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)" }}
                 />
-              ))}
-              <button
-                onClick={() => setTestimonialIdx((p) => (p + 1) % TESTIMONIALS.length)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition hover:border-yellow-500 hover:text-yellow-500"
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="50vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="rounded-full bg-white/20 px-3 py-1.5 text-[0.72rem] font-semibold text-white backdrop-blur-sm">
+                    View →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Desktop: bento grid */}
+          <div className="hidden sm:grid sm:auto-rows-[200px] sm:grid-cols-3 sm:gap-4">
+            {galleryImages.map((img, i) => (
+              <Link
+                key={i}
+                href="/gallery"
+                className={`${img.span} group relative overflow-hidden rounded-2xl shadow-md`}
               >
-                <FaChevronRight className="text-sm" />
-              </button>
-            </div>
+                <div
+                  className="absolute inset-0"
+                  style={{ background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)" }}
+                />
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="rounded-full bg-white/20 px-4 py-2 text-[0.8rem] font-semibold text-white backdrop-blur-sm">
+                    View Gallery →
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
-      </section> */}
-
-     {/* ══════════════════════ GALLERY ══════════════════════ */}
-<section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
-  <div className="mx-auto max-w-6xl">
-    {/* Header */}
-    <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-      <div>
-        <span className="inline-block rounded bg-yellow-500/10 px-3.5 py-1 text-[0.72rem] font-bold uppercase tracking-[0.22em] text-yellow-600">
-          Memories
-        </span>
-        <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
-          Through the <em className="italic text-yellow-500">Lens</em>
-        </h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Real trips, real smiles — a glimpse of the journeys we craft.
-        </p>
-      </div>
-      <Link
-        href="/gallery"
-        className="shrink-0 inline-flex items-center gap-2 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
-      >
-        <FaImages />
-        View Full Gallery
-      </Link>
-    </div>
-
-    {/* Mobile: simple 2-col grid */}
-    <div className="grid grid-cols-2 gap-3 sm:hidden">
-      {galleryImages.map((img, i) => (
-        <Link
-          key={i}
-          href="/gallery"
-          className="group relative h-[160px] overflow-hidden rounded-xl shadow-md"
-        >
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)" }}
-          />
-          <Image
-            src={img.src}
-            alt={img.alt}
-            fill
-            sizes="50vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span className="rounded-full bg-white/20 px-3 py-1.5 text-[0.72rem] font-semibold text-white backdrop-blur-sm">
-              View →
-            </span>
-          </div>
-        </Link>
-      ))}
-    </div>
-
-    {/* Desktop: bento grid */}
-    <div className="hidden sm:grid sm:auto-rows-[200px] sm:grid-cols-3 sm:gap-4">
-      {galleryImages.map((img, i) => (
-        <Link
-          key={i}
-          href="/gallery"
-          className={`${img.span} group relative overflow-hidden rounded-2xl shadow-md`}
-        >
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)" }}
-          />
-          <Image
-            src={img.src}
-            alt={img.alt}
-            fill
-            sizes="(max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/30" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span className="rounded-full bg-white/20 px-4 py-2 text-[0.8rem] font-semibold text-white backdrop-blur-sm">
-              View Gallery →
-            </span>
-          </div>
-        </Link>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════ CTA BANNER ══════════════════════ */}
       <section className="relative overflow-hidden bg-yellow-500 px-6 py-16 text-center md:px-12">
@@ -621,7 +558,7 @@ export default function Dashboard() {
       </section>
 
       {/* ══════════════════════ FLOATING WHATSAPP ══════════════════════ */}
-        <a
+      <a
         href={WHATSAPP}
         target="_blank"
         rel="noreferrer"
