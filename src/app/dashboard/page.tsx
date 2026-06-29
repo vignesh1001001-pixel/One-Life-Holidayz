@@ -23,8 +23,8 @@ const SLIDES = [
   { src: "/images/dashboard/01.jpg", label: "Kashmir — Heaven on Earth" },
   { src: "/images/dashboard/02.jpg", label: "Kerala — God's Own Country" },
   { src: "/images/dashboard/03.jpg", label: "Maldives — Overwater Paradise" },
-  { src: "/images/dashboard/04.jpg", label: "Maldives — Overwater Paradise" },
-  { src: "/images/dashboard/05.jpg", label: "Maldives — Overwater Paradise" },
+  { src: "/images/dashboard/04.jpeg", label: "Maldives — Overwater Paradise" },
+  { src: "/images/dashboard/05.jpeg", label: "Maldives — Overwater Paradise" },
 ];
 
 const QUOTES = [
