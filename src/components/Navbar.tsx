@@ -49,29 +49,29 @@ export default function Navbar() {
             : "bg-white backdrop-blur-md border-b border-white/10"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 sm:h-20 px-6">
+        <div className="flex items-center justify-between h-16 sm:h-20 pl-2 pr-6 sm:pl-3 sm:pr-8 lg:pl-4 lg:pr-10">
 
-          {/* Logo */}
-          <Link href="/">
-            <div className="relative h-12 w-36 sm:h-16 sm:w-44 lg:h-20 lg:w-56">
+          {/* Logo — flush to the left corner */}
+          <Link href="/" className="shrink-0">
+            <div className="relative h-14 w-40 sm:h-[4.5rem] sm:w-52 lg:h-24 lg:w-64">
               <Image
                 src="/images/logo/logo.png"
                 alt="One Life Holidayz"
                 fill
-                sizes="(max-width: 640px) 112px, (max-width: 1024px) 176px, 224px"
+                sizes="(max-width: 640px) 160px, (max-width: 1024px) 208px, 256px"
                 priority
                 className="object-contain"
               />
             </div>
           </Link>
 
-          {/* Desktop Menu */}
-          <nav className="hidden xl:flex items-center gap-8">
+          {/* Desktop Menu — bigger text */}
+          <nav className="hidden xl:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className={`flex items-center gap-2 text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 text-base font-semibold transition-all ${
                   isActive(link.href)
                     ? "text-yellow-500 border-b-2 border-yellow-500 pb-1"
                     : isScrolled
@@ -79,7 +79,7 @@ export default function Navbar() {
                     : "text-slate-800 hover:text-yellow-400"
                 }`}
               >
-                {link.icon}
+                <span className="text-lg">{link.icon}</span>
                 {link.name}
               </Link>
             ))}
@@ -89,10 +89,9 @@ export default function Navbar() {
           <div className="hidden xl:block">
             <Link
               href="/trips"
-              className="rounded-full bg-yellow-500 px-6 py-3 text-black font-semibold hover:bg-yellow-400 transition"
+              className="rounded-full bg-yellow-500 px-7 py-3.5 text-base text-black font-bold hover:bg-yellow-400 transition"
             >
-             Request a Quotation
-            
+              Request a Quotation
             </Link>
           </div>
 
@@ -141,7 +140,7 @@ export default function Navbar() {
               key={link.name}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className={`flex items-center gap-3 px-6 py-4 border-b transition ${
+              className={`flex items-center gap-3 px-6 py-4 border-b text-base font-medium transition ${
                 isActive(link.href)
                   ? "bg-yellow-50 text-yellow-600"
                   : "hover:bg-yellow-50"
