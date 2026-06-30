@@ -122,9 +122,8 @@ export default function Dashboard() {
             alt={slide.label}
             fill
             priority={i === 0}
-            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${
-              current === i ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 object-cover transition-opacity duration-1000 ${current === i ? "opacity-100" : "opacity-0"
+              }`}
           />
         ))}
 
@@ -308,11 +307,10 @@ export default function Dashboard() {
                   el.scrollTo({ left: cardWidth * i, behavior: "smooth" });
                   setDestIdx(i);
                 }}
-                className={`block rounded-full transition-all duration-300 ${
-                  i === destIdx
-                    ? "h-3 w-6 bg-teal-600"
-                    : "h-3 w-3 border-2 border-slate-400 bg-transparent hover:border-teal-400"
-                }`}
+                className={`block rounded-full transition-all duration-300 ${i === destIdx
+                  ? "h-3 w-6 bg-teal-600"
+                  : "h-3 w-3 border-2 border-slate-400 bg-transparent hover:border-teal-400"
+                  }`}
               />
             ))}
           </div>
@@ -553,7 +551,7 @@ export default function Dashboard() {
               href="/contact"
               className="flex items-center gap-2 rounded-full border-2 border-black px-8 py-4 font-semibold text-black transition-all hover:bg-black hover:text-white"
             >
-              Request a Quote
+              Request a Quotation
             </Link>
           </div>
         </div>

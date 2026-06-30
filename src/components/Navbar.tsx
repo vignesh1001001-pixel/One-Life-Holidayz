@@ -43,11 +43,10 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isScrolled
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
             ? "bg-white shadow-md border-b border-slate-100"
             : "bg-white backdrop-blur-md border-b border-white/10"
-        }`}
+          }`}
       >
         <div className="flex items-center justify-between h-16 sm:h-20 pl-2 pr-6 sm:pl-3 sm:pr-8 lg:pl-4 lg:pr-10">
 
@@ -71,13 +70,12 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`flex items-center gap-2 text-base font-semibold transition-all ${
-                  isActive(link.href)
+                className={`flex items-center gap-2 text-base font-semibold transition-all ${isActive(link.href)
                     ? "text-yellow-500 border-b-2 border-yellow-500 pb-1"
                     : isScrolled
-                    ? "text-slate-800 hover:text-yellow-500"
-                    : "text-slate-800 hover:text-yellow-400"
-                }`}
+                      ? "text-slate-800 hover:text-yellow-500"
+                      : "text-slate-800 hover:text-yellow-400"
+                  }`}
               >
                 <span className="text-lg">{link.icon}</span>
                 {link.name}
@@ -108,16 +106,14 @@ export default function Navbar() {
       {/* Overlay */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`fixed inset-0 bg-black/60 z-40 transition ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        } xl:hidden`}
+        className={`fixed inset-0 bg-black/60 z-40 transition ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          } xl:hidden`}
       />
 
       {/* Mobile Drawer */}
       <aside
-        className={`fixed right-0 top-0 h-screen w-80 bg-white z-50 transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed right-0 top-0 h-screen w-80 bg-white z-50 transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex justify-between items-center p-5 border-b">
           <div className="relative h-12 w-44">
@@ -140,11 +136,10 @@ export default function Navbar() {
               key={link.name}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className={`flex items-center gap-3 px-6 py-4 border-b text-base font-medium transition ${
-                isActive(link.href)
+              className={`flex items-center gap-3 px-6 py-4 border-b text-base font-medium transition ${isActive(link.href)
                   ? "bg-yellow-50 text-yellow-600"
                   : "hover:bg-yellow-50"
-              }`}
+                }`}
             >
               {link.icon}
               {link.name}
