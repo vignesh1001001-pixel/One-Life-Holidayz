@@ -77,7 +77,7 @@ export default function DestinationsPage() {
             {/* Background Image */}
             <div className="absolute inset-0">
               <Image
-                src="/images/destinations/munnar.jpg"
+                src="/images/romantic/01.jpeg"
                 alt="Romantic South India"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -142,7 +142,7 @@ export default function DestinationsPage() {
             {/* Background Image */}
             <div className="absolute inset-0">
               <Image
-                src="/images/destinations/manali.jpg"
+                src="/images/northindia/01.jpeg"
                 alt="Incredible North India"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

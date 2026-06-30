@@ -5,14 +5,14 @@ import PageHero from "@/components/PageHero";
 import SectionHeader from "@/components/SectionHeader";
 import { HONEYMOON_PICKS, DOMESTIC_PICKS } from "@/lib/destinations";
 
-export default function DomesticPage() {
+export default function NorthIndiaPage() {
   return (
     <main>
       <PageHero
         eyebrow="Incredible India"
-        title="Domestic Destinations"
+        title="North India Destinations"
         highlight="Destinations"
-        subtitle="From snow-capped Himalayas to tropical backwaters — every corner of India is a world of its own"
+        subtitle="From snow-capped Himalayas to ancient temples and royal palaces — discover the soul of North India"
         gradient="linear-gradient(135deg, #0a1628 0%, #1a3a78 50%, #0d3b2e 100%)"
       />
 
@@ -39,11 +39,11 @@ export default function DomesticPage() {
         </div>
       </section>
 
-      {/* Honeymoon Section */}
+      {/* Honeymoon Section — North India */}
       <section className="bg-white px-[5%] pb-16 pt-4">
         <SectionHeader
           eyebrow="Honeymoon Specials"
-          title="South India Romance"
+          title="North India Romance"
           highlight="Romance"
           align="left"
         />
@@ -84,8 +84,8 @@ export default function DomesticPage() {
       <section className="bg-slate-50 px-[5%] pb-20 pt-4">
         <SectionHeader
           eyebrow="Explore India"
-          title="Best of Domestic India"
-          highlight="Domestic India"
+          title="Best of North India"
+          highlight="North India"
           align="left"
         />
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
@@ -129,7 +129,7 @@ export default function DomesticPage() {
             href="/contact"
             className="inline-flex items-center rounded-full bg-yellow-500 px-8 py-[13px] text-[0.95rem] font-bold tracking-wide text-black shadow-lg transition-all hover:-translate-y-0.5 hover:bg-yellow-400"
           >
-            Plan My Domestic Trip →
+            Plan My North India Trip →
           </Link>
         </div>
       </section>
