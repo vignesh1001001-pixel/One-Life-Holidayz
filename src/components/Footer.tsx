@@ -41,9 +41,11 @@ const DESTINATION_LINKS = [
   "Kedarnath",
   "Manali",
   "Munnar",
-  "Thailand",
-  "Maldives",
-  "Dubai",
+  "Goa",
+  "Rajasthan",
+  "Kodaikannal",
+  "Wayanad",
+  "Ooty",
 ];
 
 export default function Footer() {
