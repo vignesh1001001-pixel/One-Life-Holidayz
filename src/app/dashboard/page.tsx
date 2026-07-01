@@ -20,15 +20,12 @@ import {
 import { TOUR_CATEGORIES, DOMESTIC_DESTINATIONS, TRIP_PACKAGES } from "@/lib/explore-data";
 
 const SLIDES = [
-  { src: "/images/dashboard/01.jpeg", label: "Kashmir — Heaven on Earth" },
+  { src: "/images/dashboard/01.png", label: "Kashmir — Heaven on Earth" },
   { src: "/images/dashboard/02.png", label: "Kerala — God's Own Country" },
-  { src: "/images/dashboard/03.png", label: "Maldives — Overwater Paradise" },
+  { src: "/images/dashboard/03.jpg", label: "Maldives — Overwater Paradise" },
   { src: "/images/dashboard/04.jpg", label: "Maldives — Overwater Paradise" },
-  { src: "/images/dashboard/05.jpg", label: "Maldives — Overwater Paradise" },
-  { src: "/images/dashboard/06.png", label: "Maldives — Overwater Paradise" },
-  { src: "/images/dashboard/07.jpeg", label: "Maldives — Overwater Paradise" },
-  { src: "/images/dashboard/08.jpg", label: "Maldives — Overwater Paradise" },
-
+  { src: "/images/dashboard/05.png", label: "Maldives — Overwater Paradise" },
+  { src: "/images/dashboard/06.jpg", label: "Maldives — Overwater Paradise" },
 ];
 
 const QUOTES = [
