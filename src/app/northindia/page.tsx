@@ -80,7 +80,23 @@ export default function NorthIndiaPage() {
         </div>
       </section>
 
+      {/* All Domestic Destinations */}
+      <section className="bg-slate-50 px-[5%] pb-20 pt-2">
      
+
+        {/* CTA */}
+        <div className="mt-12 text-center">
+          <p className="mb-4 text-[0.95rem] text-slate-600">
+            Looking for a custom itinerary? Tell us your dates & group size.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center rounded-full bg-yellow-500 px-8 py-[13px] text-[0.95rem] font-bold tracking-wide text-black shadow-lg transition-all hover:-translate-y-0.5 hover:bg-yellow-400"
+          >
+            Plan My North India Trip →
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }
