@@ -105,7 +105,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">Email</div>
-                  <div className="mt-0.5 font-semibold text-slate-900">onelifeholidayz@gmail.com</div>
+                  <div className="mt-0.5 font-semibold text-slate-900">hello@onelifeholidayz.in</div>
                 </div>
               </a>
 

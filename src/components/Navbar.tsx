@@ -49,63 +49,60 @@ export default function Navbar() {
         }`}
       >
         <div
-          className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
-          style={{ height: "72px" }}
+          className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-3 sm:px-4 lg:px-6"
+          style={{ height: "84px" }}
         >
-          {/* Logo + Desktop Navigation */}
-          <div className="flex items-center gap-10">
-            {/* Logo */}
-            <Link href="/" className="shrink-0 flex items-center">
-              <div className="relative h-12 w-36 sm:h-14 sm:w-44 lg:h-16 lg:w-52">
-                <Image
-                  src="/images/logo/logo.png"
-                  alt="One Life Holidayz"
-                  fill
-                  sizes="(max-width:640px) 144px, (max-width:1024px) 176px, 208px"
-                  priority
-                  className="object-contain"
-                />
-              </div>
-            </Link>
+          {/* Logo — pinned to the far left edge */}
+          <Link href="/" className="flex shrink-0 items-center -ml-1 sm:-ml-2">
+            <div className="relative h-16 w-44 sm:h-[4.75rem] sm:w-56 lg:h-24 lg:w-64">
+              <Image
+                src="/images/logo/logo.png"
+                alt="One Life Holidayz"
+                fill
+                sizes="(max-width:640px) 176px, (max-width:1024px) 224px, 256px"
+                priority
+                className="object-contain object-left"
+              />
+            </div>
+          </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden xl:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`relative flex items-center gap-2 px-4 py-2 rounded-full text-[0.9rem] font-semibold transition-all duration-200 ${
-                    isActive(link.href)
-                      ? "text-yellow-600 bg-yellow-50"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                  }`}
-                >
-                  <span className="text-[0.8rem]">{link.icon}</span>
-                  {link.name}
+          {/* Desktop Navigation */}
+          <nav className="hidden flex-1 items-center justify-center gap-1 xl:flex">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`relative flex items-center gap-2 px-4 py-2 rounded-full text-[0.9rem] font-semibold transition-all duration-200 ${
+                  isActive(link.href)
+                    ? "text-yellow-600 bg-yellow-50"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                <span className="text-[0.8rem]">{link.icon}</span>
+                {link.name}
 
-                  {isActive(link.href) && (
-                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-yellow-400" />
-                  )}
-                </Link>
-              ))}
-            </nav>
-          </div>
+                {isActive(link.href) && (
+                  <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-yellow-400" />
+                )}
+              </Link>
+            ))}
+          </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden xl:flex items-center ml-auto">
+          {/* Desktop CTA — pinned to the far right edge */}
+          <div className="hidden shrink-0 items-center xl:flex -mr-1 sm:-mr-2">
             <Link
               href="/contact"
-              className="mr-auto flex items-center gap-2 rounded-full bg-yellow-400 px-6 py-2.5 text-[0.85rem] font-bold text-black shadow-md shadow-yellow-200 transition-all hover:bg-yellow-300 hover:scale-105 whitespace-nowrap"
+              className="flex items-center gap-2 rounded-full bg-yellow-400 px-6 py-2.5 text-[0.85rem] font-bold text-black shadow-md shadow-yellow-200 transition-all hover:bg-yellow-300 hover:scale-105 whitespace-nowrap"
             >
               <FaPlaneDeparture className="text-sm" />
               Get a Quote
             </Link>
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger — pinned to the far right edge */}
           <button
             onClick={() => setIsOpen(true)}
-            className="xl:hidden ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-yellow-100 hover:text-yellow-600"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-yellow-100 hover:text-yellow-600 xl:hidden -mr-1"
           >
             <FaBars className="text-lg" />
           </button>
@@ -128,13 +125,13 @@ export default function Navbar() {
       >
         {/* Drawer Header */}
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-          <div className="relative h-10 w-36">
+          <div className="relative h-12 w-40">
             <Image
               src="/images/logo/logo.png"
               alt="One Life Holidayz"
               fill
-              sizes="144px"
-              className="object-contain"
+              sizes="160px"
+              className="object-contain object-left"
             />
           </div>
 
