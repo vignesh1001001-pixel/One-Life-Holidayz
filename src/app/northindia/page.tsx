@@ -38,38 +38,39 @@ export default function NorthIndiaPage() {
           </div>
         </div>
       </section>
+      
 
-      {/* Honeymoon Section — North India */}
-      <section className="bg-white px-[5%] pb-16 pt-4">
+      {/* All Domestic Destinations */}
+      <section className="bg-slate-50 px-[5%] pb-20 pt-4">
         <SectionHeader
-          eyebrow="Honeymoon Specials"
-          title="North India Romance"
-          highlight="Romance"
+          eyebrow="Explore India"
+          title="Best of North India"
+          highlight="North India"
           align="left"
         />
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-5 sm:grid-cols-3">
-          {HONEYMOON_PICKS.map((dest) => (
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+          {DOMESTIC_PICKS.map((dest) => (
             <Link
               key={dest.slug}
               href={`/contact?destination=${dest.slug}`}
               className="group relative overflow-hidden rounded-2xl shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="relative h-52 w-full overflow-hidden">
+              <div className="relative h-44 w-full overflow-hidden">
                 <Image
                   src={dest.img}
                   alt={dest.name}
                   fill
-                  sizes="(max-width: 640px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 {/* Tag */}
-                <div className="absolute left-3 top-3 rounded-full bg-rose-500/90 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wider text-white backdrop-blur-sm">
+                <div className="absolute left-2 top-2 rounded-full bg-yellow-500/90 px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider text-black">
                   {dest.tag}
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div className="font-serif text-[1.1rem] font-bold text-white">{dest.name}</div>
-                  <div className="flex items-center gap-1 text-[0.75rem] text-white/75">
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <div className="font-serif text-[1rem] font-bold text-white">{dest.name}</div>
+                  <div className="flex items-center gap-1 text-[0.72rem] text-white/75">
                     <MapPin className="h-3 w-3" />
                     {dest.sub}
                   </div>
@@ -78,11 +79,6 @@ export default function NorthIndiaPage() {
             </Link>
           ))}
         </div>
-      </section>
-
-      {/* All Domestic Destinations */}
-      <section className="bg-slate-50 px-[5%] pb-20 pt-2">
-     
 
         {/* CTA */}
         <div className="mt-12 text-center">
