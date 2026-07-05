@@ -274,9 +274,9 @@ export default function Dashboard() {
                     <FaMapMarkerAlt className="text-xs text-teal-500" />
                     {dest.tagline}, India
                   </p>
-                  <p className="mt-2 text-lg font-black text-slate-900">
+                  <p className="mt-2 text-[0.7rem] text-slate-400">Starting from</p>
+                  <p className="text-lg font-black text-slate-900">
                     ₹{dest.price.toLocaleString("en-IN")}
-                    <span className="text-sm font-normal text-slate-500"> /Person</span>
                   </p>
                   <div className="mt-auto flex items-center justify-between pt-4">
                     <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
@@ -387,14 +387,19 @@ export default function Dashboard() {
                     ))}
                   </div>
 
+                  <p className="mt-3 text-[0.7rem] text-slate-400">Starting from</p>
+                  <p className="font-serif text-xl font-bold text-slate-900">
+                    ₹{pkg.price.toLocaleString("en-IN")}
+                  </p>
+
                   <div className="mt-auto flex items-center justify-between pt-4">
-                    <div>
-                      <span className="text-[0.7rem] text-slate-400">Starting from</span>
-                      <div className="font-serif text-xl font-bold text-slate-900">
-                        ₹{pkg.price.toLocaleString("en-IN")}
-                      </div>
-                    </div>
-                    <span className="text-xs text-slate-400">{pkg.duration}</span>
+                    <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
+                      <FaClock className="text-xs" />
+                      {pkg.duration}
+                    </span>
+                    <span className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition group-hover:border-yellow-500 group-hover:text-yellow-600">
+                      Book Now <FaChevronRight className="text-[0.6rem]" />
+                    </span>
                   </div>
                 </div>
               </Link>
