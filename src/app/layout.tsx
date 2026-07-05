@@ -3,10 +3,18 @@ import {
   Poppins,
   Cormorant_Garamond,
   Great_Vibes,
+  Arvo,
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const arvo = Arvo({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-arvo", // renamed — no longer clashes with --font-quote
+  display: "swap",
+});
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -39,7 +47,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${cormorant.variable} ${greatVibes.variable}`}
+      className={`${poppins.variable} ${cormorant.variable} ${greatVibes.variable} ${arvo.variable}`}
     >
       <body className="font-[var(--font-body)]">
         <Navbar />

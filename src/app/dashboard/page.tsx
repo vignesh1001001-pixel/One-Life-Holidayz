@@ -154,11 +154,6 @@ export default function Dashboard() {
               <span className="italic text-yellow-400">cherish them</span> for a lifetime.
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-gray-200 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] sm:text-base md:text-lg">
-              Handcrafted journeys through India and across the world — where every adventure
-              becomes a story worth sharing.
-            </p>
-
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link
                 href="/trips"
@@ -273,7 +268,7 @@ export default function Dashboard() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="flex flex-1 flex-col p-4">
+                <div className="flex flex-1 flex-col p-4 bg-[#FAF0E6]">
                   <h3 className="text-base font-bold text-slate-900">{dest.name}</h3>
                   <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] text-slate-500">
                     <FaMapMarkerAlt className="text-xs text-teal-500" />
@@ -368,7 +363,7 @@ export default function Dashboard() {
                     </span>
                   )}
                 </div>
-                <div className="flex flex-1 flex-col p-5">
+                <div className="flex flex-1 flex-col p-5 bg-[#EAF5EA]">
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="font-serif text-lg font-bold text-slate-900">{pkg.name}</h3>

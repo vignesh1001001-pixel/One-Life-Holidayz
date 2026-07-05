@@ -43,9 +43,9 @@ export default function DestinationsPage() {
     <main>
       <PageHero
         eyebrow="The World Awaits"
-        title="Find Your Next Adventure"
-        highlight="Adventure"
-        subtitle="From international escapes to the hidden gems of India — we craft journeys you'll remember forever"
+        title="Discover your next Story"
+        highlight="Story"
+        subtitle=""
         gradient="linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)"
       />
 

@@ -304,9 +304,9 @@ export default function PackagesPage() {
     <main>
       <PageHero
         eyebrow="Our Packages"
-        title="Find Your Perfect"
-        highlight="Package"
-        subtitle="Handcrafted itineraries for every kind of traveller — budget to luxury, hills to beaches."
+        title="Pick a package. Start your "
+        highlight="journey."
+        subtitle=""
         gradient="linear-gradient(135deg, #0a1628 0%, #1e3a6e 100%)"
       />
 

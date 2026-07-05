@@ -13,9 +13,9 @@ export default function GalleryPage() {
     <main>
       <PageHero
         eyebrow="Our Memories"
-        title="Moments That Last"
-        highlight="Last"
-        subtitle="Every photo tells a story — real trips, real people, real joy."
+        title="Every frame tells a story"
+        highlight="story"
+        subtitle=""
         gradient="linear-gradient(135deg, #0a1628 0%, #1a3a78 100%)"
       />
 

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FaWhatsapp, FaHeart, FaMapMarkedAlt, FaUsers, FaStar } from "react-icons/fa";
+import { FaWhatsapp, FaHeart, FaMapMarkedAlt, FaUsers, FaStar, FaCompass, FaBullseye, FaHandshake } from "react-icons/fa";
 import PageHero from "@/components/PageHero";
 import SectionHeader from "@/components/SectionHeader";
 
 export const metadata: Metadata = {
   title: "About Us | One Life Holidayz",
   description:
-    "We are a Chennai-based travel company crafting unforgettable journeys across India and beyond.",
+    "One Life Holidayz — More Than Travel, We Create Memories. A Chennai-based travel company crafting unforgettable journeys across India and beyond.",
 };
 
 const TEAM = [
@@ -39,14 +39,32 @@ const MILESTONES = [
   { year: "2024", event: "Crossed 1,000 happy travellers and a 4.9★ average rating." },
 ];
 
+const PILLARS = [
+  {
+    icon: <FaCompass />,
+    title: "Our Vision",
+    text: "To inspire people to explore the world with confidence, creating lifelong memories through exceptional travel experiences.",
+  },
+  {
+    icon: <FaBullseye />,
+    title: "Our Mission",
+    text: "To deliver safe, personalised, and memorable travel experiences by combining expert planning, trusted service, and genuine hospitality.",
+  },
+  {
+    icon: <FaHandshake />,
+    title: "Our Promise",
+    text: "One Journey. Endless Memories. One Life Holidayz.",
+  },
+];
+
 export default function AboutPage() {
   return (
     <main>
       <PageHero
-        eyebrow="Our Story"
+        eyebrow="Let's Go Together"
         title="About One Life Holidayz"
         highlight="One Life"
-        subtitle="Born in Chennai, built on passion — we believe everyone deserves to live their best travel story."
+        subtitle="More Than Travel, We Create Memories."
         gradient="linear-gradient(135deg, #0a1628 0%, #1a2e5a 100%)"
       />
 
@@ -63,14 +81,15 @@ export default function AboutPage() {
                 <em className="italic text-yellow-500">We Craft Memories</em>
               </h2>
               <p className="mt-5 leading-relaxed text-slate-600">
-                One Life Holidayz started with a simple belief: travel should be effortless, personal, and
-                transformative. We are a small, passionate team based in Chennai, and every itinerary we build
-                is treated like our own holiday.
+                At <strong className="text-slate-900">One Life Holidayz</strong>, we don&apos;t just plan
+                vacations — we craft unforgettable journeys that inspire, connect, and create lifelong
+                memories. Whether you&apos;re planning a family holiday, a romantic escape, a solo adventure,
+                a stranger trip, or a group trip with new friends, every experience is thoughtfully designed
+                with comfort, excitement, and genuine hospitality.
               </p>
               <p className="mt-4 leading-relaxed text-slate-600">
-                From misty hill stations in the Nilgiris to overwater villas in the Maldives — we cover it all
-                with the same attention to detail that makes you feel cared for from the moment you book to the
-                moment you return home.
+                Because life is too short for ordinary trips — travel once, cherish forever with{" "}
+                One Life Holidayz.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
@@ -129,8 +148,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Our Story / Timeline ── */}
+      {/* ── Vision / Mission / Promise ── */}
       <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader
+            eyebrow="What Drives Us"
+            title="Our Vision, Mission & Promise"
+            highlight="Promise"
+          />
+          <div className="grid gap-6 sm:grid-cols-3">
+            {PILLARS.map((p) => (
+              <div
+                key={p.title}
+                className="flex flex-col items-center rounded-2xl border border-slate-100 bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-yellow-500/10 text-2xl text-yellow-500">
+                  {p.icon}
+                </div>
+                <h3 className="mt-5 font-serif text-xl font-bold text-slate-900">{p.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">{p.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Our Story / Timeline ── */}
+      <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
         <div className="mx-auto max-w-3xl">
           <SectionHeader eyebrow="Milestones" title="Our Journey So Far" highlight="Journey" />
           <div className="relative mt-10 space-y-8 before:absolute before:left-7 before:top-0 before:h-full before:w-0.5 before:bg-yellow-300 sm:before:left-[88px]">
@@ -139,7 +183,7 @@ export default function AboutPage() {
                 <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-yellow-500 font-serif font-bold text-black shadow-md sm:w-[120px]">
                   {m.year}
                 </div>
-                <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm flex-1">
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 shadow-sm flex-1">
                   <p className="leading-relaxed text-slate-700">{m.event}</p>
                 </div>
               </div>
@@ -149,7 +193,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Team ── */}
-      <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
+      <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
         <div className="mx-auto max-w-5xl">
           <SectionHeader
             eyebrow="The Team"
@@ -160,7 +204,7 @@ export default function AboutPage() {
             {TEAM.map((member) => (
               <div
                 key={member.name}
-                className="flex flex-col items-center rounded-2xl border border-slate-100 bg-slate-50 p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="flex flex-col items-center rounded-2xl border border-slate-100 bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="flex h-20 w-20 items-center justify-center rounded-full bg-yellow-500 font-serif text-2xl font-bold text-black shadow">
                   {member.initials}
@@ -181,7 +225,7 @@ export default function AboutPage() {
             Ready to Start Your Story?
           </h2>
           <p className="mt-3 text-black/70">
-            Let us plan your dream trip — it only takes one conversation.
+            One Journey. Endless Memories. Let&apos;s go together — it only takes one conversation.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
