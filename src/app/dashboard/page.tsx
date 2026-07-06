@@ -134,25 +134,13 @@ export default function Dashboard() {
         <div className="relative z-10 flex h-full items-center justify-center px-6">
           <div className="mx-auto max-w-5xl text-center text-white">
 
-            {/* Quote — fully visible, strong shadow */}
+            {/* Rotating quote — now the main hero content */}
             <p
-              className="mb-4 text-lg font-semibold tracking-wide text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] transition-all duration-700 sm:text-xl md:text-2xl"
-              style={{ fontFamily: "var(--font-quote)" }}
+              className="text-3xl font-semibold italic tracking-wide text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all duration-700 sm:text-4xl md:text-6xl lg:text-7xl"
+              style={{ fontFamily: "var(--font-heading)" }}
             >
               {QUOTES[currentQuote]}
             </p>
-
-            <h1
-              className="text-4xl font-semibold leading-tight tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              One life to live—
-              <span className="italic text-yellow-400"> travel,</span>
-              <br />
-              make memories, and
-              <br />
-              <span className="italic text-yellow-400">cherish them</span> for a lifetime.
-            </h1>
 
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link

@@ -14,18 +14,21 @@ import {
   ChevronDown,
   Phone,
 } from "lucide-react";
-import { TRIP_PACKAGES } from "@/lib/explore-data";
+import { TRIP_PACKAGES, DOMESTIC_DESTINATIONS } from "@/lib/explore-data";
 import PageHero from "@/components/PageHero";
 
 const ACTIVITIES   = ["Beach", "Trekking", "Camping", "Cultural", "Adventure"];
 const TRIP_TYPES   = ["Domestic", "International"];
-const DESTINATIONS = ["All", "Kerala", "Kashmir", "Goa", "Maldives", "Thailand", "Bali"];
-const MAX_DAYS     = 30;
+
+// ── Duration & Budget bounds (per latest requirements) ──────────
+const MIN_DAYS  = 2;
+const MAX_DAYS  = 15;
+const MAX_PRICE = 60000;
 
 export default function PackagesPage() {
   const [search, setSearch]                     = useState("");
   const [destination, setDestination]           = useState("All");
-  const [maxPrice, setMaxPrice]                 = useState(150000);
+  const [maxPrice, setMaxPrice]                 = useState(MAX_PRICE);
   const [maxDays, setMaxDays]                   = useState(MAX_DAYS);
   const [selectedActivity, setSelectedActivity] = useState<string[]>([]);
   const [selectedTripType, setSelectedTripType] = useState<string[]>([]);
@@ -35,13 +38,24 @@ export default function PackagesPage() {
   const [activityOpen, setActivityOpen]         = useState(true);
   const [tripTypeOpen, setTripTypeOpen]         = useState(true);
 
+  // ── Build the Destination filter list from the SAME data that
+  // powers the "Popular Destination" section on the home screen,
+  // plus any package-only destinations (e.g. Maldives, Thailand)
+  // so nothing on the home page is ever missing here. ────────────
+  const DESTINATIONS = useMemo(() => {
+    const names = new Set<string>();
+    DOMESTIC_DESTINATIONS.forEach((d) => names.add(d.name));
+    TRIP_PACKAGES.forEach((p) => names.add(p.destination));
+    return ["All", ...Array.from(names).sort()];
+  }, []);
+
   const toggle = <T,>(arr: T[], val: T): T[] =>
     arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
 
   const activeFilterCount = useMemo(() => {
     let n = 0;
     if (destination !== "All") n++;
-    if (maxPrice < 150000) n++;
+    if (maxPrice < MAX_PRICE) n++;
     if (maxDays < MAX_DAYS) n++;
     n += selectedActivity.length + selectedTripType.length;
     return n;
@@ -52,10 +66,11 @@ export default function PackagesPage() {
       if (search && !pkg.name.toLowerCase().includes(search.toLowerCase())) return false;
       if (destination !== "All" && !pkg.destination.includes(destination)) return false;
       if (pkg.price > maxPrice) return false;
-      if (maxDays < MAX_DAYS) {
-        const days = parseInt(pkg.duration.match(/\d+/)?.[0] ?? "0", 10);
-        if (days > maxDays) return false;
-      }
+
+      const days = parseInt(pkg.duration.match(/\d+/)?.[0] ?? "0", 10);
+      if (days < MIN_DAYS) return false;
+      if (maxDays < MAX_DAYS && days > maxDays) return false;
+
       if (selectedActivity.length) {
         if (!selectedActivity.some((a) =>
           pkg.highlights.some((h) => h.toLowerCase().includes(a.toLowerCase()))
@@ -78,7 +93,7 @@ export default function PackagesPage() {
   const clearAll = () => {
     setSearch("");
     setDestination("All");
-    setMaxPrice(150000);
+    setMaxPrice(MAX_PRICE);
     setMaxDays(MAX_DAYS);
     setSelectedActivity([]);
     setSelectedTripType([]);
@@ -194,7 +209,7 @@ export default function PackagesPage() {
           </div>
         </div>
 
-        {/* Destination */}
+        {/* Destination — now generated from DOMESTIC_DESTINATIONS + TRIP_PACKAGES */}
         <div className="border-b border-slate-100 py-4">
           <p className="mb-3 text-sm font-semibold text-slate-800">Destination</p>
           <div className="flex flex-wrap gap-2">
@@ -209,7 +224,7 @@ export default function PackagesPage() {
           </div>
         </div>
 
-        {/* Max Budget */}
+        {/* Max Budget — capped at ₹60,000 */}
         <Accordion
           title="Max Budget"
           open={priceOpen}
@@ -218,7 +233,7 @@ export default function PackagesPage() {
           <input
             type="range"
             min="0"
-            max="150000"
+            max={MAX_PRICE}
             step="1000"
             value={maxPrice}
             onChange={(e) => setMaxPrice(Number(e.target.value))}
@@ -226,7 +241,7 @@ export default function PackagesPage() {
           />
           <div className="mt-1 flex justify-between text-xs text-slate-400">
             <span>₹0</span>
-            <span>₹1,50,000</span>
+            <span>₹{MAX_PRICE.toLocaleString("en-IN")}</span>
           </div>
           <div className="mt-2 text-center">
             <span className="inline-block rounded-full bg-yellow-50 px-4 py-1.5 text-xs font-bold text-yellow-600 ring-1 ring-yellow-200">
@@ -235,7 +250,7 @@ export default function PackagesPage() {
           </div>
         </Accordion>
 
-        {/* Duration */}
+        {/* Duration — 2 to 15 days */}
         <Accordion
           title="Duration"
           open={durationOpen}
@@ -243,7 +258,7 @@ export default function PackagesPage() {
         >
           <input
             type="range"
-            min="1"
+            min={MIN_DAYS}
             max={MAX_DAYS}
             step="1"
             value={maxDays}
@@ -251,12 +266,12 @@ export default function PackagesPage() {
             className="w-full cursor-pointer accent-yellow-500"
           />
           <div className="mt-1 flex justify-between text-xs text-slate-400">
-            <span>1 Day</span>
-            <span>30 Days</span>
+            <span>{MIN_DAYS} Days</span>
+            <span>{MAX_DAYS} Days</span>
           </div>
           <div className="mt-2 text-center">
             <span className="inline-block rounded-full bg-yellow-50 px-4 py-1.5 text-xs font-bold text-yellow-600 ring-1 ring-yellow-200">
-              Up to {maxDays} {maxDays === 1 ? "Day" : "Days"}
+              Up to {maxDays} Days
             </span>
           </div>
         </Accordion>
