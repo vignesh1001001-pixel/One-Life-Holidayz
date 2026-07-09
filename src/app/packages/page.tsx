@@ -25,89 +25,28 @@ const MIN_DAYS  = 2;
 const MAX_DAYS  = 15;
 const MAX_PRICE = 60000;
 
-export default function PackagesPage() {
-  const [search, setSearch]                     = useState("");
-  const [destination, setDestination]           = useState("All");
-  const [maxPrice, setMaxPrice]                 = useState(MAX_PRICE);
-  const [maxDays, setMaxDays]                   = useState(MAX_DAYS);
-  const [selectedActivity, setSelectedActivity] = useState<string[]>([]);
-  const [selectedTripType, setSelectedTripType] = useState<string[]>([]);
-  const [sidebarOpen, setSidebarOpen]           = useState(false);
-  const [priceOpen, setPriceOpen]               = useState(true);
-  const [durationOpen, setDurationOpen]         = useState(true);
-  const [activityOpen, setActivityOpen]         = useState(true);
-  const [tripTypeOpen, setTripTypeOpen]         = useState(true);
+// ────────────────────────────────────────────────────────────────
+// IMPORTANT: These are now defined OUTSIDE PackagesPage.
+// Previously they were declared inside the component function body,
+// which meant React got a brand-new function reference for each of
+// them on every re-render (every filter click, every slider drag).
+// React treats a new function reference as a NEW component type, so
+// it unmounted + remounted the whole sidebar on every interaction —
+// that remount is what was resetting your scroll position to the top.
+// Defining them at module scope means they're the same component
+// across renders, so React just re-renders in place. No more jump.
+// ────────────────────────────────────────────────────────────────
 
-  // ── Build the Destination filter list from the SAME data that
-  // powers the "Popular Destination" section on the home screen,
-  // plus any package-only destinations (e.g. Maldives, Thailand)
-  // so nothing on the home page is ever missing here. ────────────
-  const DESTINATIONS = useMemo(() => {
-    const names = new Set<string>();
-    DOMESTIC_DESTINATIONS.forEach((d) => names.add(d.name));
-    TRIP_PACKAGES.forEach((p) => names.add(p.destination));
-    return ["All", ...Array.from(names).sort()];
-  }, []);
-
-  const toggle = <T,>(arr: T[], val: T): T[] =>
-    arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
-
-  const activeFilterCount = useMemo(() => {
-    let n = 0;
-    if (destination !== "All") n++;
-    if (maxPrice < MAX_PRICE) n++;
-    if (maxDays < MAX_DAYS) n++;
-    n += selectedActivity.length + selectedTripType.length;
-    return n;
-  }, [destination, maxPrice, maxDays, selectedActivity, selectedTripType]);
-
-  const filtered = useMemo(() =>
-    TRIP_PACKAGES.filter((pkg) => {
-      if (search && !pkg.name.toLowerCase().includes(search.toLowerCase())) return false;
-      if (destination !== "All" && !pkg.destination.includes(destination)) return false;
-      if (pkg.price > maxPrice) return false;
-
-      const days = parseInt(pkg.duration.match(/\d+/)?.[0] ?? "0", 10);
-      if (days < MIN_DAYS) return false;
-      if (maxDays < MAX_DAYS && days > maxDays) return false;
-
-      if (selectedActivity.length) {
-        if (!selectedActivity.some((a) =>
-          pkg.highlights.some((h) => h.toLowerCase().includes(a.toLowerCase()))
-        )) return false;
-      }
-      if (selectedTripType.length) {
-        const isDomestic = ["india", "kerala", "kashmir", "goa", "rajasthan", "manali"].some(
-          (d) => pkg.destination.toLowerCase().includes(d)
-        );
-        if (
-          !(selectedTripType.includes("Domestic") && isDomestic) &&
-          !(selectedTripType.includes("International") && !isDomestic)
-        ) return false;
-      }
-      return true;
-    }),
-    [search, destination, maxPrice, maxDays, selectedActivity, selectedTripType]
-  );
-
-  const clearAll = () => {
-    setSearch("");
-    setDestination("All");
-    setMaxPrice(MAX_PRICE);
-    setMaxDays(MAX_DAYS);
-    setSelectedActivity([]);
-    setSelectedTripType([]);
-  };
-
-  const Chip = ({
-    label,
-    active,
-    onClick,
-  }: {
-    label: string;
-    active: boolean;
-    onClick: () => void;
-  }) => (
+function Chip({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
     <button
       onClick={onClick}
       className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
@@ -119,18 +58,20 @@ export default function PackagesPage() {
       {label}
     </button>
   );
+}
 
-  const Accordion = ({
-    title,
-    open,
-    onToggle,
-    children,
-  }: {
-    title: string;
-    open: boolean;
-    onToggle: () => void;
-    children: React.ReactNode;
-  }) => (
+function Accordion({
+  title,
+  open,
+  onToggle,
+  children,
+}: {
+  title: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
     <div className="border-b border-slate-100 py-4 last:border-0">
       <button
         onClick={onToggle}
@@ -146,8 +87,68 @@ export default function PackagesPage() {
       {open && <div className="mt-3">{children}</div>}
     </div>
   );
+}
 
-  const SidebarContent = () => (
+// All the props SidebarContent needs, lifted up since it now lives
+// outside PackagesPage and can't close over its state directly.
+interface SidebarContentProps {
+  activeFilterCount: number;
+  clearAll: () => void;
+  setSidebarOpen: (v: boolean) => void;
+  search: string;
+  setSearch: (v: string) => void;
+  DESTINATIONS: string[];
+  destination: string;
+  setDestination: (v: string) => void;
+  priceOpen: boolean;
+  setPriceOpen: (v: boolean) => void;
+  maxPrice: number;
+  setMaxPrice: (v: number) => void;
+  durationOpen: boolean;
+  setDurationOpen: (v: boolean) => void;
+  maxDays: number;
+  setMaxDays: (v: number) => void;
+  activityOpen: boolean;
+  setActivityOpen: (v: boolean) => void;
+  selectedActivity: string[];
+  setSelectedActivity: (v: string[]) => void;
+  tripTypeOpen: boolean;
+  setTripTypeOpen: (v: boolean) => void;
+  selectedTripType: string[];
+  setSelectedTripType: (v: string[]) => void;
+}
+
+function toggle<T>(arr: T[], val: T): T[] {
+  return arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
+}
+
+function SidebarContent({
+  activeFilterCount,
+  clearAll,
+  setSidebarOpen,
+  search,
+  setSearch,
+  DESTINATIONS,
+  destination,
+  setDestination,
+  priceOpen,
+  setPriceOpen,
+  maxPrice,
+  setMaxPrice,
+  durationOpen,
+  setDurationOpen,
+  maxDays,
+  setMaxDays,
+  activityOpen,
+  setActivityOpen,
+  selectedActivity,
+  setSelectedActivity,
+  tripTypeOpen,
+  setTripTypeOpen,
+  selectedTripType,
+  setSelectedTripType,
+}: SidebarContentProps) {
+  return (
     <>
       {/* Drag handle — mobile only */}
       <div className="flex justify-center pb-2 pt-3 lg:hidden">
@@ -182,11 +183,16 @@ export default function PackagesPage() {
         </div>
       </div>
 
-      {/* Scrollable body — key fix: overflow-y-auto + explicit height */}
-      <div
-        className="overflow-y-auto overscroll-contain px-5 pb-16"
-        style={{ maxHeight: "calc(88vh - 80px)" }}
-      >
+      {/*
+        Scroll fix: the height cap + overflow-y-auto now ONLY apply
+        below the lg breakpoint (mobile bottom-sheet). On desktop
+        (lg and up) the sidebar is not height-constrained at all, so
+        there's nothing to scroll — the page itself scrolls normally.
+        This replaces the old inline `style={{ maxHeight: ... }}`,
+        which applied at every breakpoint because inline styles can't
+        be overridden by Tailwind's lg: classes.
+      */}
+      <div className="max-h-[calc(88vh-80px)] overflow-y-auto overscroll-contain px-5 pb-16 lg:max-h-none lg:overflow-visible lg:pb-6">
         {/* Search */}
         <div className="border-b border-slate-100 py-4">
           <div className="relative">
@@ -209,22 +215,23 @@ export default function PackagesPage() {
           </div>
         </div>
 
-        {/* Destination — now generated from DOMESTIC_DESTINATIONS + TRIP_PACKAGES */}
+        {/* Destination */}
         <div className="border-b border-slate-100 py-4">
           <p className="mb-3 text-sm font-semibold text-slate-800">Destination</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 overflow-x-auto whitespace-nowrap pb-1 [&::-webkit-scrollbar]:hidden lg:flex-wrap lg:overflow-visible lg:whitespace-normal lg:pb-0">
             {DESTINATIONS.map((d) => (
-              <Chip
-                key={d}
-                label={d}
-                active={destination === d}
-                onClick={() => setDestination(d)}
-              />
+              <div key={d} className="shrink-0 lg:shrink">
+                <Chip
+                  label={d}
+                  active={destination === d}
+                  onClick={() => setDestination(d)}
+                />
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Max Budget — capped at ₹60,000 */}
+        {/* Max Budget */}
         <Accordion
           title="Max Budget"
           open={priceOpen}
@@ -250,7 +257,7 @@ export default function PackagesPage() {
           </div>
         </Accordion>
 
-        {/* Duration — 2 to 15 days */}
+        {/* Duration */}
         <Accordion
           title="Duration"
           open={durationOpen}
@@ -314,6 +321,101 @@ export default function PackagesPage() {
       </div>
     </>
   );
+}
+
+export default function PackagesPage() {
+  const [search, setSearch]                     = useState("");
+  const [destination, setDestination]           = useState("All");
+  const [maxPrice, setMaxPrice]                 = useState(MAX_PRICE);
+  const [maxDays, setMaxDays]                   = useState(MAX_DAYS);
+  const [selectedActivity, setSelectedActivity] = useState<string[]>([]);
+  const [selectedTripType, setSelectedTripType] = useState<string[]>([]);
+  const [sidebarOpen, setSidebarOpen]           = useState(false);
+  const [priceOpen, setPriceOpen]               = useState(true);
+  const [durationOpen, setDurationOpen]         = useState(true);
+  const [activityOpen, setActivityOpen]         = useState(true);
+  const [tripTypeOpen, setTripTypeOpen]         = useState(true);
+
+  const DESTINATIONS = useMemo(() => {
+    const names = new Set<string>();
+    DOMESTIC_DESTINATIONS.forEach((d) => names.add(d.name));
+    TRIP_PACKAGES.forEach((p) => names.add(p.destination.split(",")[0].trim()));
+    return ["All", ...Array.from(names).sort()];
+  }, []);
+
+  const activeFilterCount = useMemo(() => {
+    let n = 0;
+    if (destination !== "All") n++;
+    if (maxPrice < MAX_PRICE) n++;
+    if (maxDays < MAX_DAYS) n++;
+    n += selectedActivity.length + selectedTripType.length;
+    return n;
+  }, [destination, maxPrice, maxDays, selectedActivity, selectedTripType]);
+
+  const filtered = useMemo(() =>
+    TRIP_PACKAGES.filter((pkg) => {
+      if (search && !pkg.name.toLowerCase().includes(search.toLowerCase())) return false;
+      if (destination !== "All" && !pkg.destination.includes(destination)) return false;
+      if (pkg.price > maxPrice) return false;
+
+      const days = parseInt(pkg.duration.match(/\d+/)?.[0] ?? "0", 10);
+      if (days < MIN_DAYS) return false;
+      if (maxDays < MAX_DAYS && days > maxDays) return false;
+
+      if (selectedActivity.length) {
+        if (!selectedActivity.some((a) =>
+          pkg.highlights.some((h) => h.toLowerCase().includes(a.toLowerCase()))
+        )) return false;
+      }
+      if (selectedTripType.length) {
+        const isDomestic = ["india", "kerala", "kashmir", "goa", "rajasthan", "manali"].some(
+          (d) => pkg.destination.toLowerCase().includes(d)
+        );
+        if (
+          !(selectedTripType.includes("Domestic") && isDomestic) &&
+          !(selectedTripType.includes("International") && !isDomestic)
+        ) return false;
+      }
+      return true;
+    }),
+    [search, destination, maxPrice, maxDays, selectedActivity, selectedTripType]
+  );
+
+  const clearAll = () => {
+    setSearch("");
+    setDestination("All");
+    setMaxPrice(MAX_PRICE);
+    setMaxDays(MAX_DAYS);
+    setSelectedActivity([]);
+    setSelectedTripType([]);
+  };
+
+  const sidebarProps: SidebarContentProps = {
+    activeFilterCount,
+    clearAll,
+    setSidebarOpen,
+    search,
+    setSearch,
+    DESTINATIONS,
+    destination,
+    setDestination,
+    priceOpen,
+    setPriceOpen,
+    maxPrice,
+    setMaxPrice,
+    durationOpen,
+    setDurationOpen,
+    maxDays,
+    setMaxDays,
+    activityOpen,
+    setActivityOpen,
+    selectedActivity,
+    setSelectedActivity,
+    tripTypeOpen,
+    setTripTypeOpen,
+    selectedTripType,
+    setSelectedTripType,
+  };
 
   return (
     <main>
@@ -351,26 +453,25 @@ export default function PackagesPage() {
 
           <div className="flex gap-6">
 
-            {/* Desktop Sidebar */}
+            {/* Desktop Sidebar — no internal scroll, grows naturally */}
             <aside className="hidden w-64 shrink-0 lg:block">
               <div className="sticky top-24 rounded-2xl border border-slate-100 bg-white shadow-sm">
-                <SidebarContent />
+                <SidebarContent {...sidebarProps} />
               </div>
             </aside>
 
-            {/* Mobile Drawer — fixed bottom sheet, NO overflow-hidden on wrapper */}
+            {/* Mobile Drawer — fixed bottom sheet, internal scroll only here */}
             {sidebarOpen && (
               <div className="fixed inset-0 z-50 lg:hidden">
-                {/* Backdrop */}
                 <div
                   className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                   onClick={() => setSidebarOpen(false)}
                 />
-                {/* Sheet — rounded top, no overflow-hidden so inner scroll works */}
-                <div className="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white shadow-2xl"
+                <div
+                  className="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white shadow-2xl"
                   style={{ maxHeight: "88vh" }}
                 >
-                  <SidebarContent />
+                  <SidebarContent {...sidebarProps} />
                 </div>
               </div>
             )}
@@ -400,7 +501,6 @@ export default function PackagesPage() {
                       key={pkg.id}
                       className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                     >
-                      {/* Image */}
                       <div className="relative h-48 w-full overflow-hidden">
                         <Image
                           src={pkg.img}
@@ -421,8 +521,7 @@ export default function PackagesPage() {
                         </div>
                       </div>
 
-                      {/* Body */}
-                      <div className="flex flex-1 flex-col p-4">
+                      <div className="flex flex-1 flex-col p-4 bg-[#FFFBF0]">
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="font-serif text-[1rem] font-bold leading-snug text-slate-900">
                             {pkg.name}
@@ -443,7 +542,7 @@ export default function PackagesPage() {
                           {pkg.highlights.slice(0, 3).map((h) => (
                             <span
                               key={h}
-                              className="rounded-full bg-slate-100 px-2.5 py-1 text-[0.65rem] font-medium text-slate-500"
+                              className="rounded-full bg-white px-2.5 py-1 text-[0.65rem] font-medium text-slate-500 ring-1 ring-slate-100"
                             >
                               {h}
                             </span>
