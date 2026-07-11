@@ -40,7 +40,7 @@ export default function SectionHeader({
         }`}
       >
         {before}
-        {highlight && <em className="italic text-yellow-500">{highlight}</em>}
+        {highlight && <em className="text-yellow-500">{highlight}</em>}
         {after}
       </h2>
       {subtitle && (

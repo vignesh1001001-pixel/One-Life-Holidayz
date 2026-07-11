@@ -33,7 +33,7 @@ export default function PageHero({
         </span>
         <h1 className="mt-3 font-serif text-[clamp(2.2rem,4.5vw,3.5rem)] font-black text-white">
           {before}
-          {highlight && <em className="italic text-yellow-400">{highlight}</em>}
+          {highlight && <em className="text-yellow-400">{highlight}</em>}
           {after}
         </h1>
         <p className="mx-auto mt-3 max-w-[560px] leading-[1.75] text-white/70">{subtitle}</p>

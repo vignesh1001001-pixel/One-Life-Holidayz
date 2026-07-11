@@ -136,7 +136,7 @@ export default function Dashboard() {
 
             {/* Rotating quote — now the main hero content */}
             <p
-              className="text-3xl font-semibold italic tracking-wide text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all duration-700 sm:text-4xl md:text-6xl lg:text-7xl"
+              className="text-3xl font-semibold tracking-wide text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all duration-700 sm:text-4xl md:text-6xl lg:text-7xl"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               {QUOTES[currentQuote]}
@@ -170,7 +170,7 @@ export default function Dashboard() {
               What We Offer
             </span>
             <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
-              Explore by <em className="italic text-yellow-500">Experience</em>
+              Explore by <em className=" text-yellow-500">Experience</em>
             </h2>
             <p className="mx-auto mt-3 max-w-md text-slate-500">
               Choose the kind of adventure that makes your heart race.
@@ -208,7 +208,7 @@ export default function Dashboard() {
       <section className="bg-[#e8f4f8] px-6 py-20 md:px-12 lg:px-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center">
-            <p className="mb-2 font-serif italic text-xl text-teal-700">
+            <p className="mb-2 font-serif text-xl text-teal-700">
               Best Recommended Domestic Tour Places
             </p>
             <h2 className="text-4xl font-black text-slate-900">
@@ -319,7 +319,7 @@ export default function Dashboard() {
                 Packages
               </span>
               <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900">
-                Featured <em className="italic text-yellow-500">Trips</em>
+                Featured <em className=" text-yellow-500">Trips</em>
               </h2>
             </div>
             <Link
@@ -413,7 +413,7 @@ export default function Dashboard() {
               Why Us
             </span>
             <h2 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl">
-              Travel With <em className="italic text-yellow-400">Confidence</em>
+              Travel With <em className=" text-yellow-400">Confidence</em>
             </h2>
           </div>
 
@@ -441,7 +441,7 @@ export default function Dashboard() {
                 Memories
               </span>
               <h2 className="mt-3 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
-                Through the <em className="italic text-yellow-500">Lens</em>
+                Through the <em className=" text-yellow-500">Lens</em>
               </h2>
               <p className="mt-2 text-sm text-slate-500">
                 Real trips, real smiles — a glimpse of the journeys we craft.

@@ -59,7 +59,7 @@ export default function ContactPage() {
           {/* ── Contact Info ── */}
           <div>
             <h2 className="font-serif text-3xl font-bold text-slate-900">
-              We&apos;re Here to <em className="italic text-yellow-500">Help You</em>
+              We&apos;re Here to <em className="text-yellow-500">Help You</em>
             </h2>
             <p className="mt-3 leading-relaxed text-slate-500">
               Got a destination in mind? Not sure where to go? We&apos;re happy to suggest the perfect trip

@@ -521,7 +521,7 @@ export default function PackagesPage() {
                         </div>
                       </div>
 
-                      <div className="flex flex-1 flex-col p-4 bg-[#FFFBF0]">
+                      <div className="flex flex-1 flex-col p-4 bg-[#EAF5EA]">
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="font-serif text-[1rem] font-bold leading-snug text-slate-900">
                             {pkg.name}
@@ -590,7 +590,7 @@ export default function PackagesPage() {
             Can't find what you're looking for?
           </p>
           <h2 className="font-serif text-3xl font-bold text-white md:text-4xl">
-            Build a <em className="italic text-yellow-400">Custom Trip</em>
+            Build a <em className="text-yellow-400">Custom Trip</em>
           </h2>
           <p className="mx-auto mt-4 text-sm leading-relaxed text-white/60">
             Tell us your dates, budget, and dream destination — we'll craft a

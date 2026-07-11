@@ -38,7 +38,7 @@ export default function PopularDestinationCarousel() {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="mx-auto max-w-7xl text-center">
-        <p className="font-serif text-xl italic text-[#0a2540]/70">Top Destination</p>
+        <p className="font-serif text-xl text-[#0a2540]/70">Top Destination</p>
         <h2 className="mt-1 font-sans text-3xl font-extrabold text-[#0a2540] sm:text-4xl">
           Popular Destination
         </h2>

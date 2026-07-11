@@ -78,7 +78,7 @@ export default function AboutPage() {
               </span>
               <h2 className="mt-3 font-serif text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
                 We Don&apos;t Just Plan Trips —<br />
-                <em className="italic text-yellow-500">We Craft Memories</em>
+                <em className="text-yellow-500">We Craft Memories</em>
               </h2>
               <p className="mt-5 leading-relaxed text-slate-600">
                 At <strong className="text-slate-900">One Life Holidayz</strong>, we don&apos;t just plan
@@ -130,31 +130,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Stats ── */}
-      <section className="bg-[#0a1628] px-6 py-14">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:grid-cols-4">
-          {[
-            { icon: <FaMapMarkedAlt />, value: "50+", label: "Destinations" },
-            { icon: <FaUsers />, value: "1k+", label: "Happy Travellers" },
-            { icon: <FaStar />, value: "4.9★", label: "Avg Rating" },
-            { icon: <FaHeart />, value: "3+", label: "Years of Passion" },
-          ].map((s) => (
-            <div key={s.label} className="flex flex-col items-center gap-2 text-center">
-              <div className="text-xl text-yellow-400">{s.icon}</div>
-              <div className="font-serif text-3xl font-bold text-white">{s.value}</div>
-              <div className="text-sm font-medium uppercase tracking-wider text-white/50">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+     
 
       {/* ── Vision / Mission / Promise ── */}
       <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
         <div className="mx-auto max-w-5xl">
           <SectionHeader
             eyebrow="What Drives Us"
-            title="Our Vision, Mission & Promise"
-            highlight="Promise"
+            title=""
+            highlight=""
           />
           <div className="grid gap-6 sm:grid-cols-3">
             {PILLARS.map((p) => (
@@ -192,31 +176,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Team ── */}
-      <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeader
-            eyebrow="The Team"
-            title="People Behind Your Trip"
-            highlight="Your Trip"
-          />
-          <div className="grid gap-6 sm:grid-cols-3">
-            {TEAM.map((member) => (
-              <div
-                key={member.name}
-                className="flex flex-col items-center rounded-2xl border border-slate-100 bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-yellow-500 font-serif text-2xl font-bold text-black shadow">
-                  {member.initials}
-                </div>
-                <h3 className="mt-5 font-serif text-xl font-bold text-slate-900">{member.name}</h3>
-                <p className="mt-1 text-sm font-medium text-yellow-600">{member.role}</p>
-                <p className="mt-3 text-sm leading-relaxed text-slate-500">{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── CTA ── */}
       <section className="bg-yellow-500 px-6 py-16 text-center md:px-12">
