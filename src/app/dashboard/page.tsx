@@ -28,8 +28,8 @@ const SLIDES = [
   { src: "/images/dashboard/06.jpg", label: "Maldives — Overwater Paradise" },
 ];
 
+// "Vacay mode: ON ✈️" removed per request
 const QUOTES = [
-  "Vacay mode: ON ✈️",
   "One life to live — travel, make memories.",
   "Pack your bags, we'll handle the rest!",
   "Your next story starts here.",
@@ -129,20 +129,32 @@ export default function Dashboard() {
         ))}
 
         {/* Fixed gradient overlay */}
-        <div className="absolute inset-0 from-black/60 via-black/50 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
 
-        <div className="relative z-10 flex h-full items-center justify-center px-6">
-          <div className="mx-auto max-w-5xl text-center text-white">
+        <div className="relative z-10 flex h-full items-center px-6 sm:px-8 md:px-12 lg:px-16">
+          <div className="w-full max-w-5xl text-white">
 
-            {/* Rotating quote — now the main hero content */}
-            <p
-              className="text-3xl font-semibold tracking-wide text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all duration-700 sm:text-4xl md:text-6xl lg:text-7xl"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              {QUOTES[currentQuote]}
-            </p>
+            {/* "Welcome to" — redesigned as a small gold eyebrow badge with accent line */}
+            <div className="mb-4 flex items-center gap-3">
+              <span className="h-[2px] w-8 bg-yellow-400 sm:w-10" />
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] sm:text-sm sm:tracking-[0.35em]">
+                Welcome to One Life Holidayz
+              </p>
+            </div>
 
-            <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            {/* Rotating quote — fixed-height box so 1-line vs 2-line
+                quotes don't push the buttons up/down. Full-width
+                parent means this never shifts horizontally either. */}
+            <div className="flex min-h-[90px] items-center sm:min-h-[120px] md:min-h-[200px] lg:min-h-[240px]">
+              <p
+                className="text-left text-3xl font-semibold tracking-wide text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all duration-700 sm:text-4xl md:text-6xl lg:text-7xl"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                {QUOTES[currentQuote]}
+              </p>
+            </div>
+
+            <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:justify-start">
               <Link
                 href="/trips"
                 className="flex w-full max-w-xs items-center justify-center gap-3 rounded-full bg-yellow-500 px-8 py-4 text-base font-semibold text-black shadow-xl transition-all duration-300 hover:scale-105 hover:bg-yellow-400 sm:w-auto"
