@@ -156,7 +156,7 @@ export default function Dashboard() {
 
             <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:justify-start">
               <Link
-                href="/trips"
+                href="/destinations"
                 className="flex w-full max-w-xs items-center justify-center gap-3 rounded-full bg-yellow-500 px-8 py-4 text-base font-semibold text-black shadow-xl transition-all duration-300 hover:scale-105 hover:bg-yellow-400 sm:w-auto"
               >
                 <FaPlaneDeparture />
@@ -194,7 +194,7 @@ export default function Dashboard() {
               {[...TOUR_CATEGORIES, ...TOUR_CATEGORIES].map((cat, i) => (
                 <Link
                   key={i}
-                  href="/trips"
+                  href="/destinations"
                   className="group relative h-80 w-60 shrink-0 overflow-hidden rounded-2xl bg-slate-200 shadow-sm transition-all hover:-translate-y-1.5 hover:shadow-lg"
                 >
                   <Image
@@ -335,7 +335,7 @@ export default function Dashboard() {
               </h2>
             </div>
             <Link
-              href="/trips"
+              href="/destinations"
               className="shrink-0 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
             >
               All Packages →
@@ -346,7 +346,7 @@ export default function Dashboard() {
             {TRIP_PACKAGES.slice(0, 6).map((pkg) => (
               <Link
                 key={pkg.id}
-                href="/trips"
+                href="/contact"
                 className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="relative h-52 w-full overflow-hidden">
