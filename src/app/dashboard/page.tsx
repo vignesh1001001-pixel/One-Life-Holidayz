@@ -253,42 +253,60 @@ export default function Dashboard() {
               setDestIdx(idx);
             }}
           >
+            {/*
+              CHANGED: this card used to be ONE <Link href="/destinations">
+              wrapping everything, including the "Book Now" pill — so
+              "Book Now" here actually went to /destinations, not /contact.
+
+              Now: the card is a plain div (so it can hold two separate
+              links). The image + info area is its own Link to
+              /destinations. Only the "Book Now" pill in the footer row
+              is a Link to /contact — matching the Featured Packages
+              cards further down the page. `contents` on the
+              /destinations Link means it doesn't add an extra box to
+              the flex layout, so the card's height/spacing is unchanged.
+            */}
             {DOMESTIC_DESTINATIONS.slice(0, 8).map((dest) => (
-              <Link
+              <div
                 key={dest.slug}
-                href="/destinations"
                 className="group flex flex-col shrink-0 w-[80vw] sm:w-[45vw] lg:w-[23%] snap-start overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-100 transition-all hover:-translate-y-1 hover:shadow-lg"
               >
-                <div className="relative h-52 w-full overflow-hidden">
-                  <Image
-                    src={dest.img}
-                    alt={dest.name}
-                    fill
-                    sizes="(max-width: 640px) 80vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-4 bg-[#FAF0E6]">
-                  <h3 className="text-base font-bold text-slate-900">{dest.name}</h3>
-                  <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] text-slate-500">
-                    <FaMapMarkerAlt className="text-xs text-teal-500" />
-                    {dest.tagline}, India
-                  </p>
-                  <p className="mt-2 text-[0.7rem] text-slate-400">Starting from</p>
-                  <p className="text-lg font-black text-slate-900">
-                    ₹{dest.price.toLocaleString("en-IN")}
-                  </p>
-                  <div className="mt-auto flex items-center justify-between pt-4">
-                    <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
-                      <FaClock className="text-xs" />
-                      {dest.duration ?? "2 Days 1 Night"}
-                    </span>
-                    <span className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition group-hover:border-teal-500 group-hover:text-teal-600">
-                      Book Now <FaChevronRight className="text-[0.6rem]" />
-                    </span>
+                <Link href="/destinations" className="contents">
+                  <div className="relative h-52 w-full overflow-hidden">
+                    <Image
+                      src={dest.img}
+                      alt={dest.name}
+                      fill
+                      sizes="(max-width: 640px) 80vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
+                  <div className="flex flex-1 flex-col p-4 pb-0 bg-[#FAF0E6]">
+                    <h3 className="text-base font-bold text-slate-900">{dest.name}</h3>
+                    <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] text-slate-500">
+                      <FaMapMarkerAlt className="text-xs text-teal-500" />
+                      {dest.tagline}, India
+                    </p>
+                    <p className="mt-2 text-[0.7rem] text-slate-400">Starting from</p>
+                    <p className="text-lg font-black text-slate-900">
+                      ₹{dest.price.toLocaleString("en-IN")}
+                    </p>
+                  </div>
+                </Link>
+
+                <div className="flex items-center justify-between bg-[#FAF0E6] px-4 pb-4 pt-4">
+                  <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
+                    <FaClock className="text-xs" />
+                    {dest.duration ?? "2 Days 1 Night"}
+                  </span>
+                  <Link
+                    href="/contact"
+                    className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition hover:border-teal-500 hover:text-teal-600"
+                  >
+                    Book Now <FaChevronRight className="text-[0.6rem]" />
+                  </Link>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
 
@@ -343,66 +361,83 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/*
+              Card is a plain div (so it can hold two separate links).
+              The image + info area is its own Link to /destinations.
+              Only the "Book Now" pill in the footer row is a Link to
+              /contact. `contents` on the /destinations Link means it
+              doesn't add an extra box to the flex layout — the image
+              and info div behave exactly as if the Link wasn't there.
+            */}
             {TRIP_PACKAGES.slice(0, 6).map((pkg) => (
-              <Link
+              <div
                 key={pkg.id}
-                href="/contact"
                 className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
               >
-                <div className="relative h-52 w-full overflow-hidden">
-                  <Image
-                    src={pkg.img}
-                    alt={pkg.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  {pkg.badge && (
-                    <span className="absolute left-3 top-3 rounded-full bg-yellow-500 px-3 py-1 text-[0.7rem] font-bold text-black shadow">
-                      {pkg.badge}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col p-5 bg-[#EAF5EA]">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-serif text-lg font-bold text-slate-900">{pkg.name}</h3>
-                      <p className="mt-0.5 text-sm text-slate-500">{pkg.destination}</p>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm text-yellow-500">
-                      <FaStar className="text-xs" />
-                      <span className="font-semibold text-slate-800">{pkg.rating}</span>
-                      <span className="text-slate-400">({pkg.reviews})</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {pkg.highlights.slice(0, 3).map((h) => (
-                      <span
-                        key={h}
-                        className="rounded-full bg-slate-100 px-3 py-1 text-[0.68rem] font-medium text-slate-600"
-                      >
-                        {h}
+                <Link href="/destinations" className="contents">
+                  <div className="relative h-52 w-full overflow-hidden">
+                    <Image
+                      src={pkg.img}
+                      alt={pkg.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    {pkg.badge && (
+                      <span className="absolute left-3 top-3 rounded-full bg-yellow-500 px-3 py-1 text-[0.7rem] font-bold text-black shadow">
+                        {pkg.badge}
                       </span>
-                    ))}
+                    )}
                   </div>
+                  <div className="flex flex-1 flex-col p-5 pb-0 bg-[#EAF5EA]">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-serif text-lg font-bold text-slate-900">{pkg.name}</h3>
+                        <p className="mt-0.5 text-sm text-slate-500">{pkg.destination}</p>
+                      </div>
+                      <div className="flex items-center gap-1 text-sm text-yellow-500">
+                        <FaStar className="text-xs" />
+                        <span className="font-semibold text-slate-800">{pkg.rating}</span>
+                        <span className="text-slate-400">({pkg.reviews})</span>
+                      </div>
+                    </div>
 
-                  <p className="mt-3 text-[0.7rem] text-slate-400">Starting from</p>
-                  <p className="font-serif text-xl font-bold text-slate-900">
-                    ₹{pkg.price.toLocaleString("en-IN")}
-                  </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {pkg.highlights.slice(0, 3).map((h) => (
+                        <span
+                          key={h}
+                          className="rounded-full bg-slate-100 px-3 py-1 text-[0.68rem] font-medium text-slate-600"
+                        >
+                          {h}
+                        </span>
+                      ))}
+                    </div>
 
-                  <div className="mt-auto flex items-center justify-between pt-4">
-                    <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
-                      <FaClock className="text-xs" />
-                      {pkg.duration}
-                    </span>
-                    <span className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition group-hover:border-yellow-500 group-hover:text-yellow-600">
-                      Book Now <FaChevronRight className="text-[0.6rem]" />
-                    </span>
+                    <p className="mt-3 text-[0.7rem] text-slate-400">Starting from</p>
+                    <p className="font-serif text-xl font-bold text-slate-900">
+                      ₹{pkg.price.toLocaleString("en-IN")}
+                    </p>
                   </div>
+                </Link>
+
+                {/* Footer row lives OUTSIDE the /destinations Link, in
+                    the bg-[#EAF5EA] area so it still looks seamless
+                    with the card above it. Only "Book Now" is a link,
+                    to /contact — the duration text next to it is
+                    plain, not clickable. */}
+                <div className="flex items-center justify-between bg-[#EAF5EA] px-5 pb-5 pt-4">
+                  <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
+                    <FaClock className="text-xs" />
+                    {pkg.duration}
+                  </span>
+                  <Link
+                    href="/contact"
+                    className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition hover:border-yellow-500 hover:text-yellow-600 hover:bg-yellow-50"
+                  >
+                    Book Now <FaChevronRight className="text-[0.6rem]" />
+                  </Link>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
 
