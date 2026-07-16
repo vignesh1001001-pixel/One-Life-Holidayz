@@ -115,8 +115,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-     
-
       {/* ── Vision / Mission / Promise ── */}
       <section className="bg-slate-50 px-6 py-20 md:px-12 lg:px-20">
         <div className="mx-auto max-w-5xl">
@@ -143,29 +141,28 @@ export default function AboutPage() {
       </section>
 
       {/*
-        Image was previously in a fixed-height (h-[320px]/[420px])
-        container with `fill` + `object-cover`, which crops the
-        image to fit that box. Since this image has text baked into
-        it ("Our Story..."), cropping was cutting the bottom of the
-        text off. Switched to natural aspect-ratio sizing (width +
-        height props instead of `fill`, `h-auto w-full`) so the
-        entire image renders at full width with nothing cropped.
+        ── Our Story ──
+        Image kept at its natural aspect ratio (no cropping, nothing
+        cut off) but now constrained to a sensible max-width and
+        centered, instead of stretching edge-to-edge at full browser
+        width. That's what was making it look huge — full 100vw width
+        at a 3000x1080 ratio is enormous on large screens. Capping it
+        with max-w-4xl + mx-auto + rounded corners brings it down to a
+        normal "photo block" size like the rest of the page's imagery.
       */}
-      <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
-        <div className="mx-auto">
-          <SectionHeader eyebrow="Milestones" title="Our Journey So Far" highlight="Journey" />
-          <div className="relative mt-10 w-full overflow-hidden rounded-3xl shadow-xl">
+      <section className="bg-white px-6  md:px-12 lg:px-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="relative overflow-hidden">
             <Image
-              src="/images/about/aboutus.jpeg"
+              src="/images/about/aboutus.jpg"
               alt="One Life Holidayz travellers exploring together"
-              width={1600}
-              height={900}
+              width={2500}
+              height={1080}
               className="h-auto w-full"
             />
           </div>
         </div>
       </section>
-
 
       {/* ── CTA ── */}
       <section className="bg-yellow-500 px-6 py-16 text-center md:px-12">
