@@ -32,13 +32,6 @@ const TEAM = [
   },
 ];
 
-const MILESTONES = [
-  { year: "2021", event: "Founded in Chennai with a vision to democratise premium travel." },
-  { year: "2022", event: "Expanded to 20+ domestic destinations, serving 500+ travellers." },
-  { year: "2023", event: "Launched international packages — Maldives, Dubai, Thailand & Sri Lanka." },
-  { year: "2024", event: "Crossed 1,000 happy travellers and a 4.9★ average rating." },
-];
-
 const PILLARS = [
   {
     icon: <FaCompass />,
@@ -108,6 +101,7 @@ export default function AboutPage() {
                 </a>
               </div>
             </div>
+            {/* Travellers badge overlay removed per request — photo now stands on its own */}
             <div className="relative h-[420px] overflow-hidden rounded-3xl shadow-xl">
               <Image
                 src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&auto=format&fit=crop"
@@ -116,15 +110,6 @@ export default function AboutPage() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              <div className="absolute bottom-6 left-6 rounded-2xl bg-white/90 px-5 py-4 backdrop-blur-sm">
-                <div className="flex items-center gap-3">
-                  <FaHeart className="text-2xl text-yellow-500" />
-                  <div>
-                    <div className="font-serif text-lg font-bold text-slate-900">1,000+ Travellers</div>
-                    <div className="text-sm text-slate-500">and counting since 2021</div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -157,21 +142,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Our Story / Timeline ── */}
+      {/*
+        Image was previously in a fixed-height (h-[320px]/[420px])
+        container with `fill` + `object-cover`, which crops the
+        image to fit that box. Since this image has text baked into
+        it ("Our Story..."), cropping was cutting the bottom of the
+        text off. Switched to natural aspect-ratio sizing (width +
+        height props instead of `fill`, `h-auto w-full`) so the
+        entire image renders at full width with nothing cropped.
+      */}
       <section className="bg-white px-6 py-20 md:px-12 lg:px-20">
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto">
           <SectionHeader eyebrow="Milestones" title="Our Journey So Far" highlight="Journey" />
-          <div className="relative mt-10 space-y-8 before:absolute before:left-7 before:top-0 before:h-full before:w-0.5 before:bg-yellow-300 sm:before:left-[88px]">
-            {MILESTONES.map((m) => (
-              <div key={m.year} className="flex items-start gap-6">
-                <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-yellow-500 font-serif font-bold text-black shadow-md sm:w-[120px]">
-                  {m.year}
-                </div>
-                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 shadow-sm flex-1">
-                  <p className="leading-relaxed text-slate-700">{m.event}</p>
-                </div>
-              </div>
-            ))}
+          <div className="relative mt-10 w-full overflow-hidden rounded-3xl shadow-xl">
+            <Image
+              src="/images/about/aboutus.jpeg"
+              alt="One Life Holidayz travellers exploring together"
+              width={1600}
+              height={900}
+              className="h-auto w-full"
+            />
           </div>
         </div>
       </section>
