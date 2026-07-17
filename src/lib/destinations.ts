@@ -4,6 +4,7 @@ export type Destination = {
   name: string;
   sub: string;
   price: string;
+  duration?: string;
   img: string;
   tag?: string;
 };
@@ -20,24 +21,24 @@ export type InternationalDestination = {
 
 // ─── Honeymoon Picks (South India) ───────────────────────────────────────────
 export const HONEYMOON_PICKS: Destination[] = [
-  { slug: "munnar", name: "Munnar", sub: "Kerala", img: "/images/dashboard/places/Munnar.jpeg", price: "₹3,500/person", tag: "Hill Station" },
-  { slug: "alleppey", name: "Gokarna", sub: "Gokarna", img: "/images/dashboard/places/Gokarna.jpeg", price: "₹4,000/person", tag: "Backwaters" },
-  { slug: "coorg", name: "Coorg", sub: "Karnataka", img: "/images/dashboard/places/Coorg.jpeg", price: "₹3,800/person", tag: "Coffee Hills" },
-  { slug: "ooty", name: "Ooty", sub: "Tamil Nadu", img: "/images/dashboard/places/Ooty.jpeg", price: "₹3,200/person", tag: "Nilgiris" },
-  { slug: "kodaikanal", name: "Yercaud", sub: "Tamil Nadu", img: "/images/dashboard/places/Yercaud.jpeg", price: "₹3,500/person", tag: "Princess of Hills" },
+  { slug: "munnar", name: "Munnar", sub: "Kerala", img: "/images/dashboard/places/Munnar.jpeg", price: "₹5,999/person", duration: "3 Days 2 Nights", tag: "Hill Station" },
+  { slug: "alleppey", name: "Gokarna", sub: "Gokarna", img: "/images/dashboard/places/Gokarna.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Backwaters" },
+  { slug: "coorg", name: "Coorg", sub: "Karnataka", img: "/images/dashboard/places/Coorg.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Coffee Hills" },
+  { slug: "ooty", name: "Ooty", sub: "Tamil Nadu", img: "/images/dashboard/places/Ooty.jpeg", price: "₹4,999/person", duration: "5 Days 4 Nights", tag: "Nilgiris" },
+  { slug: "kodaikanal", name: "Yercaud", sub: "Tamil Nadu", img: "/images/dashboard/places/Yercaud.jpeg", price: "₹3,499/person", duration: "2 Days 1 Night", tag: "Princess of Hills" },
   { slug: "pondicherry", name: "Pondicherry", sub: "Puducherry", img: "/images/dashboard/places/Pondicherry.jpeg", price: "₹2,800/person", tag: "French Riviera" },
 ];
 
 // ─── Domestic Picks ───────────────────────────────────────────────────────────
 export const DOMESTIC_PICKS: Destination[] = [
-  { slug: "kashmir", name: "Kashmir", sub: "J&K", img: "/images/dashboard/places/Kashmir.jpeg", price: "₹7,999/person", tag: "Paradise on Earth" },
-  { slug: "manali", name: "Manali", sub: "Himachal Pradesh", img: "/images/dashboard/places/Manali.jpeg", price: "₹5,499/person", tag: "Snow Adventure" },
-  { slug: "rajasthan", name: "Rajasthan", sub: "Rajasthan", img: "/images/dashboard/places/Rajasthan.jpeg", price: "₹4,999/person", tag: "Royal Heritage" },
+  { slug: "kashmir", name: "Kashmir", sub: "J&K", img: "/images/dashboard/places/Kashmir.jpeg", price: "₹9,999/person", duration: "5 Days 4 Nights", tag: "Paradise on Earth" },
+  { slug: "manali", name: "Manali", sub: "Himachal Pradesh", img: "/images/dashboard/places/Manali.jpeg", price: "₹6,499/person", duration: "5 Days 4 Nights", tag: "Snow Adventure" },
+  { slug: "rajasthan", name: "Rajasthan", sub: "Rajasthan", img: "/images/dashboard/places/Rajasthan.jpeg", price: "₹11,999/person", duration: "6 Days 5 Nights", tag: "Royal Heritage" },
   { slug: "goa", name: "Kerala", sub: "Kerala", img: "/images/dashboard/places/Kerala.jpeg", price: "₹3,999/person", tag: "Beach Bliss" },
   { slug: "andaman", name: "Andaman", sub: "A&N Islands", img: "/images/dashboard/places/Andaman.jpeg", price: "₹8,999/person", tag: "Island Paradise" },
-  { slug: "leh-ladakh", name: "Valparai", sub: "Valparai", img: "/images/dashboard/places/Valparai.jpeg", price: "₹9,499/person", tag: "High Altitude" },
-  { slug: "himachal", name: "Shimla", sub: "Shimla", img: "/images/dashboard/places/Shimla.jpeg", price: "₹4,799/person", tag: "Mountain Life" },
-  { slug: "varanasi", name: "Vagamon", sub: "Vagamon", img: "/images/dashboard/places/Vagamon.jpeg", price: "₹1,797/person", tag: "Spiritual Soul" },
+  { slug: "leh-ladakh", name: "Valparai", sub: "Valparai", img: "/images/dashboard/places/Valparai.jpeg", price: "₹3,999/person", duration: "2 Days 1 Night", tag: "High Altitude" },
+  { slug: "himachal", name: "Shimla", sub: "Shimla", img: "/images/dashboard/places/Shimla.jpeg", price: "₹5,999/person", duration: "4 Days 3 Nights", tag: "Mountain Life" },
+  { slug: "varanasi", name: "Vagamon", sub: "Vagamon", img: "/images/dashboard/places/Vagamon.jpeg", price: "₹3,699/person", duration: "2 Days 1 Night", tag: "Spiritual Soul" },
 ];
 
 // ─── International Picks ──────────────────────────────────────────────────────

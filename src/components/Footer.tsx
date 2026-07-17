@@ -12,8 +12,8 @@ import {
 // =================== SITE DETAILS ===================
 
 const SITE = {
-  phone: "+91 9876543210",
-  phoneHref: "tel:+919876543210",
+  phone: "+91 9360258013",
+  phoneHref: "tel:+919360258013",
 
   email: "hello@onelifeholidayz.in",
 
