@@ -299,12 +299,14 @@ export default function Dashboard() {
                     <FaClock className="text-xs" />
                     {dest.duration ?? "2 Days 1 Night"}
                   </span>
-                  <Link
-                    href="/contact"
+                  <a
+                    href="https://forms.gle/Mm4CoxspAEhhGhBSA"
+                    target="_blank"
+                    rel="noreferrer"
                     className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition hover:border-teal-500 hover:text-teal-600"
                   >
                     Book Now <FaChevronRight className="text-[0.6rem]" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             ))}
@@ -430,24 +432,28 @@ export default function Dashboard() {
                     <FaClock className="text-xs" />
                     {pkg.duration}
                   </span>
-                  <Link
-                    href="/contact"
+                  <a
+                    href="https://forms.gle/Mm4CoxspAEhhGhBSA"
+                    target="_blank"
+                    rel="noreferrer"
                     className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition hover:border-yellow-500 hover:text-yellow-600 hover:bg-yellow-50"
                   >
                     Book Now <FaChevronRight className="text-[0.6rem]" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             ))}
           </div>
 
           <div className="mt-10 text-center">
-            <Link
-              href="/contact"
+            <a
+              href="https://forms.gle/Mm4CoxspAEhhGhBSA"
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-yellow-500 px-8 py-4 font-semibold text-black shadow-lg transition-all hover:scale-105 hover:bg-yellow-400"
             >
               <FaTags /> Book Now — Get Custom Quote
-            </Link>
+            </a>
           </div>
         </div>
       </section>
