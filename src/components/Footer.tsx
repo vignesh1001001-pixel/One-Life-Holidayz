@@ -169,7 +169,7 @@ export default function Footer() {
       {/* Bottom */}
 
       <div className="mx-auto mt-8 flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-slate-500 md:flex-row">
-        <p>© 2025 One Life Holidayz. All Rights Reserved.</p>
+        <p>© 2026 One Life Holidayz. All Rights Reserved.</p>
 
         <div className="flex gap-2">
           {["VISA", "Master", "UPI", "GPay"].map((item) => (
