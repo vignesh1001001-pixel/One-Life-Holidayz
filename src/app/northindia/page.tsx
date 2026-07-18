@@ -83,7 +83,7 @@ export default function NorthIndiaPage() {
               </div>
 
               {/* Content */}
-              <div className="p-5">
+              <div className="p-5 bg-[#DDEEFF]">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="font-serif text-[1.25rem] font-bold text-slate-900">{dest.name}</h3>
                   {dest.price && (

@@ -336,18 +336,6 @@ export type TripPackage = {
 
 export const TRIP_PACKAGES: TripPackage[] = [
   {
-    id: "maldives-5d",
-    name: "Maldives Luxury Escape",
-    destination: "Maldives",
-    duration: "5 Days / 4 Nights",
-    img: "/images/destinations/Maldives.jpg",
-    price: 45999,
-    rating: 4.8,
-    reviews: 198,
-    highlights: ["Water Villa Stay", "Snorkelling", "Sunset Cruise", "Spa & Wellness"],
-    badge: "Luxury",
-  },
-  {
     id: "kerala-6d",
     name: "Kerala Backwaters",
     destination: "Kerala, India",
