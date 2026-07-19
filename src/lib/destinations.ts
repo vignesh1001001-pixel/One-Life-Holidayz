@@ -19,26 +19,35 @@ export type InternationalDestination = {
   highlights: string[];
 };
 
-// ─── Honeymoon Picks (South India) ───────────────────────────────────────────
+// ─── Honeymoon Picks (Romantic South India) ─────────────────────────────────
+// Ooty, Kodaikanal, Yercaud, Pondicherry, Valparai, Munnar, Varkala, Alleppey, Vagamon, Wayanad, Coorg, Gokarna
 export const HONEYMOON_PICKS: Destination[] = [
-  { slug: "munnar", name: "Munnar", sub: "Kerala", img: "/images/dashboard/places/Munnar.jpeg", price: "₹5,999/person", duration: "3 Days 2 Nights", tag: "Hill Station" },
-  { slug: "alleppey", name: "Gokarna", sub: "Gokarna", img: "/images/dashboard/places/Gokarna.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Backwaters" },
-  { slug: "coorg", name: "Coorg", sub: "Karnataka", img: "/images/dashboard/places/Coorg.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Coffee Hills" },
   { slug: "ooty", name: "Ooty", sub: "Tamil Nadu", img: "/images/dashboard/places/Ooty.jpeg", price: "₹4,999/person", duration: "5 Days 4 Nights", tag: "Nilgiris" },
-  { slug: "kodaikanal", name: "Yercaud", sub: "Tamil Nadu", img: "/images/dashboard/places/Yercaud.jpeg", price: "₹3,499/person", duration: "2 Days 1 Night", tag: "Princess of Hills" },
+  { slug: "kodaikanal", name: "Kodaikanal", sub: "Tamil Nadu", img: "/images/dashboard/places/Kodaikannal.jpeg", price: "₹3,499/person", duration: "3 Days 2 Nights", tag: "Princess of Hill Stations" },
+  { slug: "yercaud", name: "Yercaud", sub: "Tamil Nadu", img: "/images/dashboard/places/Yercaud.jpeg", price: "₹3,499/person", duration: "2 Days 1 Night", tag: "Princess of Hills" },
   { slug: "pondicherry", name: "Pondicherry", sub: "Puducherry", img: "/images/dashboard/places/Pondicherry.jpeg", price: "₹2,800/person", tag: "French Riviera" },
+  { slug: "valparai", name: "Valparai", sub: "Tamil Nadu", img: "/images/dashboard/places/Valparai.jpeg", price: "₹3,999/person", duration: "2 Days 1 Night", tag: "Rainforests & Waterfalls" },
+  { slug: "munnar", name: "Munnar", sub: "Kerala", img: "/images/dashboard/places/Munnar.jpeg", price: "₹5,999/person", duration: "3 Days 2 Nights", tag: "Hill Station" },
+  { slug: "varkala", name: "Varkala", sub: "Kerala", img: "/images/dashboard/places/Varkala.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Cliffside Beach" },
+  { slug: "alleppey", name: "Alleppey", sub: "Kerala", img: "/images/dashboard/places/Alleppey.jpeg", price: "₹2,499/person", duration: "2 Days 1 Night", tag: "Backwaters" },
+  { slug: "vagamon", name: "Vagamon", sub: "Kerala", img: "/images/dashboard/places/Vagamon.jpeg", price: "₹3,699/person", duration: "2 Days 1 Night", tag: "Misty Meadows" },
+  { slug: "wayanad", name: "Wayanad", sub: "Kerala", img: "/images/dashboard/places/Wayanad.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Wildlife & Wilderness" },
+  { slug: "coorg", name: "Coorg", sub: "Karnataka", img: "/images/dashboard/places/Coorg.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Coffee Hills" },
+  { slug: "gokarna", name: "Gokarna", sub: "Karnataka", img: "/images/dashboard/places/Gokarna.jpeg", price: "₹4,999/person", duration: "3 Days 2 Nights", tag: "Beach Trail" },
 ];
 
-// ─── Domestic Picks ───────────────────────────────────────────────────────────
+// ─── Domestic Picks (North India) ────────────────────────────────────────────
+// Manali, Shimla, Kedarnath, Kashmir, Leh Ladakh, Varanasi, Maharashtra, Goa, Rajasthan
 export const DOMESTIC_PICKS: Destination[] = [
-  { slug: "kashmir", name: "Kashmir", sub: "J&K", img: "/images/dashboard/places/Kashmir.jpeg", price: "₹9,999/person", duration: "5 Days 4 Nights", tag: "Paradise on Earth" },
   { slug: "manali", name: "Manali", sub: "Himachal Pradesh", img: "/images/dashboard/places/Manali.jpeg", price: "₹6,499/person", duration: "5 Days 4 Nights", tag: "Snow Adventure" },
+  { slug: "shimla", name: "Shimla", sub: "Himachal Pradesh", img: "/images/dashboard/places/Shimla.jpeg", price: "₹5,999/person", duration: "4 Days 3 Nights", tag: "Queen of Hills" },
+  { slug: "kedarnath", name: "Kedarnath", sub: "Uttarakhand", img: "/images/dashboard/places/Kedarnath.jpeg", price: "₹9,499/person", duration: "4 Days 3 Nights", tag: "Sacred Trek" },
+  { slug: "kashmir", name: "Kashmir", sub: "J&K", img: "/images/dashboard/places/Kashmir.jpeg", price: "₹9,999/person", duration: "5 Days 4 Nights", tag: "Paradise on Earth" },
+  { slug: "leh-ladakh", name: "Leh Ladakh", sub: "Ladakh", img: "/images/dashboard/places/leh-ladakh.jpeg", price: "₹14,999/person", duration: "6 Days 5 Nights", tag: "High Altitude" },
+  { slug: "varanasi", name: "Varanasi", sub: "Uttar Pradesh", img: "/images/dashboard/places/Varanasi.jpeg", price: "₹9,999/person", duration: "5 Days 4 Nights", tag: "Spiritual Soul" },
+  { slug: "maharashtra", name: "Maharashtra", sub: "Maharashtra", img: "/images/dashboard/places/Maharashtra.jpeg", price: "₹9,999/person", duration: "5 Days 4 Nights", tag: "Heritage & Hills" },
+  { slug: "goa", name: "Goa", sub: "Goa", img: "/images/dashboard/places/Goa.jpeg", price: "₹3,499/person", duration: "3 Days 2 Nights", tag: "Beach Bliss" },
   { slug: "rajasthan", name: "Rajasthan", sub: "Rajasthan", img: "/images/dashboard/places/Rajasthan.jpeg", price: "₹11,999/person", duration: "6 Days 5 Nights", tag: "Royal Heritage" },
-  { slug: "goa", name: "Kerala", sub: "Kerala", img: "/images/dashboard/places/Kerala.jpeg", price: "₹3,999/person", tag: "Beach Bliss" },
-  { slug: "andaman", name: "Andaman", sub: "A&N Islands", img: "/images/dashboard/places/Andaman.jpeg", price: "₹8,999/person", tag: "Island Paradise" },
-  { slug: "leh-ladakh", name: "Valparai", sub: "Valparai", img: "/images/dashboard/places/Valparai.jpeg", price: "₹3,999/person", duration: "2 Days 1 Night", tag: "High Altitude" },
-  { slug: "himachal", name: "Shimla", sub: "Shimla", img: "/images/dashboard/places/Shimla.jpeg", price: "₹5,999/person", duration: "4 Days 3 Nights", tag: "Mountain Life" },
-  { slug: "varanasi", name: "Vagamon", sub: "Vagamon", img: "/images/dashboard/places/Vagamon.jpeg", price: "₹3,699/person", duration: "2 Days 1 Night", tag: "Spiritual Soul" },
 ];
 
 // ─── International Picks ──────────────────────────────────────────────────────
