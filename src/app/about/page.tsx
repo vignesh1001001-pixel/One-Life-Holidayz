@@ -92,7 +92,7 @@ export default function AboutPage() {
                   Plan With Us
                 </Link>
                 <a
-                  href="https://wa.me/919876543210"
+                  href="https://wa.me/qr/HMQEJ3SMUGMZH1"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 rounded-full border-2 border-green-500 px-7 py-3 font-semibold text-green-600 transition hover:bg-green-500 hover:text-black"
@@ -194,7 +194,7 @@ export default function AboutPage() {
 
       {/* Floating WhatsApp */}
       <a
-        href="https://wa.me/919876543210"
+        href="https://wa.me/qr/HMQEJ3SMUGMZH1"
         target="_blank"
         rel="noreferrer"
         aria-label="Chat on WhatsApp"
