@@ -13,7 +13,10 @@ import {
 } from "react-icons/fa";
 import PageHero from "@/components/PageHero";
 
-const WHATSAPP = "https://wa.me/919876543210?text=Hi!%20I%20want%20to%20book%20a%20trip.";
+const PHONE_DISPLAY = "+91 93602 58013";
+const PHONE_TEL = "+919360258013";
+const PHONE_WA = "919360258013"; // international format, no + or spaces, used for wa.me links
+const WHATSAPP = "https://wa.me/qr/HMQEJ3SMUGMZH1";
 
 type FormState = { name: string; email: string; phone: string; destination: string; message: string };
 
@@ -33,7 +36,7 @@ export default function ContactPage() {
     e.preventDefault();
     // Build WhatsApp message from form
     const msg = `Hi! I want to book a trip.%0AName: ${form.name}%0APhone: ${form.phone}%0ADestination: ${form.destination}%0AMessage: ${form.message}`;
-    window.open(`https://wa.me/919876543210?text=${msg}`, "_blank");
+    window.open(`https://wa.me/${PHONE_WA}?text=${msg}`, "_blank");
     setSubmitted(true);
   }
 
@@ -68,7 +71,7 @@ export default function ContactPage() {
 
             <div className="mt-8 space-y-5">
               <a
-                href="tel:+919876543210"
+                href={`tel:${PHONE_TEL}`}
                 className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-5 shadow-sm transition hover:border-yellow-300 hover:bg-yellow-50"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-500 text-black">
@@ -76,7 +79,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">Call Us</div>
-                  <div className="mt-0.5 font-semibold text-slate-900">+91 98765 43210</div>
+                  <div className="mt-0.5 font-semibold text-slate-900">{PHONE_DISPLAY}</div>
                 </div>
               </a>
 
@@ -199,7 +202,7 @@ export default function ContactPage() {
                       name="phone"
                       value={form.phone}
                       onChange={handleChange}
-                      placeholder="+91 98765 43210"
+                      placeholder="+91 93602 58013"
                       className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20"
                     />
                   </div>
