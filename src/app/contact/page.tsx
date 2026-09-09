@@ -10,6 +10,15 @@ import {
   FaInstagram,
   FaFacebookF,
   FaPaperPlane,
+  FaMinus,
+  FaPlus,
+  FaUsers,
+  FaHeart,
+  FaUserFriends,
+  FaUser,
+  FaBriefcase,
+  FaCalendarAlt,
+  FaChevronDown,
 } from "react-icons/fa";
 import PageHero from "@/components/PageHero";
 
@@ -18,12 +27,40 @@ const PHONE_TEL = "+919360258013";
 const PHONE_WA = "919360258013"; // international format, no + or spaces, used for wa.me links
 const WHATSAPP = "https://wa.me/qr/HMQEJ3SMUGMZH1";
 
-type FormState = { name: string; email: string; phone: string; destination: string; message: string };
+const TRAVEL_TYPES = [
+  { label: "Honeymoon", icon: FaHeart },
+  { label: "Family", icon: FaUsers },
+  { label: "Friends / Group", icon: FaUserFriends },
+  { label: "Solo", icon: FaUser },
+  { label: "Corporate", icon: FaBriefcase },
+];
+
+type FormState = {
+  name: string;
+  email: string;
+  phone: string;
+  destination: string;
+  guests: string;
+  days: string;
+  travelDate: string;
+  travelType: string;
+  specialRequirements: string;
+};
+
+const EMPTY_FORM: FormState = {
+  name: "",
+  email: "",
+  phone: "",
+  destination: "",
+  guests: "",
+  days: "",
+  travelDate: "",
+  travelType: "",
+  specialRequirements: "",
+};
 
 export default function ContactPage() {
-  const [form, setForm] = useState<FormState>({
-    name: "", email: "", phone: "", destination: "", message: "",
-  });
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
 
   function handleChange(
@@ -32,18 +69,48 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
+  // Used by the guest/day steppers and the travel-type button group,
+  // which update form state directly rather than through an <input> event.
+  function setField(name: keyof FormState, value: string) {
+    setForm((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function adjustCount(name: "guests" | "days", delta: number, min = 1) {
+    setForm((prev) => {
+      const current = parseInt(prev[name], 10) || 0;
+      const next = Math.max(min, current + delta);
+      return { ...prev, [name]: String(next) };
+    });
+  }
+
+  // Every field is required now, so the button is disabled until all are filled.
+  const isFormComplete = Object.values(form).every((v) => v.trim() !== "");
+
   function handleSubmit(e: React.MouseEvent) {
     e.preventDefault();
-    // Build WhatsApp message from form
-    const msg = `Hi! I want to book a trip.%0AName: ${form.name}%0APhone: ${form.phone}%0ADestination: ${form.destination}%0AMessage: ${form.message}`;
+    if (!isFormComplete) return;
+
+    // Build WhatsApp message from form, including all the new details.
+    const msg =
+      `Hi! I'd like a quick enquiry for a trip.%0A` +
+      `Name: ${form.name}%0A` +
+      `Phone: ${form.phone}%0A` +
+      `Email: ${form.email}%0A` +
+      `Destination: ${form.destination}%0A` +
+      `Number of Guests: ${form.guests}%0A` +
+      `Number of Days: ${form.days}%0A` +
+      `Travel Date: ${form.travelDate}%0A` +
+      `Travel Type: ${form.travelType}%0A` +
+      `Special Requirements: ${form.specialRequirements}`;
+
     window.open(`https://wa.me/${PHONE_WA}?text=${msg}`, "_blank");
     setSubmitted(true);
   }
 
   const DESTINATIONS = [
-    "Kashmir", "Manali", "Kedarnath", "Munnar", "Kerala",
-    "Goa", "Rajasthan", "Andaman", "Maldives", "Dubai",
-    "Thailand", "Sri Lanka", "Other / Custom",
+    "Kashmir", "Manali", "Kedarnath", "Munnar", 
+    , "Rajasthan", "Andaman", "Maldives", 
+     "Sri Lanka", "Other / Custom",
   ];
 
   return (
@@ -169,7 +236,10 @@ export default function ContactPage() {
                   Your enquiry details have been pre-filled. We&apos;ll reply within minutes.
                 </p>
                 <button
-                  onClick={() => setSubmitted(false)}
+                  onClick={() => {
+                    setForm(EMPTY_FORM);
+                    setSubmitted(false);
+                  }}
                   className="mt-8 rounded-full bg-yellow-500 px-7 py-3 font-semibold text-black transition hover:bg-yellow-400"
                 >
                   Send Another Enquiry
@@ -178,7 +248,7 @@ export default function ContactPage() {
             ) : (
               <div className="space-y-5">
                 <h3 className="font-serif text-2xl font-bold text-slate-900">
-                  Request a Free Quote
+                  Request a Quick Enquiry
                 </h3>
 
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -210,7 +280,7 @@ export default function ContactPage() {
 
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-slate-700">
-                    Email
+                    Email *
                   </label>
                   <input
                     name="email"
@@ -224,40 +294,162 @@ export default function ContactPage() {
 
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-slate-700">
-                    Destination Interested In
+                    Destination Interested In *
                   </label>
-                  <select
-                    name="destination"
-                    value={form.destination}
-                    onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20"
-                  >
-                    <option value="">Select a destination…</option>
-                    {DESTINATIONS.map((d) => (
-                      <option key={d} value={d}>
-                        {d}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select
+                      name="destination"
+                      value={form.destination}
+                      onChange={handleChange}
+                      className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm text-slate-900 shadow-sm outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20"
+                    >
+                      <option value="">Select a destination…</option>
+                      {DESTINATIONS.map((d) => (
+                        <option key={d} value={d}>
+                          {d}
+                        </option>
+                      ))}
+                    </select>
+                    <FaChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400" />
+                  </div>
+                </div>
+
+                {/* Guests / Days — stepper controls instead of raw number inputs */}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block text-sm font-semibold text-slate-700">
+                      Number of Guests *
+                    </label>
+                    <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-2 py-1.5 shadow-sm transition focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-400/20">
+                      <button
+                        type="button"
+                        aria-label="Decrease guests"
+                        onClick={() => adjustCount("guests", -1)}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+                      >
+                        <FaMinus className="text-xs" />
+                      </button>
+                      <input
+                        name="guests"
+                        type="text"
+                        inputMode="numeric"
+                        value={form.guests}
+                        onChange={(e) => {
+                          const digits = e.target.value.replace(/\D/g, "");
+                          setField("guests", digits);
+                        }}
+                        placeholder="0"
+                        className="w-full flex-1 bg-transparent text-center text-sm font-semibold text-slate-900 outline-none"
+                      />
+                      <button
+                        type="button"
+                        aria-label="Increase guests"
+                        onClick={() => adjustCount("guests", 1)}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-yellow-500 text-black transition hover:bg-yellow-400"
+                      >
+                        <FaPlus className="text-xs" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="mb-1.5 block text-sm font-semibold text-slate-700">
+                      Number of Days *
+                    </label>
+                    <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-2 py-1.5 shadow-sm transition focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-400/20">
+                      <button
+                        type="button"
+                        aria-label="Decrease days"
+                        onClick={() => adjustCount("days", -1)}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+                      >
+                        <FaMinus className="text-xs" />
+                      </button>
+                      <input
+                        name="days"
+                        type="text"
+                        inputMode="numeric"
+                        value={form.days}
+                        onChange={(e) => {
+                          const digits = e.target.value.replace(/\D/g, "");
+                          setField("days", digits);
+                        }}
+                        placeholder="0"
+                        className="w-full flex-1 bg-transparent text-center text-sm font-semibold text-slate-900 outline-none"
+                      />
+                      <button
+                        type="button"
+                        aria-label="Increase days"
+                        onClick={() => adjustCount("days", 1)}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-yellow-500 text-black transition hover:bg-yellow-400"
+                      >
+                        <FaPlus className="text-xs" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Travel Date — custom-styled with a branded calendar icon */}
+                <div>
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
+                    Travel Date *
+                  </label>
+                  <div className="relative flex items-center rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition focus-within:border-yellow-400 focus-within:ring-2 focus-within:ring-yellow-400/20">
+                    <FaCalendarAlt className="mr-3 shrink-0 text-yellow-500" />
+                    <input
+                      name="travelDate"
+                      type="date"
+                      value={form.travelDate}
+                      onChange={handleChange}
+                      className="w-full bg-transparent text-sm text-slate-900 outline-none [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-60"
+                    />
+                  </div>
+                </div>
+
+                {/* Travel Type — icon button group instead of a plain <select> */}
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">
+                    Travel Type *
+                  </label>
+                  <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+                    {TRAVEL_TYPES.map(({ label, icon: Icon }) => {
+                      const active = form.travelType === label;
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => setField("travelType", label)}
+                          className={`flex flex-col items-center gap-1.5 rounded-xl border px-3 py-3 text-center text-xs font-semibold shadow-sm transition ${
+                            active
+                              ? "border-yellow-500 bg-yellow-50 text-yellow-700 ring-2 ring-yellow-400/30"
+                              : "border-slate-200 bg-white text-slate-600 hover:border-yellow-300 hover:bg-yellow-50/40"
+                          }`}
+                        >
+                          <Icon className={`text-base ${active ? "text-yellow-600" : "text-slate-400"}`} />
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-slate-700">
-                    Tell us about your trip
+                    Special Requirements *
                   </label>
                   <textarea
-                    name="message"
-                    value={form.message}
+                    name="specialRequirements"
+                    value={form.specialRequirements}
                     onChange={handleChange}
                     rows={4}
-                    placeholder="Dates, number of travellers, budget, special requests…"
+                    placeholder="Budget, dietary needs, accessibility, celebration plans, anything else we should know…"
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 resize-none"
                   />
                 </div>
 
                 <button
                   onClick={handleSubmit}
-                  disabled={!form.name || !form.phone}
+                  disabled={!isFormComplete}
                   className="flex w-full items-center justify-center gap-3 rounded-full bg-yellow-500 py-4 font-semibold text-black shadow-lg transition hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FaPaperPlane />
