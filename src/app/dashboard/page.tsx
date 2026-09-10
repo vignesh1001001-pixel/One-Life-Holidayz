@@ -156,7 +156,7 @@ export default function Dashboard() {
 
             <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:justify-start">
               <Link
-                href="/destinations"
+                href="/packages"
                 className="flex w-full max-w-xs items-center justify-center gap-3 rounded-full bg-yellow-500 px-8 py-4 text-base font-semibold text-black shadow-xl transition-all duration-300 hover:scale-105 hover:bg-yellow-400 sm:w-auto"
               >
                 <FaPlaneDeparture />
@@ -194,7 +194,7 @@ export default function Dashboard() {
               {[...TOUR_CATEGORIES, ...TOUR_CATEGORIES].map((cat, i) => (
                 <Link
                   key={i}
-                  href="/destinations"
+                  href="/packages"
                   className="group relative h-80 w-60 shrink-0 overflow-hidden rounded-2xl bg-slate-200 shadow-sm transition-all hover:-translate-y-1.5 hover:shadow-lg"
                 >
                   <Image
@@ -253,25 +253,12 @@ export default function Dashboard() {
               setDestIdx(idx);
             }}
           >
-            {/*
-              CHANGED: this card used to be ONE <Link href="/destinations">
-              wrapping everything, including the "Book Now" pill — so
-              "Book Now" here actually went to /destinations, not /contact.
-
-              Now: the card is a plain div (so it can hold two separate
-              links). The image + info area is its own Link to
-              /destinations. Only the "Book Now" pill in the footer row
-              is a Link to /contact — matching the Featured Packages
-              cards further down the page. `contents` on the
-              /destinations Link means it doesn't add an extra box to
-              the flex layout, so the card's height/spacing is unchanged.
-            */}
             {DOMESTIC_DESTINATIONS.slice(0, 8).map((dest) => (
               <div
                 key={dest.slug}
                 className="group flex flex-col shrink-0 w-[80vw] sm:w-[45vw] lg:w-[23%] snap-start overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-100 transition-all hover:-translate-y-1 hover:shadow-lg"
               >
-                <Link href="/destinations" className="contents">
+                <Link href="/packages" className="contents">
                   <div className="relative h-52 w-full overflow-hidden">
                     <Image
                       src={dest.img}
@@ -305,7 +292,7 @@ export default function Dashboard() {
                     rel="noreferrer"
                     className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition hover:border-teal-500 hover:text-teal-600"
                   >
-                    Book Now <FaChevronRight className="text-[0.6rem]" />
+                    Enquire <FaChevronRight className="text-[0.6rem]" />
                   </a>
                 </div>
               </div>
@@ -333,7 +320,7 @@ export default function Dashboard() {
 
           <div className="mt-8 text-center">
             <Link
-              href="/destinations"
+              href="/packages"
               className="inline-flex items-center rounded-full border-2 border-yellow-500 px-8 py-3 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
             >
               View All →
@@ -355,7 +342,7 @@ export default function Dashboard() {
               </h2>
             </div>
             <Link
-              href="/destinations"
+              href="/packages"
               className="shrink-0 rounded-full border-2 border-yellow-500 px-6 py-2.5 text-sm font-semibold text-yellow-600 transition hover:bg-yellow-500 hover:text-black"
             >
               All Packages →
@@ -363,20 +350,12 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/*
-              Card is a plain div (so it can hold two separate links).
-              The image + info area is its own Link to /destinations.
-              Only the "Book Now" pill in the footer row is a Link to
-              /contact. `contents` on the /destinations Link means it
-              doesn't add an extra box to the flex layout — the image
-              and info div behave exactly as if the Link wasn't there.
-            */}
             {TRIP_PACKAGES.slice(0, 6).map((pkg) => (
               <div
                 key={pkg.id}
                 className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
               >
-                <Link href="/destinations" className="contents">
+                <Link href="/packages" className="contents">
                   <div className="relative h-52 w-full overflow-hidden">
                     <Image
                       src={pkg.img}
@@ -422,11 +401,6 @@ export default function Dashboard() {
                   </div>
                 </Link>
 
-                {/* Footer row lives OUTSIDE the /destinations Link, in
-                    the bg-[#EAF5EA] area so it still looks seamless
-                    with the card above it. Only "Book Now" is a link,
-                    to /contact — the duration text next to it is
-                    plain, not clickable. */}
                 <div className="flex items-center justify-between bg-[#EAF5EA] px-5 pb-5 pt-4">
                   <span className="flex items-center gap-1.5 text-[0.75rem] text-slate-500">
                     <FaClock className="text-xs" />
@@ -438,7 +412,7 @@ export default function Dashboard() {
                     rel="noreferrer"
                     className="flex items-center gap-1 rounded-full border border-slate-300 px-4 py-1.5 text-[0.78rem] font-semibold text-slate-700 transition hover:border-yellow-500 hover:text-yellow-600 hover:bg-yellow-50"
                   >
-                    Book Now <FaChevronRight className="text-[0.6rem]" />
+                    Enquire <FaChevronRight className="text-[0.6rem]" />
                   </a>
                 </div>
               </div>
@@ -452,7 +426,7 @@ export default function Dashboard() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-yellow-500 px-8 py-4 font-semibold text-black shadow-lg transition-all hover:scale-105 hover:bg-yellow-400"
             >
-              <FaTags /> Book Now — Get Custom Quote
+              <FaTags /> Enquire — Get Custom Quote
             </a>
           </div>
         </div>

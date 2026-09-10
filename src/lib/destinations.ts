@@ -47,7 +47,7 @@ export const DOMESTIC_PICKS: Destination[] = [
   { slug: "varanasi", name: "Varanasi", sub: "Uttar Pradesh", img: "/images/dashboard/places/Varanasi.jpeg", price: "₹9,999/person", duration: "5 Days 4 Nights", tag: "Spiritual Soul" },
   { slug: "maharashtra", name: "Maharashtra", sub: "Maharashtra", img: "/images/dashboard/places/Maharashtra.jpeg", price: "₹9,999/person", duration: "5 Days 4 Nights", tag: "Heritage & Hills" },
   { slug: "goa", name: "Goa", sub: "Goa", img: "/images/dashboard/places/Goa.jpeg", price: "₹3,499/person", duration: "3 Days 2 Nights", tag: "Beach Bliss" },
-  { slug: "rajasthan", name: "Rajasthan", sub: "Rajasthan", img: "/images/dashboard/places/Rajasthan.jpeg", price: "₹11,999/person", duration: "6 Days 5 Nights", tag: "Royal Heritage" },
+  { slug: "rajasthan", name: "Rajasthan", sub: "Rajasthan", img: "/images/dashboard/places/Rajasthan.jpeg", price: "₹22,999/person", duration: "6 Days 5 Nights", tag: "Royal Heritage" },
 ];
 
 // ─── International Picks ──────────────────────────────────────────────────────

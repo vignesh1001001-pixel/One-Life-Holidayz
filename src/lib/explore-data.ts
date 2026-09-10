@@ -404,7 +404,7 @@ export const TRIP_PACKAGES: TripPackage[] = [
     destination: "Rajasthan, India",
     duration: "6 Days / 5 Nights",
     img: "/images/dashboard/places/Rajasthan.jpeg",
-    price: 11999,
+    price: 22999,
     rating: 4.7,
     reviews: 278,
     highlights: ["Jaipur Forts", "Jaisalmer Desert", "Camel Safari", "Udaipur Lakes"],
