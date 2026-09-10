@@ -1,9 +1,7 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  FaInstagram,
-  FaFacebookF,
-  FaWhatsapp,
   FaPhoneAlt,
   FaEnvelope,
   FaMapMarkerAlt,
@@ -12,8 +10,8 @@ import {
 // =================== SITE DETAILS ===================
 
 const SITE = {
-  phone: "+91 9360258013",
-  phoneHref: "tel:+919360258013",
+  phone: "+91 72004 98318",
+  phoneHref: "tel:+917200498318",
 
   email: "hello@onelifeholidayz.in",
 
@@ -24,16 +22,18 @@ const SITE = {
   facebook: "https://facebook.com/onelifeholidayz",
 
   whatsapp: "https://wa.me/qr/HMQEJ3SMUGMZH1",
+
+  enquiryForm: "https://forms.gle/Mm4CoxspAEhhGhBSA",
 };
 
 // =================== LINKS ===================
 
 const QUICK_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/trips", label: "Trips" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/contact", label: "Request a Quote" },
+  { href: "/", label: "Home", external: false },
+  { href: "/about", label: "About Us", external: false },
+  { href: "/packages", label: "Package", external: false },
+  { href: "/gallery", label: "Gallery", external: false },
+  { href: SITE.enquiryForm, label: "Enquiry", external: true },
 ];
 
 const DESTINATION_LINKS = [
@@ -41,7 +41,6 @@ const DESTINATION_LINKS = [
   "Kedarnath",
   "Manali",
   "Munnar",
-  "Goa",
   "Rajasthan",
   "Kodaikannal",
   "Wayanad",
@@ -72,42 +71,6 @@ export default function Footer() {
             Live it. Travel it. Own it. <br/> We create unforgettable travel experiences across India and around the
             world.
           </p>
-
-          <div className="mt-6 flex gap-3">
-            <a
-              href={SITE.instagram}
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-700 transition hover:border-yellow-400 hover:bg-yellow-400 hover:text-black"
-            >
-              <FaInstagram />
-            </a>
-
-            <a
-              href={SITE.facebook}
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-700 transition hover:border-yellow-400 hover:bg-yellow-400 hover:text-black"
-            >
-              <FaFacebookF />
-            </a>
-
-            <a
-              href={SITE.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-700 transition hover:border-yellow-400 hover:bg-yellow-400 hover:text-black"
-            >
-              <FaWhatsapp />
-            </a>
-
-            <a
-              href={SITE.phoneHref}
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 text-slate-700 transition hover:border-yellow-400 hover:bg-yellow-400 hover:text-black"
-            >
-              <FaPhoneAlt />
-            </a>
-          </div>
         </div>
 
         {/* Quick Links */}
@@ -116,13 +79,26 @@ export default function Footer() {
           <h3 className="mb-6 text-lg font-semibold text-[#081424]">Quick Links</h3>
 
           <ul className="space-y-3">
-            {QUICK_LINKS.map((item) => (
-              <li key={item.label}>
-                <Link href={item.href} className="text-slate-600 transition hover:text-yellow-500">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {QUICK_LINKS.map((item) =>
+              item.external ? (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-slate-600 transition hover:text-yellow-500"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ) : (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-slate-600 transition hover:text-yellow-500">
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            )}
           </ul>
         </div>
 
