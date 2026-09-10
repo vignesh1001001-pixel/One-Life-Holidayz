@@ -22,9 +22,9 @@ import {
 } from "react-icons/fa";
 import PageHero from "@/components/PageHero";
 
-const PHONE_DISPLAY = "+91 93602 58013";
-const PHONE_TEL = "+919360258013";
-const PHONE_WA = "919360258013"; // international format, no + or spaces, used for wa.me links
+const PHONE_DISPLAY = "+91 72004 98318";
+const PHONE_TEL = "+917200498318";
+const PHONE_WA = "917200498318"; // international format, no + or spaces, used for wa.me links
 const WHATSAPP = "https://wa.me/qr/HMQEJ3SMUGMZH1";
 
 const TRAVEL_TYPES = [
@@ -108,9 +108,9 @@ export default function ContactPage() {
   }
 
   const DESTINATIONS = [
-    "Kashmir", "Manali", "Kedarnath", "Munnar", 
-    , "Rajasthan", "Andaman", "Maldives", 
-     "Sri Lanka", "Other / Custom",
+    "Kashmir", "Manali", "Kedarnath", "Munnar", "Kerala",
+    "Goa", "Rajasthan", "Andaman", "Maldives", "Dubai",
+    "Thailand", "Sri Lanka", "Other / Custom",
   ];
 
   return (
@@ -272,7 +272,7 @@ export default function ContactPage() {
                       name="phone"
                       value={form.phone}
                       onChange={handleChange}
-                      placeholder="+91 93602 58013"
+                      placeholder="+91 72004 98318"
                       className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20"
                     />
                   </div>
