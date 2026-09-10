@@ -253,7 +253,7 @@ export default function Dashboard() {
               setDestIdx(idx);
             }}
           >
-            {DOMESTIC_DESTINATIONS.slice(0, 8).map((dest) => (
+            {DOMESTIC_DESTINATIONS.slice(0, 8).map((dest, index) => (
               <div
                 key={dest.slug}
                 className="group flex flex-col shrink-0 w-[80vw] sm:w-[45vw] lg:w-[23%] snap-start overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-100 transition-all hover:-translate-y-1 hover:shadow-lg"
@@ -265,6 +265,7 @@ export default function Dashboard() {
                       alt={dest.name}
                       fill
                       sizes="(max-width: 640px) 80vw, 25vw"
+                      priority={index === 0}
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
