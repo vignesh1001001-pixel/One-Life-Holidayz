@@ -83,8 +83,18 @@ export default function ContactPage() {
     });
   }
 
-  // Every field is required now, so the button is disabled until all are filled.
-  const isFormComplete = Object.values(form).every((v) => v.trim() !== "");
+  // Every field is required except Special Requirements, which is optional.
+  const REQUIRED_FIELDS: (keyof FormState)[] = [
+    "name",
+    "email",
+    "phone",
+    "destination",
+    "guests",
+    "days",
+    "travelDate",
+    "travelType",
+  ];
+  const isFormComplete = REQUIRED_FIELDS.every((key) => form[key].trim() !== "");
 
   function handleSubmit(e: React.MouseEvent) {
     e.preventDefault();
@@ -101,7 +111,7 @@ export default function ContactPage() {
       `Number of Days: ${form.days}%0A` +
       `Travel Date: ${form.travelDate}%0A` +
       `Travel Type: ${form.travelType}%0A` +
-      `Special Requirements: ${form.specialRequirements}`;
+      `Special Requirements: ${form.specialRequirements || "None"}`;
 
     window.open(`https://wa.me/${PHONE_WA}?text=${msg}`, "_blank");
     setSubmitted(true);
@@ -435,7 +445,7 @@ export default function ContactPage() {
 
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-slate-700">
-                    Special Requirements *
+                    Special Requirements <span className="font-normal text-slate-400">(optional)</span>
                   </label>
                   <textarea
                     name="specialRequirements"
