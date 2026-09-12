@@ -14,6 +14,7 @@ import {
   ChevronDown,
   Phone,
 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { TRIP_PACKAGES, DOMESTIC_DESTINATIONS } from "@/lib/explore-data";
 import PageHero from "@/components/PageHero";
 
@@ -24,6 +25,10 @@ const TRIP_TYPES   = ["Domestic", "International"];
 const MIN_DAYS  = 2;
 const MAX_DAYS  = 15;
 const MAX_PRICE = 60000;
+
+// ── Enquiry destinations ─────────────────────────────────────────
+const WHATSAPP_LINK     = "https://wa.me/qr/HMQEJ3SMUGMZH1";
+const ENQUIRY_FORM_LINK = "https://forms.gle/Mm4CoxspAEhhGhBSA";
 
 // ────────────────────────────────────────────────────────────────
 // SCROLL-JUMP FIX NOTES
@@ -677,28 +682,26 @@ export default function PackagesPage() {
                             ))}
                           </div>
 
-                          <div className="mt-auto flex items-end justify-between gap-3 pt-4">
-                            <div>
-                              <p className="text-[0.65rem] text-slate-400">Starting from</p>
-                              <p className="font-serif text-xl font-bold text-slate-900">
-                                ₹{pkg.price.toLocaleString("en-IN")}
-                              </p>
-                              <p className="text-[0.65rem] text-slate-400">per person</p>
-                            </div>
+                          <div className="mt-auto flex items-end justify-end gap-3 pt-4">
                             <div className="flex flex-col gap-1.5">
-                              <Link
-                                href="/contact"
-                                className="rounded-full bg-yellow-500 px-5 py-2 text-center text-xs font-bold text-black transition hover:bg-yellow-400"
+                              <a
+                                href={WHATSAPP_LINK}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-center gap-1.5 rounded-full bg-yellow-500 px-5 py-2 text-center text-xs font-bold text-black transition hover:bg-yellow-400"
                               >
-                                Book Now
-                              </Link>
-                              <Link
-                                href="/contact"
+                                <FaWhatsapp className="h-3.5 w-3.5" />
+                                WhatsApp Enquiry
+                              </a>
+                              <a
+                                href={ENQUIRY_FORM_LINK}
+                                target="_blank"
+                                rel="noreferrer"
                                 className="flex items-center justify-center gap-1.5 rounded-full border border-slate-300 px-5 py-2 text-xs font-medium text-slate-600 transition hover:border-slate-400 hover:bg-slate-50"
                               >
                                 <Phone className="h-3 w-3" />
-                                Enquire
-                              </Link>
+                                Enquiry
+                              </a>
                             </div>
                           </div>
                         </div>

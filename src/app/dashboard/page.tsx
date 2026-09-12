@@ -253,7 +253,7 @@ export default function Dashboard() {
               setDestIdx(idx);
             }}
           >
-            {DOMESTIC_DESTINATIONS.slice(0, 8).map((dest, index) => (
+            {DOMESTIC_DESTINATIONS.slice(0, 8).map((dest) => (
               <div
                 key={dest.slug}
                 className="group flex flex-col shrink-0 w-[80vw] sm:w-[45vw] lg:w-[23%] snap-start overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-100 transition-all hover:-translate-y-1 hover:shadow-lg"
@@ -265,7 +265,6 @@ export default function Dashboard() {
                       alt={dest.name}
                       fill
                       sizes="(max-width: 640px) 80vw, 25vw"
-                      priority={index === 0}
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
@@ -274,10 +273,6 @@ export default function Dashboard() {
                     <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] text-slate-500">
                       <FaMapMarkerAlt className="text-xs text-teal-500" />
                       {dest.tagline}, India
-                    </p>
-                    <p className="mt-2 text-[0.7rem] text-slate-400">Starting from</p>
-                    <p className="text-lg font-black text-slate-900">
-                      ₹{dest.price.toLocaleString("en-IN")}
                     </p>
                   </div>
                 </Link>
@@ -394,11 +389,6 @@ export default function Dashboard() {
                         </span>
                       ))}
                     </div>
-
-                    <p className="mt-3 text-[0.7rem] text-slate-400">Starting from</p>
-                    <p className="font-serif text-xl font-bold text-slate-900">
-                      ₹{pkg.price.toLocaleString("en-IN")}
-                    </p>
                   </div>
                 </Link>
 

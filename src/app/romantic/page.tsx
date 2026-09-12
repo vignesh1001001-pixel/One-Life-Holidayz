@@ -86,9 +86,6 @@ export default function RomanticSouthIndiaPage() {
               <div className="p-5 bg-[#F8C8DC] ">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="font-serif text-[1.25rem] font-bold text-slate-900">{dest.name}</h3>
-                  <span className="text-[0.78rem] font-bold text-rose-600">
-                    From {dest.price}
-                  </span>
                 </div>
                 <span className="inline-flex items-center gap-1 text-[0.82rem] font-semibold text-rose-600 transition-gap group-hover:gap-2">
                   Enquire Now →

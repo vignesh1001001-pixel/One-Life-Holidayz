@@ -100,10 +100,7 @@ export default function DestinationsPage() {
               </h2>
               <p className="mb-5 text-[0.875rem] leading-[1.75] text-white/75">
                 Misty hills, fragrant tea gardens, and cozy cottages — the
-                perfect backdrop for your first chapter together.{" "}
-                <span className="font-semibold text-white/90">
-                  Starting from ₹3,500/person.
-                </span>
+                perfect backdrop for your first chapter together.
               </p>
               <div className="mb-6 flex flex-wrap gap-2">
                 {honeymoonPlaces.map(({ icon, name }) => (
@@ -165,10 +162,7 @@ export default function DestinationsPage() {
               </h2>
               <p className="mb-5 text-[0.875rem] leading-[1.75] text-white/75">
                 Snow mountains, ancient temples, and tropical backwaters —
-                India has it all.{" "}
-                <span className="font-semibold text-white/90">
-                  Group & family packages from ₹1,797/person.
-                </span>
+                India has it all.
               </p>
               <div className="mb-6 flex flex-wrap gap-2">
                 {domesticPlaces.map(({ icon, name }) => (
