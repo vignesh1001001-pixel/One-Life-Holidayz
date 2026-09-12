@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   FaWhatsapp,
@@ -19,6 +19,8 @@ import {
   FaBriefcase,
   FaCalendarAlt,
   FaChevronDown,
+  FaSearch,
+  FaCheck,
 } from "react-icons/fa";
 import PageHero from "@/components/PageHero";
 
@@ -33,6 +35,50 @@ const TRAVEL_TYPES = [
   { label: "Friends / Group", icon: FaUserFriends },
   { label: "Solo", icon: FaUser },
   { label: "Corporate", icon: FaBriefcase },
+];
+
+// ── Destinations, grouped by region for the redesigned picker ───────
+const DESTINATION_GROUPS: { group: string; places: string[] }[] = [
+  {
+    group: "Kerala",
+    places: [
+      "Munnar",
+      "Anakkulam (Munnar)",
+      "Kolukkumalai (Munnar)",
+      "Wayanad",
+      "Varkala",
+      "Vagamon",
+      "Alleppey",
+    ],
+  },
+  {
+    group: "Tamil Nadu",
+    places: ["Kodaikanal", "Ooty", "Yercaud", "Valparai", "Pondicherry"],
+  },
+  {
+    group: "North India",
+    places: [
+      "Kashmir",
+      "Manali",
+      "Kedarkantha Trek (Uttarakhand)",
+      "Shimla",
+      "Leh Ladakh",
+      "Varanasi",
+      "Rajasthan",
+    ],
+  },
+  {
+    group: "West India",
+    places: ["Goa", "Maharashtra"],
+  },
+  {
+    group: "Karnataka",
+    places: ["Coorg", "Gokarna"],
+  },
+  {
+    group: "Other",
+    places: ["Other / Custom"],
+  },
 ];
 
 type FormState = {
@@ -63,14 +109,37 @@ export default function ContactPage() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
 
+  // ── Destination picker state ──────────────────────────────────
+  const [destOpen, setDestOpen] = useState(false);
+  const [destSearch, setDestSearch] = useState("");
+  const destWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (destWrapperRef.current && !destWrapperRef.current.contains(e.target as Node)) {
+        setDestOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredGroups = DESTINATION_GROUPS.map((g) => ({
+    group: g.group,
+    places: g.places.filter((p) =>
+      p.toLowerCase().includes(destSearch.toLowerCase())
+    ),
+  })).filter((g) => g.places.length > 0);
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  // Used by the guest/day steppers and the travel-type button group,
-  // which update form state directly rather than through an <input> event.
+  // Used by the guest/day steppers, the travel-type button group, and the
+  // destination picker, which all update form state directly rather than
+  // through an <input> event.
   function setField(name: keyof FormState, value: string) {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
@@ -116,12 +185,6 @@ export default function ContactPage() {
     window.open(`https://wa.me/${PHONE_WA}?text=${msg}`, "_blank");
     setSubmitted(true);
   }
-
-  const DESTINATIONS = [
-    "Kashmir", "Manali", "Kedarnath", "Munnar", "Kerala",
-    "Goa", "Rajasthan", "Andaman", "Maldives", "Dubai",
-    "Thailand", "Sri Lanka", "Other / Custom",
-  ];
 
   return (
     <main>
@@ -302,26 +365,101 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div>
+                {/* Destination — redesigned searchable dropdown, grouped by region */}
+                <div ref={destWrapperRef} className="relative">
                   <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Destination Interested In *
                   </label>
-                  <div className="relative">
-                    <select
-                      name="destination"
-                      value={form.destination}
-                      onChange={handleChange}
-                      className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm text-slate-900 shadow-sm outline-none transition focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20"
+
+                  <button
+                    type="button"
+                    onClick={() => setDestOpen((v) => !v)}
+                    className={`flex w-full items-center justify-between rounded-xl border bg-white px-4 py-3 text-left text-sm shadow-sm outline-none transition ${
+                      destOpen
+                        ? "border-yellow-400 ring-2 ring-yellow-400/20"
+                        : "border-slate-200 hover:border-yellow-300"
+                    }`}
+                  >
+                    <span
+                      className={`flex items-center gap-2 ${
+                        form.destination ? "font-semibold text-slate-900" : "text-slate-400"
+                      }`}
                     >
-                      <option value="">Select a destination…</option>
-                      {DESTINATIONS.map((d) => (
-                        <option key={d} value={d}>
-                          {d}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400" />
-                  </div>
+                      <FaMapMarkerAlt
+                        className={form.destination ? "text-yellow-500" : "text-slate-300"}
+                      />
+                      {form.destination || "Select a destination…"}
+                    </span>
+                    <FaChevronDown
+                      className={`text-xs text-slate-400 transition-transform ${
+                        destOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {destOpen && (
+                    <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl">
+                      {/* Search box */}
+                      <div className="border-b border-slate-100 p-3">
+                        <div className="relative">
+                          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400" />
+                          <input
+                            autoFocus
+                            value={destSearch}
+                            onChange={(e) => setDestSearch(e.target.value)}
+                            placeholder="Search destinations…"
+                            className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2 pl-8 pr-3 text-sm outline-none focus:border-yellow-400"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Grouped, scrollable results */}
+                      <div className="max-h-64 overflow-y-auto p-2">
+                        {filteredGroups.length === 0 ? (
+                          <p className="px-3 py-6 text-center text-sm text-slate-400">
+                            No matching destinations
+                          </p>
+                        ) : (
+                          filteredGroups.map(({ group, places }) => (
+                            <div key={group} className="mb-2 last:mb-0">
+                              <p className="px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-wider text-yellow-600">
+                                {group}
+                              </p>
+                              {places.map((place) => {
+                                const active = form.destination === place;
+                                return (
+                                  <button
+                                    key={place}
+                                    type="button"
+                                    onClick={() => {
+                                      setField("destination", place);
+                                      setDestOpen(false);
+                                      setDestSearch("");
+                                    }}
+                                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${
+                                      active
+                                        ? "bg-yellow-50 font-semibold text-yellow-700"
+                                        : "text-slate-700 hover:bg-slate-50"
+                                    }`}
+                                  >
+                                    <span className="flex items-center gap-2">
+                                      <FaMapMarkerAlt
+                                        className={`text-xs ${
+                                          active ? "text-yellow-500" : "text-slate-300"
+                                        }`}
+                                      />
+                                      {place}
+                                    </span>
+                                    {active && <FaCheck className="text-xs text-yellow-500" />}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Guests / Days — stepper controls instead of raw number inputs */}
